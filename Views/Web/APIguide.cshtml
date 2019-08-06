@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>todo web app in C#</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    @{if (User.Identity.IsAuthenticated)
+        {
+            <p>Welcome, @User.Identity.Name!</p>
+        }
+    }
+    <h1>How to use our TODO application's API services</h1>
+    <p>At the moment, we have two endpoints to use.</p>
+    <ul>
+        <li>
+            By sending a JSON object with the fields "name" and "password to "/api/add-assignee"
+            with the method POST, admins can create new assignees (in the role of simple user).
+            @{if (!User.IsInRole("TodoAdmin"))
+                {
+                    <p>Assignees can apply to become admins <a href="~/becomeAdmin.html">here</a>.</p>
+                }
+            }
+        </li>
+        <li>
+            By sending a GET request to "/api/assignees", assignees can get a list of all assignees,
+            together with their TODOs.
+        </li>
+    </ul>
+    @{if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                To use these services, you will need a token for authentication. Get yours
+                <a href="/users/token">
+                    here!
+                </a>
+            </p>
+        }
+        else
+        {
+            <p>
+                To use these services, you need to sign in or sign up
+                <a href="/login">
+                    here
+                </a>
+                , and then come back for a token.
+            </p>
+        }
+    }
+</body>
+</html>
+
+

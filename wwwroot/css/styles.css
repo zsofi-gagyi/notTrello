@@ -1,0 +1,16 @@
+﻿td {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.green, .red, .yellow {
+    color: black;
+}
+
+.green {
+    background-color: lightgreen;
+}
+
+.red {
+    background-color: lightpink;
+}

@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@using TodoWithDatabase.Models;
+@using TodoWithDatabase.Services;
+@inject UserManager<Assignee> _userManager;
+@inject  IAssigneeService  _assigneeService;
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>todo web app in C#</title>
+</head>
+<body>
+    @{var user = _assigneeService.FindByName(User.Identity.Name);
+        if (_userManager.GetRolesAsync(user).Result.Contains("TodoUser"))
+        {
+            <p>
+                Your application was rejected. For better chances in the future,
+                we recommend becoming a more involved member of our community,
+                and providing a detailed descriptions of your motivation to become an admin.
+            </p>
+        }
+        else
+        {
+
+            <p>Congratulations, your application was accepted.</p>
+        } 
+    }
+</body>
+</html>

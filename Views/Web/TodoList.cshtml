@@ -1,0 +1,80 @@
+﻿@using TodoWithDatabase.Models;
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>todo web app in C#</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    @{if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                Welcome, @User.Identity.Name! To use our API services, go
+                <a href="/users/APIguide">
+                    here!
+                </a>
+            </p>
+            <a class="logout" href="/logout">Sign out</a>
+        }
+        else
+        {
+            <p>
+                Welcome! If you want to use our API services, learn more
+                <a href="/APIguide">
+                    here!
+                </a>
+            </p>
+            <p>
+                <a href="~/signUp.html">Sign up</a>
+                or 
+                <a href="~/login.html">log in</a> 
+                to add todos!
+            </p>
+        }
+    }
+    <h1 class="title">Todos for today:</h1>
+    @{if (User.Identity.IsAuthenticated)
+        {
+            <a href="users/addTodo">Add new todo</a>
+        }
+    }
+    <table>
+        <thead>
+            <tr style="font-weight: bold">
+                <th>ID</th>
+                <th>TITLE</th>
+                <th>URGENT</th>
+                <th>DONE</th>
+                <th>ASSIGNED BY</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Todo item in (List<Todo>)ViewData["TodoList"])
+            {
+                <tr class="todo">
+                    <td class="id"> @item.Id </td>
+                    <td class="title">@item.Title</td>
+
+                    @if (User.Identity.IsAuthenticated && item.Assignee.UserName.Equals(User.Identity.Name))
+                    {
+                        <td class=@(item.Urgent ? "red" : "green")>
+                            <a href="users/todo/@item.Id/switchUrgent">@item.Urgent</a>
+                        </td>
+                        <td class=@(item.Done ? "red" : "green")>
+                            <a href="users/todo/@item.Id/switchDone">@item.Done</a>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="urgent">@item.Urgent</td>
+                        <td class="done"> @item.Done </td>
+                    }
+                    <td class="assigneeName"> @item.Assignee.UserName </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
