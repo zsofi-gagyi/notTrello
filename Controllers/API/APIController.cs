@@ -18,7 +18,7 @@ namespace TodoWithDatabase.Controllers
         {
             _assigneeService = assigneeService;
         }
-
+        /*
         [HttpPost("/api/add-assignee")]
         [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO assigneeDTO) 
@@ -58,6 +58,7 @@ namespace TodoWithDatabase.Controllers
             var id = _assigneeService.FindByName(name).Id;
             AssigneeDTO result = _assigneeService.GetAndTranslate(id);
             return result;
+            }
+            */
         }
     }
-}

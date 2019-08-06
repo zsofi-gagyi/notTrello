@@ -22,6 +22,7 @@ namespace TodoWithDatabase.Controllers
         public IActionResult DoSignUp([FromForm] string name, [FromForm]string password, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("/users");
+            
             Assignee assignee = _assigneeService.FindByName(name);
 
             if (assignee == null)
@@ -35,7 +36,7 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> DoLogIn([FromForm] string name, [FromForm]string password, string returnUrl = null)
+        public async Task<IActionResult> LogIn([FromForm] string name, [FromForm]string password, [FromRoute]string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("/users");
             var result = await _signInManager.PasswordSignInAsync(name,
@@ -50,7 +51,7 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpGet("/logout")]
-        public async Task<IActionResult> DoLogOut()
+        public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return Redirect("/");

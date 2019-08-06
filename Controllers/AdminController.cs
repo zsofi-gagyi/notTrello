@@ -26,7 +26,7 @@ namespace TodoWithDatabase.Controllers
         {
             string name = User.Identity.Name;
             var assignee = _assigneeService.FindByName(name);
-            int todosNr = assignee.Todos.Count();
+            int todosNr = 6 /*assignee.Todos.Count()*/;
 
             if (todosNr > 3 && motivation.Length > 70)
             {

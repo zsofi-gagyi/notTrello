@@ -9,26 +9,25 @@ namespace TodoWithDatabase.Controllers
 {
     public class MainController : Controller
     {
-        private readonly ITodoService _todoService;
+        private readonly ICardService _todoService;
 
-        public MainController(ITodoService todoService)
+        public MainController(ICardService todoService)
         {
             _todoService = todoService;
         }
 
         [HttpGet("/")]
-        public IActionResult NotLoggedInTodoList()
+        public IActionResult MainPage()
         {
-            ViewData["TodoList"] = _todoService.GetAll();
-            return View("Views/Web/TodoList.cshtml");
+            return View();
         }
                                                
         [HttpGet("/users")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin")]
+        [Authorize]
         public IActionResult TodoList()
         {
-            ViewData["TodoList"] = _todoService.GetAll();
-            return View("Views/Web/TodoList.cshtml");
+           // ViewData["TodoList"] = _todoService.GetAll();
+            return View();
         }
     }
 }

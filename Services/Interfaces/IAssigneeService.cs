@@ -8,6 +8,10 @@ namespace TodoWithDatabase.Services
 {
     public interface IAssigneeService
     {
+        Assignee FindByName(string name);
+
+        void SaveNew(string name, string password);
+        /*
         List<Assignee> GetAll();
 
         List<AssigneeDTO> GetAndTranslateAll();
@@ -17,10 +21,11 @@ namespace TodoWithDatabase.Services
         Assignee Get(string id);
 
         bool Exists(string id);
-        Assignee FindByName(string name);
+       
 
-        void SaveNew(string name, string password);
+        
 
         Assignee SaveAndReturnNew(string name, string password);
+        */
     }
 }

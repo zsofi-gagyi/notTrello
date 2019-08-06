@@ -25,7 +25,7 @@ namespace TodoWithDatabase
 {
     public class Startup
     {
-        private static void UseIdVerifier(IApplicationBuilder app)
+        private static void UseIdVerifier(IApplicationBuilder app) // middleware-related stuff
         {
             app.UseMiddleware<IdVerifier>();
         }
@@ -87,7 +87,7 @@ namespace TodoWithDatabase
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/accessDenied";
+                options.AccessDeniedPath = "/";
                 options.Cookie.Name = "TodoCookie";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = "returnTo";
@@ -95,19 +95,18 @@ namespace TodoWithDatabase
                 options.LoginPath = new PathString("/login.html");
             });
 
-            services.AddTransient<ITodoService, TodoService>();
             services.AddTransient<IAssigneeService, AssigneeService>();
+            services.AddTransient<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
             services.setUpAutoMapper();
 
-            //services.CreateRoles().Wait();
             services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseStaticFiles();
-            // app.UseWhen(context => context.Request.Path.ToString().Contains("users"), UseIdVerifier);
+            // middleware:  app.UseWhen(context => context.Request.Path.ToString().Contains("users"), UseIdVerifier);
 
             app.UseAuthentication();
 

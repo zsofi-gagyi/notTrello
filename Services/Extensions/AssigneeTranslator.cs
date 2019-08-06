@@ -6,6 +6,7 @@ namespace TodoWithDatabase.Services.Extensions
 {
     public static class AssigneeTranslator
     {
+        /*
         public static AssigneeDTO ToDtoUsingMapper(this Assignee assignee, IMapper mapper)
         {
             AssigneeDTO result = new AssigneeDTO();
@@ -15,5 +16,6 @@ namespace TodoWithDatabase.Services.Extensions
 
             return result;
         }
+        */
     }
 }
