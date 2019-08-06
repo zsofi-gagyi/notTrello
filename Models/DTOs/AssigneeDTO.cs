@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TodoWithDatabase.Models.DTO;
-
-
+﻿using Newtonsoft.Json;
 
 namespace TodoWithDatabase.Models
 {
     public class AssigneeDTO
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { set; get; }
+
+        [JsonProperty(PropertyName = "name")]
         public string UserName { set; get; }
     }
 }

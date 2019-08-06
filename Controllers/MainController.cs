@@ -4,29 +4,30 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Services;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {
     public class MainController : Controller
     {
-        private readonly ICardService _todoService;
+        private readonly IProjectService _projectService;
 
-        public MainController(ICardService todoService)
+        public MainController(IProjectService projectService)
         {
-            _todoService = todoService;
+            _projectService = projectService;
         }
 
         [HttpGet("/")]
         public IActionResult MainPage()
         {
-            return View();
+            return Redirect("/mainPage.html");
         }
                                                
         [HttpGet("/users")]
         [Authorize]
         public IActionResult TodoList()
         {
-           // ViewData["TodoList"] = _todoService.GetAll();
+            ViewData["projects"] = _projectService.GetAllFor(User.Identity.Name);
             return View();
         }
     }

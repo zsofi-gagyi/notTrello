@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Services.Extensions.Middleware
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TodoWithDatabase.Models;
 
-namespace TodoWithDatabase.Services
+namespace TodoWithDatabase.Services.Interfaces
 {
     public interface IAssigneeService
     {

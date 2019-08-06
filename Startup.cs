@@ -98,6 +98,7 @@ namespace TodoWithDatabase
             services.AddTransient<IAssigneeService, AssigneeService>();
             services.AddTransient<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IProjectService, ProjectService>();
             services.setUpAutoMapper();
 
             services.AddMvc();

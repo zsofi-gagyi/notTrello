@@ -6,6 +6,7 @@ using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Models.DTOs;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {

@@ -1,4 +1,12 @@
-﻿td {
+﻿body {
+    font-family: Arial;
+}
+
+nav {
+    background-color: lightcyan;
+}
+
+td {
     border-style: solid;
     border-width: 1px;
 }

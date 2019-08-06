@@ -15,25 +15,19 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpGet("/users/APIguide")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin")]
-        public IActionResult APIguideForAssignees()
-        {
-            return View("Views/Web/APIguide.cshtml");
-        }
-
-        [HttpGet("/APIguide")]
+        [Authorize]
         public IActionResult APIguide()
         {
-            return View("Views/Web/APIguide.cshtml");
+            return View();
         }
 
         [HttpGet("/users/token")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin")]
-        public IActionResult token()
+        [Authorize]
+        public IActionResult Token()
         {
             var role = User.IsInRole("TodoAdmin") ? "TodoAdmin" : "TodoUser";
             ViewData["token"] = _tokenService.GenerateToken(User.Identity.Name, role, false);
-            return View("Views/Web/Token.cshtml");
+            return View();
         }
     }
 }
