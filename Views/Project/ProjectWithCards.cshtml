@@ -21,52 +21,20 @@
         <li class="cardsInColumns">Cards:
             <div class="cardsNotDone">
                 <p>To do:</p>
-                <a href="@project.Id.ToString()/cards/addCard">Create new card</a>
-                @{ foreach (Card card in project.Cards.Where(c => !c.Done))
-                    {
-                        <ul class="card">
-                            <li>Title: @card.Title</li>
-                            <li>Description: @card.Description</li>
-                            <li>Deadline: @card.Deadline</li>
-                            <li class="assignees">
-                                <p>Responsibles: </p>
-                                <ul>
-                                    @foreach (AssigneeCard assigneeCard in card.AssigneeCards)
-                                    {
-                                        <li>@assigneeCard.Assignee.UserName</li>
-                                    }
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="users/projects/@project.Id/cards/@card.Id/switchDone">Mark as done</a>
-                            </li>
-                        </ul>
-                    }
+                <a href="@project.Id/cards/addCard">Create new card</a>
+                @{
+                    ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
+                    ViewData["switchName"] = "Mark as Done";
                 }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
             </div>
             <div class="cardsDone">
                 <p>Done:</p>
-                @{ foreach (Card card in project.Cards.Where(c => c.Done))
-                   {
-                        <ul class="card">
-                            <li>Title: @card.Title</li>
-                            <li>Description: @card.Description</li>
-                            <li>Deadline: @card.Deadline</li>
-                            <li class="assignees">
-                              <p>Responsibles: </p>
-                                <ul>
-                                    @foreach (AssigneeCard assigneeCard in card.AssigneeCards)
-                                     {
-                                         <li>@assigneeCard.Assignee.UserName</li>
-                                     }
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="users/projects/@project.Id/cards/@card.Id/switchDone">Mark as not done</a>
-                            </li>
-                        </ul>
-                   }
-                 }
+                @{
+                    ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
+                    ViewData["switchName"] = "Mark as Not Done";
+                }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
             </div>
         </li>
     </ul>

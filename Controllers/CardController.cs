@@ -78,5 +78,28 @@ namespace TodoWithDatabase.Controllers
 
             return Redirect("/users");
         }
+
+        [HttpGet("/users/projects/{Project.Id}/cards/{Id}/switchDone")]
+        [Authorize]
+        public IActionResult SwitchDone([FromRoute(Name = "Project.Id")] string projectId, [FromRoute(Name = "Id")] string cardId)
+        {
+            string name = User.Identity.Name;
+            var isAllowed = _projectService.userCollaboratesOnProject(name, projectId); // this will become middleware!
+
+            if (isAllowed)
+            {
+                var project = _projectService.GetWithCards(projectId);
+                var card = project.Cards.Where(c => c.Id.ToString().Equals(cardId)).FirstOrDefault();
+
+                if (card != null)
+                {
+                    card.Done = !card.Done;
+                    _cardService.Update(card);
+                }
+                return Redirect("/users/projects/" + projectId);
+            }
+
+            return Redirect("/users");
+        }
     }
 }

@@ -1,0 +1,25 @@
+﻿@using TodoWithDatabase.Models.DAOs;
+@using TodoWithDatabase.Models.DAOs.JoinTables;
+
+<p>partial heeeey</p>
+@{ foreach (Card card in (List<Card>)ViewData["cards"])
+    {
+        <ul class="card">
+            <li>Title: @card.Title</li>
+            <li>Description: @card.Description</li>
+            <li>Deadline: @card.Deadline</li>
+            <li class="assignees">
+                <p>Responsibles: </p>
+                <ul>
+                    @foreach (AssigneeCard assigneeCard in card.AssigneeCards)
+                    {
+                        <li>@assigneeCard.Assignee.UserName</li>
+                    }
+                </ul>
+            </li>
+            <li>
+                <a href="@card.Project.Id/cards/@card.Id/switchDone">@ViewData["switchName"]</a> 
+            </li>
+        </ul>
+    }
+}
