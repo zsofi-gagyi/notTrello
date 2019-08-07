@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Repository;
 using TodoWithDatabase.Services.Extensions;
 using AutoMapper;

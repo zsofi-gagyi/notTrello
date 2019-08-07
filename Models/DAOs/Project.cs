@@ -21,5 +21,19 @@ namespace TodoWithDatabase.Models.DAOs
         public List<AssigneeProject> AssigneeProjects { set; get; }
 
         public List<Card> Cards { set; get; }
+
+        public Project(string title, string description)
+        {
+            Title = title;
+            Description = description;
+            AssigneeProjects = new List<AssigneeProject>();
+            Cards = new List<Card>();
+        }
+
+        public Project()
+        {
+            AssigneeProjects = new List<AssigneeProject>();
+            Cards = new List<Card>();
+        }
     }
 }

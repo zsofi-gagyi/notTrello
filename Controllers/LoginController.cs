@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoWithDatabase.Services;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;

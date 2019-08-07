@@ -15,7 +15,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Services.Extensions.Middleware;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Net;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Interfaces;
 

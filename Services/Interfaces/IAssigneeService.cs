@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 
 namespace TodoWithDatabase.Services.Interfaces
 {

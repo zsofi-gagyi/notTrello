@@ -2,6 +2,10 @@
     font-family: Arial;
 }
 
+.project {
+    border:1px solid grey;
+}
+
 nav {
     background-color: lightcyan;
 }
