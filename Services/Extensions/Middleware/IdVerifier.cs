@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Internal;
-using System.Linq;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
+using System;
+using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
 
 namespace TodoWithDatabase.Services.Extensions.Middleware
 {
@@ -15,21 +18,24 @@ namespace TodoWithDatabase.Services.Extensions.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IAssigneeService assigneeService)
+        public async Task InvokeAsync(HttpContext context, IProjectService projectService)
         {
             var path = context.Request.Path.Value;
             string[] urlParts = path.Split("/");
-            var usersIndex = urlParts.IndexOf("users");
-            var id = urlParts[usersIndex + 1];
+            var projectsIndex = urlParts.IndexOf("projects");
+            var projectId = urlParts[projectsIndex + 1];
 
-           /* if (id.Equals("x") || !assigneeService.Exists(id))
+            string name = context.User.Identity.Name;
+            var isAllowed = projectService.userCollaboratesOnProject(name, projectId); 
+
+            if (isAllowed)
             {
-                context.Response.Redirect("https://localhost:44343/login.html");
+                await _next(context);
             }
             else
             {
-                await _next(context);
-            } */
+                context.Response.Redirect("/users");
+            }
         }
     }
 }

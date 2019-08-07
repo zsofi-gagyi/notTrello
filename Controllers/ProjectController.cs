@@ -29,14 +29,8 @@ namespace TodoWithDatabase.Controllers
         [Authorize]
         public IActionResult ProjectWithCards([FromRoute(Name = "Id")]string projectId)
         {
-            string name = User.Identity.Name;
-            var isAllowed = _projectService.userCollaboratesOnProject(name, projectId); // this will become middleware!
-
-            if (isAllowed)
-            {
-                var project = _projectService.GetWithCards(projectId);
-                ViewData.Add("project", project);
-            }
+            var project = _projectService.GetWithCards(projectId);
+            ViewData.Add("project", project);
 
             return View();
         }
@@ -64,13 +58,13 @@ namespace TodoWithDatabase.Controllers
                 responsibles.Add(collaborator);
             }
 
-            foreach(Assignee responsible in responsibles)
+            foreach (Assignee responsible in responsibles)
             {
                 project.AssigneeProjects.Add(new AssigneeProject(responsible, project));
             }
 
             _projectService.Update(project);
-            return Redirect("https://www.learnrazorpages.com/razor-pages/model-binding");
+            return Redirect("/users/projects/" + project.Id);
         }
     }
 }
