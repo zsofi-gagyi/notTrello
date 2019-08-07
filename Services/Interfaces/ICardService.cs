@@ -9,9 +9,13 @@ namespace TodoWithDatabase.Services.Interfaces
         void Save(Card card);
 
         void Update(Card card);
+
         void Save(string task, Assignee assignee);
+
         List<Card> GetAll();
+
         List<Card> GetAllBy(Assignee assignee);
+
         List<Card> GetAllActive();
 
         Card getById(long id);

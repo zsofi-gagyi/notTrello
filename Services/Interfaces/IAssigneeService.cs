@@ -10,22 +10,10 @@ namespace TodoWithDatabase.Services.Interfaces
     {
         Assignee FindByName(string name);
 
-        void SaveNew(string name, string password);
         /*
-        List<Assignee> GetAll();
-
         List<AssigneeDTO> GetAndTranslateAll();
 
         AssigneeDTO GetAndTranslate(string id);
-
-        Assignee Get(string id);
-
-        bool Exists(string id);
-       
-
-        
-
-        Assignee SaveAndReturnNew(string name, string password);
         */
     }
 }

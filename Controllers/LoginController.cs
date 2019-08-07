@@ -11,12 +11,13 @@ namespace TodoWithDatabase.Controllers
     {
         private readonly IAssigneeService _assigneeService;
         private readonly SignInManager<Assignee> _signInManager;
+        private readonly UserManager<Assignee> _userManager;
 
-        public LoginController(IAssigneeService assigneeService,
-            SignInManager<Assignee> signInManager)
+        public LoginController(IAssigneeService assigneeService, SignInManager<Assignee> signInManager, UserManager<Assignee> userManager)
         {
             _assigneeService = assigneeService;
             _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [HttpPost("/signUp")]
@@ -28,7 +29,10 @@ namespace TodoWithDatabase.Controllers
 
             if (assignee == null)
             {
-                _assigneeService.SaveNew(name, password);
+                var newAssignee = new Assignee { UserName = name };
+                _userManager.CreateAsync(newAssignee, password).Wait();
+                _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
+                _signInManager.SignInAsync(newAssignee, false).Wait();
 
                 return LocalRedirect(returnUrl);
             }

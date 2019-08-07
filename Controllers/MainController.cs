@@ -17,7 +17,7 @@ namespace TodoWithDatabase.Controllers
             _projectService = projectService;
         }
 
-        [HttpGet("/")]
+        [HttpGet("/")] //research default pages
         public IActionResult MainPage()
         {
             return Redirect("/mainPage.html");

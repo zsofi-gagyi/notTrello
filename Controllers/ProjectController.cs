@@ -15,13 +15,11 @@ namespace TodoWithDatabase.Controllers
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
-        private readonly IAssigneeService _assigneeService;
         private readonly UserManager<Assignee> _userManager;
 
-        public ProjectController(IProjectService projectService, IAssigneeService assigneeService, UserManager<Assignee> userManager)
+        public ProjectController(IProjectService projectService, UserManager<Assignee> userManager)
         {
             _projectService = projectService;
-            _assigneeService = assigneeService;
             _userManager = userManager;
         }
 
@@ -31,7 +29,6 @@ namespace TodoWithDatabase.Controllers
         {
             var project = _projectService.GetWithCards(projectId);
             ViewData.Add("project", project);
-
             return View();
         }
 
