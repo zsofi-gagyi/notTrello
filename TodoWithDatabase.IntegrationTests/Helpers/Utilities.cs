@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using TodoWithDatabase.Repository;
 using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 
 namespace TodoWithDatabase.IntegrationTests.Helpers
 {
     public static class Utilities
     {
-        #region snippet1
         public static void InitializeDbForTests(MyContext db)
         {
             List<Assignee> assignees = GetSeedingAssignees();
             db.Assignees.AddRange(assignees);
-            db.Todos.AddRange(GetSeedingTodos(assignees));
+            db.Cards.AddRange(GetSeedingTodos(assignees));
             db.SaveChanges();
         }
 
@@ -26,16 +26,15 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             return result;
         }
 
-        public static List<Todo> GetSeedingTodos(List<Assignee> assignees)
+        public static List<Card> GetSeedingTodos(List<Assignee> assignees)
         {
-            List<Todo> result = new List<Todo>();
-            Todo t1 = new Todo("task1", assignees[0]);
+            List<Card> result = new List<Card>();
+           /* Todo t1 = new Todo("task1", assignees[0]);
             t1.Id = 3;
             Todo t2 = new Todo("task2", assignees[1]);
-            t2.Id = 4;
+            t2.Id = 4; */
 
             return result;
         }
-        #endregion
     }
 }

@@ -7,11 +7,13 @@ namespace TodoWithDatabase.Services.Extensions
 {
     public static class AutoMapperSetup
     {
+        
         public static void setUpAutoMapper(this IServiceCollection services)
         {
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Todo, TodoDTO>()); 
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<Assignee, AssigneeDTOSimple>()); 
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
-        }
+
+        }   
     }
 }

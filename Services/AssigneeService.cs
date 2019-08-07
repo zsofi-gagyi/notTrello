@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using System;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Services
 {
@@ -28,6 +29,21 @@ namespace TodoWithDatabase.Services
             _signInManager = signInManager;
         }
 
+        public Assignee FindByName(string name)
+        {
+            return _myContext.Assignees.Where(a => a.UserName.Equals(name)).SingleOrDefault();
+        }
+
+        public void SaveNew(string name, string password)
+        {
+            var newAssignee = new Assignee { UserName = name };
+            _userManager.CreateAsync(newAssignee, password).Wait();
+            _userManager.UpdateSecurityStampAsync(newAssignee).Wait();
+            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
+            _signInManager.SignInAsync(newAssignee, false).Wait();
+        }
+
+        /*
         public List<Assignee> GetAll()
         {
             return _myContext.Assignees.Include(a => a.Todos).ToList();
@@ -58,19 +74,9 @@ namespace TodoWithDatabase.Services
             return _myContext.Assignees.Where(a => a.Id.Equals(assigneeId)).Count() != 0;
         }
 
-        public Assignee FindByName(string name)
-        {
-            return _myContext.Assignees.Where(a => a.UserName.Equals(name)).Include(a => a.Todos).SingleOrDefault();
-        }
 
-        public void SaveNew(string name, string password)
-        {
-            var newAssignee = new Assignee { UserName = name };
-            _userManager.CreateAsync(newAssignee, password).Wait();
-            _userManager.UpdateSecurityStampAsync(newAssignee).Wait();
-            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
-            _signInManager.SignInAsync(newAssignee, false).Wait();
-        }
+
+
 
         public Assignee SaveAndReturnNew(string name, string password)
         {
@@ -81,5 +87,6 @@ namespace TodoWithDatabase.Services
 
             return newAssignee;
         }
+        */
     }
 }

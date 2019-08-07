@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoWithDatabase.Services;
 using Microsoft.AspNetCore.Authorization;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {
     public class TodoController : Controller
     {
         private readonly IAssigneeService _assigneeService;
-        private readonly ITodoService _todoService;
+        private readonly ICardService _todoService;
 
-        public TodoController(IAssigneeService assigneeService, ITodoService todoService)
+        public TodoController(IAssigneeService assigneeService, ICardService todoService)
         {
             _todoService = todoService;
             _assigneeService = assigneeService;
         }
-
+/*
         [HttpGet("users/addTodo")]
         [Authorize(Roles = "TodoUser" + "," + "TodoAdmin")]
         public IActionResult ShowAddTodo()
@@ -38,7 +39,7 @@ namespace TodoWithDatabase.Controllers
         public IActionResult switchUrgent([FromRoute(Name = "Id")]long id)
         {
             var todo = _todoService.getById(id);
-            todo.Urgent = !todo.Urgent;
+            todo.Done = !todo.Urgent;
             _todoService.Save(todo);
             var assigneeId = todo.Assignee.Id;
             return Redirect("/users");
@@ -54,5 +55,6 @@ namespace TodoWithDatabase.Controllers
             var assigneeId = todo.Assignee.Id;
             return Redirect("/users");
         }
+        */
     }
 }

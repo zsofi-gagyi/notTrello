@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>todo web app in C#</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+    <nav>
+        <a href="/users"><h1>notTrello</h1></a>
+        <a class="logout" href="/users/APIguide">API guide</a>
+        <p>@User.Identity.Name in the role of @(User.IsInRole("TodoAdmin") ? "Admin" : "User")</p>
+        <a href="/users/changeRole">Change role</a>
+        <a class="logout" href="/logout">Sign out</a>
+    </nav>
+    @RenderBody()
+</body>
+</html>

@@ -3,56 +3,57 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Repository;
 
 
 namespace TodoWithDatabase.Services
 {
-    public class TodoService : ITodoService
+    public class CardService : ICardService
     {
         readonly MyContext _myContext;
 
-        public TodoService(MyContext myContext)
+        public CardService(MyContext myContext)
         {
             _myContext = myContext;
         }
 
-        public void Save(Todo todo)
+        public void Save(Card card)
         {
-            if (_myContext.Todos.Contains(todo))
+            if (_myContext.Cards.Contains(card))
             {
-                _myContext.Todos.Update(todo);
+                _myContext.Cards.Update(card);
                 
             } else {
-                _myContext.Todos.Add(todo);
+                _myContext.Cards.Add(card);
             }
             _myContext.SaveChanges();
         }
 
         public void Save(string task, Assignee assignee)
         {
-            Todo todo = new Todo(task, assignee);
+            Card todo = new Card(/*task, assignee*/);
             Save(todo);
         }
 
-        public List<Todo> GetAll()
+        public List<Card> GetAll()
         {
-            return _myContext.Todos.Include("Assignee").ToList();
+            return _myContext.Cards.Include("Assignee").ToList();
         }
 
-        public List<Todo> GetAllBy(Assignee assignee)
+        public List<Card> GetAllBy(Assignee assignee)
         {
-            return _myContext.Todos.Where(t => t.Assignee.Equals(assignee)).ToList();
+            return _myContext.Cards/*.Where(t => t.Assignee.Equals(assignee))*/.ToList();
         }
 
-        public List<Todo> GetAllActive()
+        public List<Card> GetAllActive()
         {
-            return _myContext.Todos.Where(t => !t.Done).ToList();
+            return _myContext.Cards.Where(t => !t.Done).ToList();
         }
 
-        public Todo getById(long id)
+        public Card getById(long id)
         {
-            return _myContext.Todos.Where(t => t.Id == id).Include(t => t.Assignee).FirstOrDefault();
+            return _myContext.Cards/*.Where(t => t.Id == id).Include(t => t.Assignee)*/.FirstOrDefault();
         }
     }
 }

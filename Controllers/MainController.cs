@@ -4,31 +4,31 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Services;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {
     public class MainController : Controller
     {
-        private readonly ITodoService _todoService;
+        private readonly IProjectService _projectService;
 
-        public MainController(ITodoService todoService)
+        public MainController(IProjectService projectService)
         {
-            _todoService = todoService;
+            _projectService = projectService;
         }
 
         [HttpGet("/")]
-        public IActionResult NotLoggedInTodoList()
+        public IActionResult MainPage()
         {
-            ViewData["TodoList"] = _todoService.GetAll();
-            return View("Views/Web/TodoList.cshtml");
+            return Redirect("/mainPage.html");
         }
                                                
         [HttpGet("/users")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin")]
+        [Authorize]
         public IActionResult TodoList()
         {
-            ViewData["TodoList"] = _todoService.GetAll();
-            return View("Views/Web/TodoList.cshtml");
+            ViewData["projects"] = _projectService.GetAllFor(User.Identity.Name);
+            return View();
         }
     }
 }

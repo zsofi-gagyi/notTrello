@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoWithDatabase.Repository;
 
 namespace TodoWithDatabase.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20190806112750_three")]
+    partial class three
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +44,15 @@ namespace TodoWithDatabase.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5bb2aeee-ebff-44b4-8e7d-c9861fc1868e",
-                            ConcurrencyStamp = "f60fd50b-7b08-468f-b445-2805af0242cd",
+                            Id = "1b993447-9a78-4522-bb67-8bae182c20e0",
+                            ConcurrencyStamp = "aa73af33-6e85-445d-a67d-5e30da3cc604",
                             Name = "TodoAdmin",
                             NormalizedName = "TODOADMIN"
                         },
                         new
                         {
-                            Id = "4f9aa147-f5ef-4a2d-9c5d-e02d57b606e5",
-                            ConcurrencyStamp = "d18eba2b-280f-4a07-be2e-9abf74efa17a",
+                            Id = "2c8af8a7-691e-44f6-a2e8-e19f060d8b6e",
+                            ConcurrencyStamp = "cc05092f-528a-4357-83d9-0e4752aeeedf",
                             Name = "TodoUser",
                             NormalizedName = "TODOUSER"
                         });
@@ -195,20 +197,14 @@ namespace TodoWithDatabase.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("Deadline");
-
                     b.Property<string>("Description");
 
                     b.Property<short>("Done")
                         .HasColumnType("SMALLINT");
 
-                    b.Property<Guid?>("ProjectId");
-
                     b.Property<string>("Title");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProjectId");
 
                     b.ToTable("Cards");
                 });
@@ -230,35 +226,26 @@ namespace TodoWithDatabase.Migrations
                     b.ToTable("AssigneeCards");
                 });
 
-            modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeProject", b =>
+            modelBuilder.Entity("TodoWithDatabase.Models.Todo", b =>
                 {
-                    b.Property<Guid>("AssigneeId");
-
-                    b.Property<Guid>("ProjectId");
-
-                    b.Property<string>("AssigneeId1");
-
-                    b.HasKey("AssigneeId", "ProjectId");
-
-                    b.HasIndex("AssigneeId1");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("AssigneeProjects");
-                });
-
-            modelBuilder.Entity("TodoWithDatabase.Models.DAOs.Project", b =>
-                {
-                    b.Property<Guid>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("AssigneeId");
+
+                    b.Property<short>("Done")
+                        .HasColumnType("SMALLINT");
 
                     b.Property<string>("Title");
 
+                    b.Property<short>("Urgent")
+                        .HasColumnType("SMALLINT");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Projects");
+                    b.HasIndex("AssigneeId");
+
+                    b.ToTable("Todos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -306,13 +293,6 @@ namespace TodoWithDatabase.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TodoWithDatabase.Models.DAOs.Card", b =>
-                {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Project", "Project")
-                        .WithMany("Cards")
-                        .HasForeignKey("ProjectId");
-                });
-
             modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeCard", b =>
                 {
                     b.HasOne("TodoWithDatabase.Models.Assignee", "Assignee")
@@ -325,16 +305,11 @@ namespace TodoWithDatabase.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeProject", b =>
+            modelBuilder.Entity("TodoWithDatabase.Models.Todo", b =>
                 {
                     b.HasOne("TodoWithDatabase.Models.Assignee", "Assignee")
-                        .WithMany("AssigneeProjects")
-                        .HasForeignKey("AssigneeId1");
-
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Project", "Project")
-                        .WithMany("AssigneeProjects")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany("Todos")
+                        .HasForeignKey("AssigneeId");
                 });
 #pragma warning restore 612, 618
         }

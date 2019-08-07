@@ -3,13 +3,23 @@ using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Identity;
+using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.Models.DAOs.JoinTables;
 
 namespace TodoWithDatabase.Repository
 {
     public class MyContext : IdentityDbContext<Assignee>
     {
-        public DbSet<Todo> Todos { get; set; }
         public DbSet<Assignee> Assignees { get; set; }
+
+        public DbSet<Project> Projects { get; set; }
+
+        public DbSet<Card> Cards { get; set; }
+
+        public DbSet<AssigneeProject> AssigneeProjects { get; set; }
+
+        public DbSet<AssigneeCard> AssigneeCards { get; set; }
+
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {
         }
@@ -22,7 +32,13 @@ namespace TodoWithDatabase.Repository
                new IdentityRole { Name = "TodoAdmin", NormalizedName = "TodoAdmin".ToUpper() },
                new IdentityRole { Name = "TodoUser", NormalizedName = "TodoUser".ToUpper() });
 
-            builder.Entity<Todo>().Property(u => u.Urgent).HasConversion<Int32>();
+            builder.Entity<Card>().Property(u => u.Done).HasConversion<Int32>();
+
+            builder.Entity<AssigneeProject>()
+                .HasKey(e => new { e.AssigneeId, e.ProjectId });
+
+            builder.Entity<AssigneeCard>()
+                 .HasKey(e => new { e.AssigneeId, e.CardId });
         }
     }
 }

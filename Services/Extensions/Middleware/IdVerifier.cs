@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Linq;
 using System.Threading.Tasks;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Services.Extensions.Middleware
 {
@@ -21,14 +22,14 @@ namespace TodoWithDatabase.Services.Extensions.Middleware
             var usersIndex = urlParts.IndexOf("users");
             var id = urlParts[usersIndex + 1];
 
-            if (id.Equals("x") || !assigneeService.Exists(id))
+           /* if (id.Equals("x") || !assigneeService.Exists(id))
             {
                 context.Response.Redirect("https://localhost:44343/login.html");
             }
             else
             {
                 await _next(context);
-            }
+            } */
         }
     }
 }

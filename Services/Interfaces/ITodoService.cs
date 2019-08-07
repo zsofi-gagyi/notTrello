@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 
 namespace TodoWithDatabase.Services
 {
-    public interface ITodoService
+    public interface ICardService
     {
-        void Save(Todo todo);
+        void Save(Card todo);
         void Save(string task, Assignee assignee);
-        List<Todo> GetAll();
-        List<Todo> GetAllBy(Assignee assignee);
-        List<Todo> GetAllActive();
+        List<Card> GetAll();
+        List<Card> GetAllBy(Assignee assignee);
+        List<Card> GetAllActive();
 
-        Todo getById(long id);
+        Card getById(long id);
     }
 }

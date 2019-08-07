@@ -6,6 +6,7 @@ using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Models.DTOs;
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -18,7 +19,7 @@ namespace TodoWithDatabase.Controllers
         {
             _assigneeService = assigneeService;
         }
-
+        /*
         [HttpPost("/api/add-assignee")]
         [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO assigneeDTO) 
@@ -58,6 +59,7 @@ namespace TodoWithDatabase.Controllers
             var id = _assigneeService.FindByName(name).Id;
             AssigneeDTO result = _assigneeService.GetAndTranslate(id);
             return result;
+            }
+            */
         }
     }
-}

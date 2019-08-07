@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using TodoWithDatabase.Models.DTO;
-
-
+﻿using Newtonsoft.Json;
 
 namespace TodoWithDatabase.Models
 {
     public class AssigneeDTO
     {
+        [JsonProperty(PropertyName = "id")]
         public string Id { set; get; }
-        public string Name { set; get; }
-        public List<TodoDTO> Todos { set; get; }
 
-        public AssigneeDTO()
-        {
-            this.Todos = new List<TodoDTO>();
-        }
+        [JsonProperty(PropertyName = "name")]
+        public string UserName { set; get; }
     }
 }
