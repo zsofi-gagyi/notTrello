@@ -17,10 +17,10 @@ namespace TodoWithDatabase.Models.DAOs.JoinTables
 
         public AssigneeProject(Assignee assignee, Project project)
         {
-            Assignee = assignee;
-            AssigneeId = assignee.Id;
-            Project = project;
-            ProjectId = project.Id;
+            this.Assignee = assignee;
+            this.AssigneeId = assignee.Id;
+            this.Project = project;
+            this.ProjectId = project.Id;
         }
 
         public AssigneeProject()

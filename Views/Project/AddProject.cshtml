@@ -6,7 +6,7 @@
 }
 
 <h1>Add new project</h1>
-<form th:action="/users/addProject" method="POST">
+<form action="/users/addProject" method="POST">
     <input type="text" name="Title" placeholder="Title" required />
     <input type="text" name="Description" placeholder="Description" required />
     <select multiple name="collaboratorIds">

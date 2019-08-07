@@ -44,6 +44,13 @@ namespace TodoWithDatabase.Services
                .FirstOrDefault();
         }
 
+        public Project Get(string projectId)
+        {
+            return _myContext.Projects
+               .Where(p => p.Id.ToString().Equals(projectId))
+               .FirstOrDefault();
+        }
+
         public bool userCollaboratesOnProject(string assigneeName, string projectId)
         {
             var pereererere = _myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).FirstOrDefault();

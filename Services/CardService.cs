@@ -5,7 +5,7 @@ using System.Linq;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Repository;
-
+using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Services
 {
@@ -20,13 +20,13 @@ namespace TodoWithDatabase.Services
 
         public void Save(Card card)
         {
-            if (_myContext.Cards.Contains(card))
-            {
-                _myContext.Cards.Update(card);
-                
-            } else {
-                _myContext.Cards.Add(card);
-            }
+            _myContext.Cards.Add(card);
+            _myContext.SaveChanges();
+        }
+
+        public void Update(Card card)
+        {
+            _myContext.Cards.Update(card);
             _myContext.SaveChanges();
         }
 

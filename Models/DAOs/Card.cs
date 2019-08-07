@@ -22,10 +22,16 @@ namespace TodoWithDatabase.Models.DAOs
         public DateTime Deadline { set; get; }
 
         [Column(TypeName = "SMALLINT")]
-        public bool Done { set; get; } = false;
+        public bool Done { set; get; }
 
         public Project Project { set; get; }
 
-        public List<AssigneeCard> AssigneeCards { set; get; } = new List<AssigneeCard>();
+        public List<AssigneeCard> AssigneeCards { set; get; }
+
+        public Card() // necessary for model binding
+        {
+            Done = false;
+            AssigneeCards = new List<AssigneeCard>();
+        }
     }
 }

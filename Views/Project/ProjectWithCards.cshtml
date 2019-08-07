@@ -21,7 +21,7 @@
         <li class="cardsInColumns">Cards:
             <div class="cardsNotDone">
                 <p>To do:</p>
-                <a href="users/projects/@project.Id/cards/createCard">Create new card</a>
+                <a href="@project.Id.ToString()/cards/addCard">Create new card</a>
                 @{ foreach (Card card in project.Cards.Where(c => !c.Done))
                     {
                         <ul class="card">
@@ -46,7 +46,7 @@
             </div>
             <div class="cardsDone">
                 <p>Done:</p>
-                @{ foreach (Card card in project.Cards.Where(c => !c.Done))
+                @{ foreach (Card card in project.Cards.Where(c => c.Done))
                    {
                         <ul class="card">
                             <li>Title: @card.Title</li>

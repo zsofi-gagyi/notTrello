@@ -1,0 +1,24 @@
+﻿@using TodoWithDatabase.Models.DAOs;
+@using TodoWithDatabase.Models.DAOs.JoinTables;
+
+@{
+    Layout = "_userLayout";
+}
+
+@{var project = (Project)ViewData["project"];
+    <h1>Add new card to the project "@project.Title"</h1>
+    <form action="/users/projects/@project.Id/cards/addCard" method="POST">
+        <input type="text" name="Title" placeholder="Title" required />
+        <input type="text" name="Description" placeholder="Description" required />
+        <input type="datetime" name="Deadline" placeholder="Deadline" required />
+        <select multiple name="collaboratorIds">
+            @{ var otherResponsibles = project.AssigneeProjects.Where(ap => !ap.Assignee.UserName.Equals(User.Identity.Name));
+               foreach (AssigneeProject assigneeProject in otherResponsibles)
+               {
+                    <option value="@assigneeProject.Assignee.Id">@assigneeProject.Assignee.UserName</option>
+               }
+            }
+        </select>
+        <button type="submit">Submit</button>
+    </form>
+}
