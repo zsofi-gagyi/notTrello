@@ -10,13 +10,13 @@
     <form action="/users/projects/@project.Id/cards/addCard" method="POST">
         <input type="text" name="Title" placeholder="Title" required />
         <input type="text" name="Description" placeholder="Description" required />
-        <input type="datetime" name="Deadline" placeholder="Deadline" required />
+        <input type="date" name="Deadline" min="2019-08-07" max="2022-12-31" required />
         <select multiple name="collaboratorIds">
             @{ var otherResponsibles = project.AssigneeProjects.Where(ap => !ap.Assignee.UserName.Equals(User.Identity.Name));
-               foreach (AssigneeProject assigneeProject in otherResponsibles)
-               {
+                foreach (AssigneeProject assigneeProject in otherResponsibles)
+                {
                     <option value="@assigneeProject.Assignee.Id">@assigneeProject.Assignee.UserName</option>
-               }
+                }
             }
         </select>
         <button type="submit">Submit</button>
