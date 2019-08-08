@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
-using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Models.DAOs.JoinTables;
 
-namespace TodoWithDatabase.Models
+namespace TodoWithDatabase.Models.DAOs
 {
     public class Assignee : IdentityUser
     {

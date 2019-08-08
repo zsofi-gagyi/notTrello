@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Net;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Interfaces;
 
@@ -34,21 +34,20 @@ namespace TodoWithDatabase.Controllers
         [Authorize(Roles = "TodoUser")]
         public IActionResult BecomeAdmin([FromForm]string motivation)
         {
-            string name = User.Identity.Name;
-            var assignee = _assigneeService.FindByName(name);
-            int todosNr = 0; //assignee.AssigneeCards.Count();
+            var assignee = _userManager.GetUserAsync(User).Result;
+            int cardsNr = assignee.AssigneeCards.Count();
 
-            if (todosNr >= 0 && motivation.Length > 7)
+            if (cardsNr > 0 && motivation.Length > 20)
             {
-                _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //https://docs.microsoft.com/en-us/aspnet/core/security/authentication/cookie?view=aspnetcore-2.2#react-to-back-end-changes
+                _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait();
                 _signInManager.RefreshSignInAsync(assignee).Wait();
 
                 ViewData.Add("result", "You have been granted the title \"admin\".");
             } else
             {
                 ViewData.Add("result", "Your application for the title \"admin\" has been rejected. " +
-                    "We recommend a detailed motivation (min. 70 characters) and a more active " +
-                    "engagement with the community (min. 3 cards)");
+                    "We recommend a detailed motivation (min. 20 characters) and a more active " +
+                    "engagement with the community (min. 1 card)");
             }
 
             return View("Views/Roles/result.cshtml");
@@ -58,8 +57,7 @@ namespace TodoWithDatabase.Controllers
         [Authorize(Roles = "TodoAdmin")]
         public IActionResult StopBeingAdmin()
         {
-            string name = User.Identity.Name;
-            var assignee = _assigneeService.FindByName(name);
+            var assignee = _userManager.GetUserAsync(User).Result;
 
             _userManager.RemoveFromRoleAsync(assignee, "TodoAdmin").Wait();
             _signInManager.RefreshSignInAsync(assignee).Wait();

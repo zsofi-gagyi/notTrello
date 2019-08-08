@@ -1,0 +1,41 @@
+﻿@using TodoWithDatabase.Models.DAOs;
+@using TodoWithDatabase.Models.DAOs.JoinTables;
+@using System.Linq;
+
+@{
+    Layout = "_userLayout";
+}
+@{var project = (Project)ViewData["project"];
+    <ul class="project">
+        <li class="title">Title: @project.Title</li>
+        <li class="descripton">Description: @project.Description</li>
+        <li class="assignees">
+            <p>Responsibles:</p>
+            <ul>
+                @foreach (AssigneeProject assigneeProject in project.AssigneeProjects)
+                {
+                    <li>@assigneeProject.Assignee.UserName</li>
+                }
+            </ul>
+        </li>
+        <li class="cardsInColumns">Cards:
+            <div class="cardsNotDone">
+                <p>To do:</p>
+                <a href="@project.Id/cards/addCard">Create new card</a>
+                @{
+                    ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
+                    ViewData["switchName"] = "Mark as Done";
+                }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
+            </div>
+            <div class="cardsDone">
+                <p>Done:</p>
+                @{
+                    ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
+                    ViewData["switchName"] = "Mark as Not Done";
+                }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
+            </div>
+        </li>
+    </ul>
+}

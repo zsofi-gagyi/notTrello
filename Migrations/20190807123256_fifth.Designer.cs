@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoWithDatabase.Repository;
 
 namespace TodoWithDatabase.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20190807123256_fifth")]
+    partial class fifth
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,15 +44,15 @@ namespace TodoWithDatabase.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "887fc95a-84ce-4845-a86a-38bb67b14664",
-                            ConcurrencyStamp = "c192eb09-fc12-48eb-b3a7-9ba7be19a9f3",
+                            Id = "a219375e-f555-4af1-a2bd-6b43a44ec00e",
+                            ConcurrencyStamp = "972a3f1e-e9b2-4422-a73f-e17196b9db44",
                             Name = "TodoAdmin",
                             NormalizedName = "TODOADMIN"
                         },
                         new
                         {
-                            Id = "6b9b6eea-1143-4744-b6e0-681b0af03601",
-                            ConcurrencyStamp = "279faf42-1156-460c-a67c-1a22e2baf1cc",
+                            Id = "b25dff8b-17b1-4112-b009-4751db6d3637",
+                            ConcurrencyStamp = "f9d649cd-2c64-453a-87af-32cd3dde8356",
                             Name = "TodoUser",
                             NormalizedName = "TODOUSER"
                         });
@@ -140,7 +142,7 @@ namespace TodoWithDatabase.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("TodoWithDatabase.Models.DAOs.Assignee", b =>
+            modelBuilder.Entity("TodoWithDatabase.Models.Assignee", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -215,11 +217,15 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeCard", b =>
                 {
-                    b.Property<string>("AssigneeId");
+                    b.Property<Guid>("AssigneeId");
 
                     b.Property<Guid>("CardId");
 
+                    b.Property<string>("AssigneeId1");
+
                     b.HasKey("AssigneeId", "CardId");
+
+                    b.HasIndex("AssigneeId1");
 
                     b.HasIndex("CardId");
 
@@ -263,7 +269,7 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -271,7 +277,7 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -284,7 +290,7 @@ namespace TodoWithDatabase.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -292,7 +298,7 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -307,10 +313,9 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeCard", b =>
                 {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee", "Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee", "Assignee")
                         .WithMany("AssigneeCards")
-                        .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AssigneeId1");
 
                     b.HasOne("TodoWithDatabase.Models.DAOs.Card", "Card")
                         .WithMany("AssigneeCards")
@@ -320,7 +325,7 @@ namespace TodoWithDatabase.Migrations
 
             modelBuilder.Entity("TodoWithDatabase.Models.DAOs.JoinTables.AssigneeProject", b =>
                 {
-                    b.HasOne("TodoWithDatabase.Models.DAOs.Assignee", "Assignee")
+                    b.HasOne("TodoWithDatabase.Models.Assignee", "Assignee")
                         .WithMany("AssigneeProjects")
                         .HasForeignKey("AssigneeId")
                         .OnDelete(DeleteBehavior.Cascade);

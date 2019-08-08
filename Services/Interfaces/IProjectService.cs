@@ -13,6 +13,12 @@ namespace TodoWithDatabase.Services.Interfaces
 
        Project GetWithCards(string projectId);
 
+        Project Get(string projectId);
+
         bool userCollaboratesOnProject(string assigneeName, string projectId);
+
+        void Save(Project project);
+
+        void Update(Project project);
     }
 }

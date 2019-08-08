@@ -1,7 +1,7 @@
 ﻿using TodoWithDatabase.Models;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using TodoWithDatabase.Models.DTO;
+using TodoWithDatabase.Models.DAOs;
 
 namespace TodoWithDatabase.Services.Extensions
 {

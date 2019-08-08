@@ -2,6 +2,14 @@
     font-family: Arial;
 }
 
+.project {
+    border:1px solid grey;
+}
+
+.card {
+    border: 1px solid lightpink;
+}
+
 nav {
     background-color: lightcyan;
 }

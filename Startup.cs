@@ -15,7 +15,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Services.Extensions.Middleware;
-using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
@@ -73,8 +73,6 @@ namespace TodoWithDatabase
              }
            );
 
-            
-
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -107,9 +105,10 @@ namespace TodoWithDatabase
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseStaticFiles();
-            // middleware:  app.UseWhen(context => context.Request.Path.ToString().Contains("users"), UseIdVerifier);
 
             app.UseAuthentication();
+
+            app.UseWhen(context => context.Request.Path.ToString().Contains("projects"), UseIdVerifier);
 
             app.UseCookiePolicy();
 
