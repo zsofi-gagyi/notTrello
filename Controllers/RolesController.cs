@@ -35,11 +35,11 @@ namespace TodoWithDatabase.Controllers
         public IActionResult BecomeAdmin([FromForm]string motivation)
         {
             var assignee = _userManager.GetUserAsync(User).Result;
-            int cardsNr = assignee.AssigneeCards.Count();
+            var cardsNr = assignee.AssigneeCards.Count();
 
             if (cardsNr > 0 && motivation.Length > 20)
             {
-                _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait();
+                _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
                 _signInManager.RefreshSignInAsync(assignee).Wait();
 
                 ViewData.Add("result", "You have been granted the title \"admin\".");

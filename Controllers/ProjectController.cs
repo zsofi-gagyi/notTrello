@@ -45,7 +45,7 @@ namespace TodoWithDatabase.Controllers
         [Authorize]
         public IActionResult AddProject([FromForm] Project project, List<string> collaboratorIds)
         {
-            _projectService.Save(project); //so it gets an ID generated in the database, which we will need for the next step
+            _projectService.Save(project); 
 
             var responsibles = new List<Assignee>();
             responsibles.Add(_userManager.GetUserAsync(User).Result);

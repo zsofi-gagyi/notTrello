@@ -61,9 +61,9 @@ namespace TodoWithDatabase.Controllers
             return Redirect("/users/projects/" + projectId);
         }
 
-        [HttpGet("/users/projects/{Project.Id}/cards/{Id}/switchDone")]
+        [HttpGet("/users/projects/{Project.Id}/cards/{Card.Id}/toggleDone")]
         [Authorize]
-        public IActionResult SwitchDone([FromRoute(Name = "Project.Id")] string projectId, [FromRoute(Name = "Id")] string cardId)
+        public IActionResult ToggleDone([FromRoute(Name = "Project.Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
         {
             var project = _projectService.GetWithCards(projectId);
             var card = project.Cards.Where(c => c.Id.ToString().Equals(cardId)).FirstOrDefault();

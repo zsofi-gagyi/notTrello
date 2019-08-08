@@ -5,6 +5,7 @@
 @{
     Layout = "_userLayout";
 }
+
 @{var project = (Project)ViewData["project"];
     <ul class="project">
         <li class="title">Title: @project.Title</li>
@@ -24,7 +25,7 @@
                 <a href="@project.Id/cards/addCard">Create new card</a>
                 @{
                     ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
-                    ViewData["switchName"] = "Mark as Done";
+                    ViewData["toggleName"] = "Mark as Done";
                 }
                 @await Html.PartialAsync("_CardsPartial.cshtml")
             </div>
@@ -32,7 +33,7 @@
                 <p>Done:</p>
                 @{
                     ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
-                    ViewData["switchName"] = "Mark as Not Done";
+                    ViewData["toggleName"] = "Mark as Not Done";
                 }
                 @await Html.PartialAsync("_CardsPartial.cshtml")
             </div>
