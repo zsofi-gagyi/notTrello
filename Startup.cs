@@ -85,12 +85,12 @@ namespace TodoWithDatabase
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/";
+                options.AccessDeniedPath = "/public/main";
                 options.Cookie.Name = "TodoCookie";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = "returnTo";
                 options.SlidingExpiration = true;
-                options.LoginPath = new PathString("/login.html");
+                options.LoginPath = new PathString("/public/login");
             });
 
             services.AddTransient<IAssigneeService, AssigneeService>();

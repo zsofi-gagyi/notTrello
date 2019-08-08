@@ -7,9 +7,9 @@
 </head>
 <body>
     <nav>
-        <a href="/users"><h1>notTrello</h1></a>
+        <a href="/users"><h1>Task Manager</h1></a>
         <a class="logout" href="/users/APIguide">API guide</a>
-        <p>@User.Identity.Name in the role of @(User.IsInRole("TodoAdmin") ? "Admin" : "User")</p>
+        <p>@User.Identity.Name as @(User.IsInRole("TodoAdmin") ? "Admin" : "User")</p>
         <a href="/users/changeRole">Change role</a>
         <a class="logout" href="/logout">Sign out</a>
     </nav>

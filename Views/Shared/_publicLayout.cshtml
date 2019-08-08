@@ -1,13 +1,11 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>todo web app in C#</title>
-    <link rel="stylesheet" type="text/css" href="/css/styles.css">
-</head>
+    @await Html.PartialAsync("_LayoutHeadPartial.cshtml")
 <body>
     <nav>
-        <h1>notTrello</h1>
+        <a href="/users"><h1>Task Manager</h1></a>
+        <a href="/public/signUp">Sign up</a>
+        <a href="/public/login">Log in</a>
     </nav>
     @RenderBody()
 </body>
