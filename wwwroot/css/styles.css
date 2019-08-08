@@ -9,6 +9,7 @@ body {
     font-weight: bold;
     display: flex;
     flex-direction: column;
+    background-color: #ebebeb
 }
 
 a {
@@ -53,9 +54,90 @@ nav {
                 font-size: 55px;
             }
 
-.project {
-    border: 1px solid grey;
+
+.displayCardsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
+
+.displayCard {
+    width: 60%;
+    margin: 10px;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: white;
+    list-style-type: none;
+    box-shadow: 0px 1px 10px 3px rgba(0,0,0,0.16);
+}
+
+    #link {
+        margin-top: 30px;
+        background-color: #ebebeb
+    }
+
+        #link li.title {
+            margin-bottom: 0;
+        }
+
+            #createNewLink {
+                color: #707070;
+            }
+
+    .displayCard .notDone, .done {
+        left: calc(80% - 30px);
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .displayCard .notDone {
+        background-color: #f26f68
+    }
+
+    .displayCard .done {
+        background-color: #00c9b5;
+    }
+
+    .displayCard .title {
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    .displayCard .descripton {
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    .displayCard .responsibles {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+    }
+    .displayCard .responsibles span {
+        margin: 5px;
+        font-size: 20px;
+    }
+        .displayCard .responsibles .responsibleName {
+            padding: 5px 15px;
+            border: 2px solid;
+            border-radius: 30px;
+            border-color: #00c9b5;
+        }
+
+    .displayCard .details{
+        text-align: right;
+        margin: 5px 0;
+    }
+    .displayCard .details a {
+        color: #707070;
+        text-decoration: none;
+    }
 
 .card {
     border: 1px solid lightpink;
@@ -84,8 +166,9 @@ td {
 
 .footer {
     flex-shrink: 0;
-    height: 70px;
+    height: 80px;
     width: 100%;
+    padding-top: 60px;
     text-align: center;
     font-weight: 400;
     color: #707070;
@@ -97,6 +180,6 @@ td {
     }
 
     .footer p{
-        margin: 4px;
+        margin: 4px auto 20px auto;
         font-size: 16px;
     }

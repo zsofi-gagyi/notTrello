@@ -1,27 +1,37 @@
 ﻿@using TodoWithDatabase.Models.DAOs;
 @using TodoWithDatabase.Models.DAOs.JoinTables;
+@using System;
 
 @{
     Layout = "_userLayout";
 }
-<h1 class="title">Projects:</h1>
-<a href="users/addProject">Add new project</a>
-@foreach (Project project in (List<Project>)ViewData["projects"])
- {
-<ul class="project">
-    <li class="title">Title: @project.Title</li>
-    <li class="descripton">Description: @project.Description</li>
-    <li class="assignees">
-        <p>Responsibles:</p>
-        <ul>
-            @foreach (AssigneeProject assigneeProject in project.AssigneeProjects)
+<div class="displayCardsContainer">
+    <ul class="displayCard" id="link">
+        <li class="title">
+            <a id="createNewLink" href="users/addProject">Add new project...</a>
+        </li>
+    </ul>
+    @foreach (Project project in (List<Project>)ViewData["projects"])
+    {
+        <ul class="displayCard">
+            <li class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></li>
+            <li class="title">@project.Title</li>
+            <li class="descripton">@project.Description</li>
+            @if (project.AssigneeProjects.Count() > 1)
             {
-                <li>@assigneeProject.Assignee.UserName</li>
+                <li class="responsibles">
+                    <span>Collaborating with:</span>
+                    @{var otherCollaborators = project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
+                      foreach (AssigneeProject assigneeProject in project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)))
+                      {
+                          <span class="responsibleName">@assigneeProject.Assignee.UserName</span>
+                      }
+                    }
+                </li>
             }
+            <li class="details">
+                <a href="users/projects/@project.Id">Details...</a>
+            </li>
         </ul>
-    </li>
-    <li>
-        <a href="users/projects/@project.Id">Details</a>
-    </li>
-</ul>
- }
+    }
+</div>
