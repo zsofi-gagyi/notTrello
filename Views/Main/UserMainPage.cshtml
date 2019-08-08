@@ -16,7 +16,7 @@
         <ul class="displayCard">
             <li class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></li>
             <li class="title">@project.Title</li>
-            <li class="descripton">@project.Description</li>
+            <li class="description">@project.Description</li>
             @if (project.AssigneeProjects.Count() > 1)
             {
                 <li class="responsibles">

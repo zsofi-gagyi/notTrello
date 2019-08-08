@@ -55,6 +55,13 @@ nav {
             }
 
 
+.cardsInColumns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .displayCardsContainer {
     display: flex;
     flex-direction: column;
@@ -107,7 +114,7 @@ nav {
         margin-bottom: 15px;
     }
 
-    .displayCard .descripton {
+    .displayCard .description {
         font-weight: 400;
         font-size: 20px;
     }
@@ -139,8 +146,8 @@ nav {
         text-decoration: none;
     }
 
-.card {
-    border: 1px solid lightpink;
+#oneProjectCard {
+    margin-top: 30px;
 }
 
 td {
