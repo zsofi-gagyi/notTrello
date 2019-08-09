@@ -15,6 +15,11 @@ a {
     text-decoration: none;
 }
 
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
 /* ------------- first page specific ------------- */
 
 #brandName {
@@ -28,17 +33,18 @@ a {
     margin: 15px 0;
 }
 
-#largeSignUp {
+.largeButton {
     background-color: #00c9b5;
     border-radius: 15px;
     padding: 5px;
     width: 270px;
     margin-top: 20px;
+    color: white;
 }
-    #largeSignUp a {
-        color: white;
-        font-size: 35px;
-    }
+
+a.largeButton {
+    font-size: 30px;
+}
 
 /* ------------- horizontal nav bar ------------- */
 
@@ -223,6 +229,53 @@ nav {
         color: #707070;
         text-decoration: none;
     }
+
+/* ------------- for creating new objects ------------- */
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0;
+}
+
+    input, textarea {
+        width: 100%;
+        box-sizing: border-box;
+        margin: 10px 0;
+        padding: 10px;
+    }
+
+    input {
+        font-size: 20px;
+        height: 35px;
+        font-weight: bold;
+    }
+
+    textarea {
+        height: 200px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 20px;
+    }
+
+    #responsiblesInput {
+        font-size: 18px;
+        margin-top: 15px;
+        color: #00c9b5;
+    }
+
+    .responsibles label {
+        margin: 5px;
+    }
+
+    #multipleSelector {
+        width: 20px;
+    }
+
+button.largeButton {
+    font-size: 25px;
+    border: hidden;
+}
 
 /* ------------- footer (and helpers) ------------- */
 
