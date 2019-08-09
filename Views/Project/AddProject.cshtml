@@ -1,5 +1,4 @@
 ﻿@using TodoWithDatabase.Models.DAOs;
-@using TodoWithDatabase.Models.DAOs.JoinTables;
 
 @{
     Layout = "_userLayout";
@@ -9,12 +8,13 @@
 <form action="/users/addProject" method="POST">
     <input type="text" name="Title" placeholder="Title" required />
     <input type="text" name="Description" placeholder="Description" required />
-    <select multiple name="collaboratorIds">
+    <select multiple name="collaboratorIds" id="multipleSelector">
         @{ foreach (Assignee assignee in (List<Assignee>)ViewData["otherAssignees"])
-           {
+            {
                 <option value="@assignee.Id">@assignee.UserName</option>
-           }
-          }
+            }
+        }
     </select>
+    @await Html.PartialAsync("_ScriptForMultipleSelectPartial.cshtml")
     <button type="submit">Submit</button>
 </form>
