@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-@await Html.PartialAsync("_LayoutHeadPartial.cshtml")
+@await Html.PartialAsync("~/Views/Shared/_LayoutHeadPartial.cshtml")
 <body>
     <div class="notfooter">
         <nav>
@@ -10,8 +10,8 @@
                 </a>
             </div>
             <div>
-                <a href="/public/login">Log in</a>
-                <a id="signup" href="/public/signUp">Sign up</a>
+                <a href="/login">Log in</a>
+                <a id="signup" href="/signUp">Sign up</a>
             </div>
         </nav>
         @RenderBody()
