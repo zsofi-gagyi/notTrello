@@ -1,32 +1,175 @@
-﻿body {
-    font-family: Arial;
+﻿html, body {
+    height: 100%;
 }
 
-.project {
-    border:1px solid grey;
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebebeb
 }
 
-.card {
-    border: 1px solid lightpink;
+a {
+    text-decoration: none;
 }
 
 nav {
-    background-color: lightcyan;
+    background-color: #00c9b5;
+    height: 95px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
 }
 
-td {
-    border-style: solid;
-    border-width: 1px;
+    nav div {
+        display: flex;
+    }
+
+        nav div a, nav div p {
+            margin: 10px;
+            padding: 5px;
+        }
+
+        nav div a {
+            color: white;
+        }
+
+        nav div p {
+            color: black;
+        }
+
+            nav div #signup {
+                border: 2px solid white;
+                border-radius: 15px;
+            }
+
+            nav div a .logo {
+                margin: 0;
+                font-family: 'Caveat', cursive;
+                font-size: 55px;
+            }
+
+
+.cardsInColumns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-.green, .red, .yellow {
-    color: black;
+.displayCardsContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.green {
-    background-color: lightgreen;
+.displayCard {
+    width: 60%;
+    margin: 10px;
+    border-radius: 20px;
+    padding: 15px;
+    background-color: white;
+    list-style-type: none;
+    box-shadow: 0px 1px 10px 3px rgba(0,0,0,0.16);
 }
 
-.red {
-    background-color: lightpink;
+    #link {
+        margin-top: 30px;
+        background-color: #ebebeb
+    }
+
+        #link li.title {
+            margin-bottom: 0;
+        }
+
+            #createNewLink {
+                color: #707070;
+            }
+
+    .displayCard .notDone, .done {
+        left: calc(80% - 30px);
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        position: absolute;
+    }
+
+    .displayCard .notDone {
+        background-color: #f26f68
+    }
+
+    .displayCard .done {
+        background-color: #00c9b5;
+    }
+
+    .displayCard .title {
+        text-align: center;
+        font-size: 30px;
+        margin-bottom: 15px;
+    }
+
+    .displayCard .description {
+        font-weight: 400;
+        font-size: 20px;
+    }
+
+    .displayCard .responsibles {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+    }
+    .displayCard .responsibles span {
+        margin: 5px;
+        font-size: 20px;
+    }
+        .displayCard .responsibles .responsibleName {
+            padding: 5px 15px;
+            border: 2px solid;
+            border-radius: 30px;
+            border-color: #00c9b5;
+        }
+
+    .displayCard .details{
+        text-align: right;
+        margin: 5px 0;
+    }
+    .displayCard .details a {
+        color: #707070;
+        text-decoration: none;
+    }
+
+#oneProjectCard {
+    margin-top: 30px;
 }
+
+.notfooter {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
+    height: 80px;
+    width: 100%;
+    padding-top: 60px;
+    text-align: center;
+    font-weight: 400;
+    color: #707070;
+}
+
+    .footer a {
+        color: #707070;
+        text-decoration: underline;
+    }
+
+    .footer p{
+        margin: 4px auto 20px auto;
+        font-size: 16px;
+    }

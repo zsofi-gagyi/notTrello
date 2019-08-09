@@ -16,16 +16,10 @@ namespace TodoWithDatabase.Controllers
         {
             _projectService = projectService;
         }
-
-        [HttpGet("/")] //TODO research default pages
-        public IActionResult MainPage()
-        {
-            return Redirect("/mainPage.html");
-        }
                                                
         [HttpGet("/users")]
         [Authorize]
-        public IActionResult TodoList()
+        public IActionResult UserMainPage()
         {
             ViewData["projects"] = _projectService.GetAllFor(User.Identity.Name);
             return View();
