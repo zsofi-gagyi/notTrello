@@ -247,9 +247,8 @@ nav {
     }
 
     input {
-        font-size: 20px;
+        font-size: 24px;
         height: 35px;
-        font-weight: bold;
     }
 
     textarea {
@@ -272,9 +271,14 @@ nav {
         width: 20px;
     }
 
+    #dateTimePicker {
+        text-align: center;
+    }
+
 button.largeButton {
     font-size: 25px;
     border: hidden;
+    margin-bottom: 5px;
 }
 
 /* ------------- footer (and helpers) ------------- */
