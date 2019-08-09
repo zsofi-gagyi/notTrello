@@ -8,7 +8,7 @@ body {
     font-weight: bold;
     display: flex;
     flex-direction: column;
-    background-color: #ebebeb
+    background-color: #ebebeb;
 }
 
 a {
@@ -100,6 +100,10 @@ nav {
 
     .primaryContainer {
         width: 80%;
+    }
+
+    .narrowContainer {
+        width: 30%;
     }
 
     .mainPageContainer {
@@ -230,7 +234,7 @@ nav {
         text-decoration: none;
     }
 
-/* ------------- for creating new objects ------------- */
+/* ------------- for input ------------- */
 
 .inputContainer {
     display: flex;
@@ -279,6 +283,30 @@ button.largeButton {
     font-size: 25px;
     border: hidden;
     margin-bottom: 5px;
+}
+
+#googleLink {
+    width: 260px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #ebebeb;
+    margin: 0 auto;
+    color: #707070;
+    font-size: 25px;
+    font-weight: 400;
+    height: 30px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+#googleLink img {
+    margin-right: 15px;
+}
+
+#or {
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
 /* ------------- footer (and helpers) ------------- */
