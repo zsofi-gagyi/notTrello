@@ -2,9 +2,22 @@
 @{
     Layout = "_publicLayout";
 }
-<h1>Sign up for a new account using this form or Google!</h1>
-<form action="/signUp" method="POST">
-    <input type="text" name="name" required placeholder="Name" />
-    <input type="text" name="password" required placeholder="Password" />
-    <button type="submit">Go</button>
-</form>
+<div class="displayCardsContainer narrowContainer firstContainer">
+    <div class="displayCard">
+        <div class="title">Sign up</div>
+        <form class="validatedForm" action="/signUp" method="POST">
+            <div id="inputContainer">
+                <input type="text" name="Name" placeholder="Name" required />
+                <input id="password" type="password" name="password" placeholder="Password" required />
+                <input id="verifyPassword" type="password" name="verifyPassword" placeholder="Verify Password" required /><span id='message'></span>
+                <button class="largeButton" type="submit">with TaskManager</button>
+                @await Html.PartialAsync("_VerifyPasswordScriptPartial.cshtml")
+            </div>
+        </form>
+        <div class="title" id="or">or</div>
+        <a class="largeButton" id="googleLink" href="google/link/to/be/researched">
+            <img src="~/googlelogo.png" alt="Google logo" height="30" width="30" />
+            <p>with Google</p>
+        </a>
+    </div>
+</div>

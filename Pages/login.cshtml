@@ -2,9 +2,20 @@
 @{
     Layout = "_publicLayout";
 }
-<h1>Log in using your Task Manager account, or with Google!</h1>
-<form action="/login" method="POST">
-    <input type="text" name="Name" required placeholder="Name" />
-    <input type="text" name="Password" required placeholder="Password" />
-    <button type="submit">Go</button>
-</form>
+<div class="displayCardsContainer narrowContainer firstContainer">
+    <div class="displayCard">
+        <div class="title">Log in</div>
+        <form action="/login" method="POST">
+            <div id="inputContainer">
+                <input type="text" name="Name" placeholder="Name" required />
+                <input type="password" name="Password" placeholder="Password" required />
+                <button class="largeButton" type="submit">with TaskManager</button>
+                <div class="title" id="or">or</div>
+                <a class="largeButton" id="googleLink" href="google/link/to/be/researched">
+                    <img src="~/googlelogo.png" alt="Google logo" height="30" width="30" />
+                    <p>with Google</p>
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

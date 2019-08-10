@@ -1,12 +1,11 @@
 ﻿@using TodoWithDatabase.Models.DAOs;
 @using TodoWithDatabase.Models.DAOs.JoinTables;
-@using System;
 
 @{
     Layout = "_userLayout";
 }
-<div class="displayCardsContainer">
-    <ul class="displayCard" id="link">
+<div class="displayCardsContainer primaryContainer firstContainer">
+    <ul class="displayCard linkCard">
         <li class="title">
             <a id="createNewLink" href="users/addProject">Add new project...</a>
         </li>
@@ -18,7 +17,7 @@
             <li class="title">@project.Title</li>
             <li class="description">@project.Description</li>
             @if (project.AssigneeProjects.Count() > 1)
-            {
+             {
                 <li class="responsibles">
                     <span>Collaborating with:</span>
                     @{var otherCollaborators = project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
@@ -28,7 +27,7 @@
                       }
                     }
                 </li>
-            }
+             }
             <li class="details">
                 <a href="users/projects/@project.Id">Details...</a>
             </li>

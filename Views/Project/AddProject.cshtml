@@ -1,20 +1,30 @@
 ﻿@using TodoWithDatabase.Models.DAOs;
-@using TodoWithDatabase.Models.DAOs.JoinTables;
 
 @{
     Layout = "_userLayout";
 }
 
-<h1>Add new project</h1>
-<form action="/users/addProject" method="POST">
-    <input type="text" name="Title" placeholder="Title" required />
-    <input type="text" name="Description" placeholder="Description" required />
-    <select multiple name="collaboratorIds">
-        @{ foreach (Assignee assignee in (List<Assignee>)ViewData["otherAssignees"])
-           {
-                <option value="@assignee.Id">@assignee.UserName</option>
-           }
-          }
-    </select>
-    <button type="submit">Submit</button>
-</form>
+<div class="displayCardsContainer mainPageContainer firstContainer">
+    <div class="displayCard">
+        <div class="title">Add new project</div>
+        <form action="/users/addProject" method="POST">
+            <div id="inputContainer">
+                <input type="text" name="Title" placeholder="Title" required />
+                <textarea class="description" name="Description" placeholder="Description" required></textarea>
+                <div class="responsibles">
+                    <label for="multipleSelector">Collaborating with:</label>
+                    <select id="multipleSelector" multiple name="collaboratorIds">
+                        <option value="" disabled hidden>Select collaborator(s)</option>
+                        @{ foreach (Assignee assignee in (List<Assignee>)ViewData["otherAssignees"])
+                           {
+                               <option value="@assignee.Id">@assignee.UserName</option>
+                           }
+                         }
+                    </select>
+                    @await Html.PartialAsync("~/Views/Shared/_ScriptForMultipleSelectPartial.cshtml")
+                </div>
+                <button class="largeButton" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
