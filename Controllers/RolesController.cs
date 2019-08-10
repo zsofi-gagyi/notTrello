@@ -12,11 +12,13 @@ namespace TodoWithDatabase.Controllers
 {
     public class RolesController : Controller
     {
+        private readonly IAssigneeService _assigneeService;
         private readonly UserManager<Assignee> _userManager;
         private readonly SignInManager<Assignee> _signInManager;
 
-        public RolesController(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager)
+        public RolesController(IAssigneeService assigneeService, UserManager<Assignee> userManager, SignInManager<Assignee> signInManager)
         {
+            _assigneeService = assigneeService;
             _userManager = userManager;
             _signInManager = signInManager;
         }
@@ -32,7 +34,7 @@ namespace TodoWithDatabase.Controllers
         [Authorize(Roles = "TodoUser")]
         public IActionResult BecomeAdmin([FromForm]string motivation)
         {
-            var assignee = _userManager.GetUserAsync(User).Result;
+            var assignee = _assigneeService.GetWithAssigneeCards(User.Identity.Name);
             var cardsNr = assignee.AssigneeCards.Count();
 
             if (cardsNr > 0 && motivation.Length > 20)

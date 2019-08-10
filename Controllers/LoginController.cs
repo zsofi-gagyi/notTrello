@@ -24,8 +24,8 @@ namespace TodoWithDatabase.Controllers
         public IActionResult DoSignUp([FromForm] string name, [FromForm]string password, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("/users");
-            
-            Assignee assignee = _assigneeService.FindByName(name);
+
+            Assignee assignee = _userManager.GetUserAsync(User).Result;
 
             if (assignee == null)
             {

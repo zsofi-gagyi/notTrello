@@ -25,9 +25,12 @@ namespace TodoWithDatabase.Services
             _mapper = mapper;
         }
 
-        public Assignee FindByName(string name)
+        public Assignee GetWithAssigneeCards(string name)
         {
-            return _myContext.Assignees.Where(a => a.UserName.Equals(name)).SingleOrDefault();
+            return _myContext.Assignees
+                .Where(a => a.UserName.Equals(name))
+                .Include(a => a.AssigneeCards)
+                .SingleOrDefault();
         }
 
         /*

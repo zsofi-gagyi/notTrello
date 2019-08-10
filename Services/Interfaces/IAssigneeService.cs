@@ -8,7 +8,7 @@ namespace TodoWithDatabase.Services.Interfaces
 {
     public interface IAssigneeService
     {
-        Assignee FindByName(string name);
+        Assignee GetWithAssigneeCards(string name);
 
         /*
         List<AssigneeDTO> GetAndTranslateAll();
