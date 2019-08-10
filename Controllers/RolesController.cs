@@ -12,19 +12,17 @@ namespace TodoWithDatabase.Controllers
 {
     public class RolesController : Controller
     {
-        private readonly IAssigneeService _assigneeService;
         private readonly UserManager<Assignee> _userManager;
         private readonly SignInManager<Assignee> _signInManager;
 
-        public RolesController(IAssigneeService assigneeService, UserManager<Assignee> userManager, SignInManager<Assignee> signInManager)
+        public RolesController(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager)
         {
-            _assigneeService = assigneeService;
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
         [HttpGet("/users/changeRole")]
-        [Authorize(Roles = "TodoUser,TodoAdmin")]
+        [Authorize]
         public IActionResult ChangeRole()
         {
             return View();

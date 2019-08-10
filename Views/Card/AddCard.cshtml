@@ -6,7 +6,7 @@
 }
 
 @{var project = (Project)ViewData["project"];
-    <div class="displayCardsContainer mainPageContainer firstContainer">
+    <div class="displayCardsContainer middleWidthContainer firstContainer">
         <div class="displayCard">
             <div class="title">Add new card to the project "@project.Title"</div>
             <form action="/users/projects/@project.Id/cards/addCard" method="POST">

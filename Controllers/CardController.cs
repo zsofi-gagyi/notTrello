@@ -44,19 +44,25 @@ namespace TodoWithDatabase.Controllers
             card.Project = project;
 
             var responsibles = new List<Assignee>();
-            responsibles.Add(_userManager.GetUserAsync(User).Result);
+            var user = _userManager.GetUserAsync(User).Result;
+            responsibles.Add(user);
             foreach (string id in collaboratorIds)
             {
                 var collaborator = _userManager.FindByIdAsync(id).Result;
                 responsibles.Add(collaborator);
             }
 
+            var newCards = new List<AssigneeCard>();
             foreach (Assignee responsible in responsibles)
             {
-                card.AssigneeCards.Add(new AssigneeCard(responsible, card));
+                newCards.Add(new AssigneeCard(responsible, card));
             }
 
+            card.AssigneeCards.AddRange(newCards);
             _cardService.Update(card);
+
+            user.AssigneeCards.AddRange(newCards);
+            _userManager.UpdateAsync(user).Wait();
 
             return Redirect("/users/projects/" + projectId);
         }

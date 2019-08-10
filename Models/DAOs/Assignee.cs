@@ -9,5 +9,11 @@ namespace TodoWithDatabase.Models.DAOs
         public List<AssigneeProject> AssigneeProjects { set; get; }
 
         public List<AssigneeCard> AssigneeCards { set; get; }
+
+        public Assignee()
+        {
+            AssigneeProjects = new List<AssigneeProject>();
+            AssigneeCards = new List<AssigneeCard>();
+        }
     }
 }
