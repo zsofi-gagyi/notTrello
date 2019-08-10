@@ -42,12 +42,12 @@ namespace TodoWithDatabase.Controllers
                 _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
                 _signInManager.RefreshSignInAsync(assignee).Wait();
 
-                ViewData.Add("result", "You have been granted the title \"admin\".");
+                ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
             {
-                ViewData.Add("result", "Your application for the title \"admin\" has been rejected. " +
+                ViewData.Add("result", "Your application for the title \"Admin\" has been rejected. <br><br>" +
                     "We recommend a detailed motivation (min. 20 characters) and a more active " +
-                    "engagement with the community (min. 1 card)");
+                    "engagement with the community (min. 1 project with min. 1 card).");
             }
 
             return View("Views/Roles/result.cshtml");

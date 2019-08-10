@@ -1,4 +1,9 @@
 ﻿@{
     Layout = "_userLayout";
 }
-<p>@ViewData["result"]</p>
+
+    <div class="displayCardsContainer narrowContainer firstContainer">
+        <div class="displayCard">
+            <div class="description">@Html.Raw(@ViewData["result"])</div>
+        </div>
+    </div>

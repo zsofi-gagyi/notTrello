@@ -1,23 +1,26 @@
 ﻿@{
     Layout = "_userLayout";
 }
-@{ if (User.IsInRole("TodoAdmin"))
-    {
-        <h1>Renounce the admin role</h1>
-        <a href="/users/stopBeingAdmin">renounce</a>
-    }
-    else
-    {
-        <h1>Admin Application</h1>
-        <form action="/users/becomeAdmin" method="POST">
-            <label>Why do you want to become an admin of our site?</label>
-            <input type="text" name="motivation"/>
-            <button type="submit">Submit</button>
-        </form>
-    }
-    }
-@{ if (ViewData["result"] != null)
-   {
-        <p>@ViewData["result"]</p>
-   }
-}
+<div class="displayCardsContainer narrowContainer firstContainer">
+    <div class="displayCard">
+        @{ if (User.IsInRole("TodoAdmin"))
+           {
+                <div class="title">Renounce the admin role</div>
+                <div class="largeButton" id="centerContent">
+                    <a class="largeButton" href="/users/stopBeingAdmin">renounce</a>
+                </div>
+           }
+           else
+           {
+                <div class="title">Admin Application</div>
+                <form action="/users/becomeAdmin" method="POST">
+                    <div id="inputContainer">
+                        <div class="description">Why do you want to become an admin of our site?</div>
+                        <textarea class="description" name="motivation"></textarea>
+                        <button class="largeButton" type="submit">Submit</button>
+                    </div>
+                </form>
+           }
+         }
+    </div>
+</div>
