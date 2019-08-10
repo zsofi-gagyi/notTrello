@@ -99,7 +99,10 @@ namespace TodoWithDatabase
             services.AddScoped<IProjectService, ProjectService>();
             services.setUpAutoMapper();
 
-            services.AddMvc();
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

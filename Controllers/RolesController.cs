@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
-using System.Net;
 using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
@@ -21,13 +18,6 @@ namespace TodoWithDatabase.Controllers
             _assigneeService = assigneeService;
             _userManager = userManager;
             _signInManager = signInManager;
-        }
-
-        [HttpGet("/users/changeRole")]
-        [Authorize]
-        public IActionResult ChangeRole()
-        {
-            return View();
         }
 
         [HttpPost("/users/becomeAdmin")]

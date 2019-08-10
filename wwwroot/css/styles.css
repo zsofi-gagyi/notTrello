@@ -30,7 +30,7 @@ ul {
     font-family: 'Caveat', cursive;
     font-size: 120px;
     color: #00c9b5;
-    margin: 0;
+    margin: 20px  0;
 }
 
 .middleWidthContainer p {
@@ -48,6 +48,10 @@ ul {
 
 a.largeButton {
     font-size: 30px;
+}
+
+#mainPageButton {
+    margin-top: 30px;
 }
 
 /* ------------- horizontal nav bar ------------- */

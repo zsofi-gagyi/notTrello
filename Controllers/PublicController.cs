@@ -1,16 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
 
 namespace TodoWithDatabase.Controllers
 {
-    public class PublicController : Controller
+    public class DefaultController : Controller 
     {
         [HttpGet("/")]
-        [AllowAnonymous] //TODO make this a default in a more elegant way
-        public IActionResult RedirectToMain()
+        [AllowAnonymous] 
+        public IActionResult RedirectFromBasicDomain() //TODO find a better place for this default-setting
         {
-            return Redirect("/main");
+            if (User.Identity.IsAuthenticated)
+            {
+                return Redirect("/users");
+            }
+            else
+            {
+                return Redirect("/main");
+            }
         }
     }
 }
