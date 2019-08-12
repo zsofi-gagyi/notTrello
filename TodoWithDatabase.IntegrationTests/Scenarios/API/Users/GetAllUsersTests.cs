@@ -14,7 +14,7 @@ using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services;
 using Xunit;
 
-[Collection("BaseCollection")]
+[Collection("UserCollection")]
 public class GetAllUsersTests
 {
     private readonly TestContext _testContext;

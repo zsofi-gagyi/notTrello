@@ -12,7 +12,7 @@ using Xunit;
 
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 {
-    [Collection("BaseCollection")]
+    [Collection("UserCollection")]
     public class AddNewUserTests 
     {
         private readonly TestContext _testContext;
