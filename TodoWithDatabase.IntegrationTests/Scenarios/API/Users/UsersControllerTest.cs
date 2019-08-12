@@ -5,14 +5,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using TodoWithDatabase.IntegrationTests.Scenarios.API.Shared;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services;
 using Xunit;
 
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 {
-    //[Collection("BaseCollection")]
-    public class AddUsersTest : IClassFixture<TestContext>
+    [Collection("BaseCollection")]
+    public class AddUsersTest 
     {
         private readonly TestContext _testContext;
 
