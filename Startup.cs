@@ -32,7 +32,7 @@ namespace TodoWithDatabase
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyContext>(options => options.UseMySql("server=localhost;database=todosincsharp;user=root;password=000password000",
+            services.AddDbContext<MyContext>(options => options.UseMySql("server=localhost;database=todosincsharp;user=root;password=000password000", //TODO move these into environmental variables
                   mySqlOptions =>
                   {
                       mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
@@ -93,11 +93,11 @@ namespace TodoWithDatabase
                 options.LoginPath = new PathString("/login");
             });
 
-            services.AddTransient<IAssigneeService, AssigneeService>();
-            services.AddTransient<ICardService, CardService>();
+            services.AddScoped<IAssigneeService, AssigneeService>();
+            services.AddScoped<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProjectService, ProjectService>();
-            services.setUpAutoMapper();
+            services.SetUpAutoMapper();
 
             services.AddMvc().AddRazorPagesOptions(options =>
             {
