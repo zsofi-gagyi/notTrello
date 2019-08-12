@@ -13,11 +13,11 @@ using Xunit;
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 {
     [Collection("BaseCollection")]
-    public class AddUsersTest 
+    public class AddNewUserTests 
     {
         private readonly TestContext _testContext;
 
-        public AddUsersTest(TestContext testContext)
+        public AddNewUserTests(TestContext testContext)
         {
             _testContext = testContext;
             var tokenService = new TokenService();

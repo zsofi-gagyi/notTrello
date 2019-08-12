@@ -42,6 +42,12 @@ namespace TodoWithDatabase.Controllers
             return BadRequest(new { message = "This name is already in use." });
         }
 
+        [HttpGet("/api/users/all")]
+        public IActionResult GetAllAssignees()
+        {
+            return Ok(_assigneeService.GetAndTranslateAll());
+        }
+
         /*
 
         [HttpGet("/api/assignees")]

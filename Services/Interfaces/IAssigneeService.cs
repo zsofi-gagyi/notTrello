@@ -16,9 +16,9 @@ namespace TodoWithDatabase.Services.Interfaces
 
         void CreateAndSignIn(string name, string password);
 
-        /*
         List<AssigneeDTO> GetAndTranslateAll();
 
+        /*
         AssigneeDTO GetAndTranslate(string id);
         */
     }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
+using TodoWithDatabase.Models;
 
 namespace TodoWithDatabase.Services
 {
@@ -54,15 +55,16 @@ namespace TodoWithDatabase.Services
             _signInManager.SignInAsync(newAssignee, false).Wait();
         }
 
-        /*
+        
         public List<AssigneeDTO> GetAndTranslateAll()
         {
-            List<Assignee> assignees = GetAll().ToList();
+            List<Assignee> assignees = _myContext.Assignees.ToList();
             List<AssigneeDTO> result = new List<AssigneeDTO>();
-            assignees.ForEach(a => result.Add(a.ToDtoUsingMapper(_mapper)));
+            assignees.ForEach(a => result.Add(_mapper.Map<AssigneeDTO>(a)));
             return result;
         }
 
+        /*
         public AssigneeDTO GetAndTranslate(string id)
         {
             Assignee assignee = Get(id);

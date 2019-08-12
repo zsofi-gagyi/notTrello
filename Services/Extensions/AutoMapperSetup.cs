@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
+using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Models.DTOs;
 
@@ -12,7 +13,7 @@ namespace TodoWithDatabase.Services.Extensions
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Assignee, AssigneeDTOSimple>();
+                cfg.CreateMap<Assignee, AssigneeDTO>();
                 cfg.CreateMap<AssigneeToCreateDTO, Assignee>();
             });
 
