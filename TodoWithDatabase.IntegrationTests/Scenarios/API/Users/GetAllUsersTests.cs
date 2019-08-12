@@ -29,7 +29,7 @@ public class GetAllUsersTests
 
     [Theory]
     [InlineData("/api/users/all")]
-    public async Task Post_CorrectDTO_CreatesNewUser(string url)
+    public async Task Get_ReturnsAllUsers(string url)
     {
         var testUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id.ToString();
         var testUser = new AssigneeDTO { UserName = "user1Name", Id = testUserId };

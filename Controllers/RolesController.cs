@@ -31,7 +31,6 @@ namespace TodoWithDatabase.Controllers
             {
                 _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
                 _signInManager.RefreshSignInAsync(assignee).Wait();
-
                 ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
             {
