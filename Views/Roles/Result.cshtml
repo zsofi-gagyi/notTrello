@@ -2,8 +2,12 @@
     Layout = "_userLayout";
 }
 
-    <div class="displayCardsContainer narrowContainer firstContainer">
-        <div class="displayCard">
-            <div class="description">@Html.Raw(@ViewData["result"])</div>
-        </div>
+<div class="displayCardsContainer narrowContainer firstContainer">
+    <div class="displayCard">
+        <div class="description">@ViewData["result"]</div>
+        @if (ViewData["advice"] != null)
+         {  <br />
+            <div class="description">@ViewData["advice"]</div>
+         }
     </div>
+</div>

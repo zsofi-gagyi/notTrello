@@ -35,9 +35,9 @@ namespace TodoWithDatabase.Controllers
                 ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
             {
-                ViewData.Add("result", "Your application for the title \"Admin\" has been rejected. <br><br>" +
-                    "We recommend a detailed motivation (min. 20 characters) and a more active " +
-                    "engagement with the community (min. 1 project with min. 1 card).");
+                ViewData.Add("result", "Your application for the title \"Admin\" has been rejected.");
+                ViewData.Add("advice", "We recommend writing a detailed explanation of your motivation (min. 20 characters) " +
+                    "and an active engagement with our community (min. 1 project with min. 1 card).");
             }
 
             return View("Views/Roles/result.cshtml");
