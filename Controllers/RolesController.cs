@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Linq;
-using System.Net;
 using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
@@ -23,18 +20,11 @@ namespace TodoWithDatabase.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpGet("/users/changeRole")]
-        [Authorize(Roles = "TodoUser,TodoAdmin")]
-        public IActionResult ChangeRole()
-        {
-            return View();
-        }
-
         [HttpPost("/users/becomeAdmin")]
         [Authorize(Roles = "TodoUser")]
         public IActionResult BecomeAdmin([FromForm]string motivation)
         {
-            var assignee = _userManager.GetUserAsync(User).Result;
+            var assignee = _assigneeService.GetWithAssigneeCards(User.Identity.Name);
             var cardsNr = assignee.AssigneeCards.Count();
 
             if (cardsNr > 0 && motivation.Length > 20)
@@ -42,12 +32,12 @@ namespace TodoWithDatabase.Controllers
                 _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
                 _signInManager.RefreshSignInAsync(assignee).Wait();
 
-                ViewData.Add("result", "You have been granted the title \"admin\".");
+                ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
             {
-                ViewData.Add("result", "Your application for the title \"admin\" has been rejected. " +
-                    "We recommend a detailed motivation (min. 20 characters) and a more active " +
-                    "engagement with the community (min. 1 card)");
+                ViewData.Add("result", "Your application for the title \"Admin\" has been rejected.");
+                ViewData.Add("advice", "We recommend writing a detailed explanation of your motivation (min. 20 characters) " +
+                    "and an active engagement with our community (min. 1 project with min. 1 card).");
             }
 
             return View("Views/Roles/result.cshtml");

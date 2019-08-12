@@ -1,4 +1,13 @@
 ﻿@{
-    Layout = "_Layout";
+    Layout = "_userLayout";
 }
-<p>@ViewData["result"]</p>
+
+<div class="displayCardsContainer narrowContainer firstContainer">
+    <div class="displayCard">
+        <div class="description">@ViewData["result"]</div>
+        @if (ViewData["advice"] != null)
+         {  <br />
+            <div class="description">@ViewData["advice"]</div>
+         }
+    </div>
+</div>

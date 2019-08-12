@@ -20,16 +20,20 @@ ul {
     padding: 0;
 }
 
+#centerContent {
+    margin: 0 auto;
+}
+
 /* ------------- first page specific ------------- */
 
 #brandName {
     font-family: 'Caveat', cursive;
     font-size: 120px;
     color: #00c9b5;
-    margin: 0;
+    margin: 20px  0;
 }
 
-.mainPageContainer p {
+.middleWidthContainer p {
     margin: 15px 0;
 }
 
@@ -44,6 +48,10 @@ ul {
 
 a.largeButton {
     font-size: 30px;
+}
+
+#mainPageButton {
+    margin-top: 30px;
 }
 
 /* ------------- horizontal nav bar ------------- */
@@ -102,13 +110,13 @@ nav {
         width: 80%;
     }
 
-    .narrowContainer {
-        width: 30%;
-    }
-
-    .mainPageContainer {
+    .middleWidthContainer {
         width: 50%;
         font-size: 26px;
+    }
+
+    .narrowContainer {
+        width: 30%;
     }
 
     .secondaryContainer {
@@ -193,7 +201,7 @@ nav {
     }
 
     .displayCard .title {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     .displayCard .mainTitle {
@@ -307,6 +315,41 @@ button.largeButton {
 #or {
     margin-top: 0;
     margin-bottom: 10px;
+}
+
+/* ------------- API guide specific ------------- */
+
+.apiList {
+    text-align: left;
+    list-style: disc;
+    font-weight: 400;
+    margin-left: 25px;
+}
+
+.apiList li {
+    margin: 15px 5px;
+}
+
+.apiTokenMessage {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.apiCard {
+    padding-bottom: 25px;
+}
+
+    .apiCard .largeButton {
+        font-size: 25px;
+        margin: 0 auto;
+    }
+
+/* ------------- API token specific ------------- */
+
+#token {
+    color: #707070;
+    overflow-wrap: break-word;
+    font-weight: 400;
 }
 
 /* ------------- footer (and helpers) ------------- */

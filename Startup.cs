@@ -85,12 +85,12 @@ namespace TodoWithDatabase
 
             services.ConfigureApplicationCookie(options =>
             {
-                options.AccessDeniedPath = "/public/main";
+                options.AccessDeniedPath = "/";
                 options.Cookie.Name = "TodoCookie";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = "returnTo";
                 options.SlidingExpiration = true;
-                options.LoginPath = new PathString("/public/login");
+                options.LoginPath = new PathString("/login");
             });
 
             services.AddTransient<IAssigneeService, AssigneeService>();
@@ -99,7 +99,10 @@ namespace TodoWithDatabase
             services.AddScoped<IProjectService, ProjectService>();
             services.setUpAutoMapper();
 
-            services.AddMvc();
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

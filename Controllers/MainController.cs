@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
