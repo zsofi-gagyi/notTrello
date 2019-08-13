@@ -11,6 +11,7 @@ using AutoMapper;
 using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using TodoWithDatabase.Models.DTO;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -66,16 +67,17 @@ namespace TodoWithDatabase.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        /*
+        
 
-        [HttpGet("/api/assignees")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<List<AssigneeDTO>> GetAssignees()
+        [HttpGet("/api/users/{userId}/userWithProjects")]
+        [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public ActionResult<AssigneeWithProjectsDTO> GetAssigneeProjectFor(string userId)
         {
-            List<AssigneeDTO> result = _assigneeService.GetAndTranslateAll().ToList();
+            var result = _assigneeService.GetAndTranslateToAssigneWithProjectsDTO(userId);
             return result;
         }
 
+        /*
         [HttpGet("/api/assignees/{Id}")]
         [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public ActionResult<AssigneeDTO> GetAssignee([FromRoute(Name = "Id")]string id)
