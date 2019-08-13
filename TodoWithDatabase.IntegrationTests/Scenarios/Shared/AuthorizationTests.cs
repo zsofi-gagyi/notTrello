@@ -10,7 +10,7 @@ using Xunit;
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
 {
     [Collection("BaseCollection")]
-    public class AuthorizationTests //: IClassFixture<TestContext> TODO research if this should be in a collection or not
+    public class AuthorizationTests 
     {
         private readonly TestContext _testContext;
         private readonly string _correctTokenForUser;

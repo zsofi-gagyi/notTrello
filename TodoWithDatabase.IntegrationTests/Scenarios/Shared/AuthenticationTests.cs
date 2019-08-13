@@ -8,7 +8,7 @@ using Xunit;
 
 namespace TodoWithDatabase.TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
 {
-    [Collection("BaseCollection")]
+    [Collection("UnauthorizedCollection")]
     public class AutenticationTests
     {
         private readonly TestContext _testContext;

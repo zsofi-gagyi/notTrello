@@ -8,13 +8,18 @@ namespace ferrilata_devilline.IntegrationTests.Fixtures
     {
     }
 
-    [CollectionDefinition("UserCollection")] // to be used for testing user-related endpoints. Can be run in parallel with project-related endpoints. 
+    [CollectionDefinition("UserCollection")] 
     public class Collection2 : ICollectionFixture<TestContext>
     {
     }
 
-    [CollectionDefinition("ProjectCollection")] 
+    [CollectionDefinition("ProjectsCollection")] 
     public class Collection3 : ICollectionFixture<TestContext>
+    {
+    }
+
+    [CollectionDefinition("UnauthorizedCollection")]
+    public class Collection4 : ICollectionFixture<TestContext>
     {
     }
 }

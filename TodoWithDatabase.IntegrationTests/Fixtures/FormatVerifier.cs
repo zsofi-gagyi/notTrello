@@ -10,12 +10,12 @@ namespace TodoWithDatabase.App.TodoWithDatabase.IntegrationTests.Fixtures
 {
     public static class FormatVerifier
     {
-        public static bool IsValidAs(this string input, Type type)
+        public static bool StringIsValidAs(string input, Type type)
         {
             JSchemaGenerator generator = new JSchemaGenerator();
             JSchema schema = generator.Generate(type);
 
-            var resultingObject = JObject.Parse(input);
+            var resultingObject = JToken.Parse(input);
 
             return resultingObject.IsValid(schema);
         }

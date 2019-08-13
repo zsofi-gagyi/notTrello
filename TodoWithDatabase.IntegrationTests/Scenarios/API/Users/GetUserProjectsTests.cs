@@ -25,12 +25,12 @@ public class GetUserProjectsTests
 
     [Theory]
     [InlineData("/api/users/", "/userWithProjects")]
-    public async Task Get_ReturnsAllUsers(params string[] urlParts)
+    public async Task Get_CorrectId_ReturnsUserWithProjects(params string[] urlParts)
     {
         var response = await _testContext.Client.GetAsync(urlParts[0] + _user1Id + urlParts[1]);
         var responseString = await response.Content.ReadAsStringAsync();
 
         Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
-        Assert.True(responseString.IsValidAs(typeof (AssigneeWithProjectsDTO)));
+        Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
     }
 }
