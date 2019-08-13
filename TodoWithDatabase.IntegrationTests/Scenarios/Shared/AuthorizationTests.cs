@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TodoWithDatabase.IntegrationTests.Fixtures;
@@ -14,6 +16,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
         private readonly string _correctTokenForUser;
         private readonly string _incorrectToken;
         private readonly HttpContent _request;
+        private static string _userId;
 
         public AuthorizationTests(TestContext testContext)
         {
@@ -22,13 +25,11 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
             var tokenService = new TokenService();
             _correctTokenForUser = tokenService.GenerateToken("testUser", "TodoUser", false);  // TODO this must be researched and changed to "true"
             _incorrectToken = tokenService.GenerateToken("testUser", "IncorrectRole", false);
-
             _request = new StringContent("testRequest");
+            _userId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
         }
 
-        [Theory]
-        [InlineData("/api/users", "POST" )]
-        [InlineData("/api/users/all", "GET")]
+        [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_TokenForUser_Forbidden(params string[] urlAndAction)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _correctTokenForUser);
@@ -38,9 +39,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
             Assert.False(response.IsSuccessStatusCode);
         }
 
-        [Theory]
-        [InlineData("/api/users", "POST")]
-        [InlineData("/api/users/all", "GET")]
+        [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_IncorrectToken_Forbidden(params string[] urlAndAction)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _incorrectToken);
@@ -48,6 +47,19 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
             var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
 
             Assert.False(response.IsSuccessStatusCode);
+        }
+
+        public static IEnumerable<object[]> RestrictedToAdminEndpoints
+        {
+            get
+            {
+                return new[]
+                {
+                    new string[] { "/api/users", "POST" },
+                    new string[] { "/api/users/all", "GET" },
+                    new string[] { "/api/users/" + _userId + "/userWithProjects", "GET" }
+                };
+            }
         }
     }
 }
