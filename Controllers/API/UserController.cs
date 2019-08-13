@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Services;
 using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,13 +17,11 @@ namespace TodoWithDatabase.Controllers
     [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly UserManager<Assignee> _userManager;
         private readonly IAssigneeService _assigneeService;
 
-        public UserController(IMapper mapper, UserManager<Assignee> userManager, IAssigneeService assigneeService)
+        public UserController(UserManager<Assignee> userManager, IAssigneeService assigneeService)
         {
-            _mapper = mapper;
             _userManager = userManager;
             _assigneeService = assigneeService;
         }

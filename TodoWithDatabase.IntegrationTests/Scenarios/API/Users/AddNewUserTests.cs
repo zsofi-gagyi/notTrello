@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests.Scenarios.API.Shared;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services;
 using Xunit;
@@ -22,7 +20,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         {
             _testContext = testContext;
             var tokenService = new TokenService();
-            var correctToken = tokenService.GenerateToken("testAdmin", "TodoAdmin", false); // TODO this must be researched and changed to "true"
+            var correctToken = tokenService.GenerateToken("testAdmin", "TodoAdmin", false); // TODO this must be researched and maybe changed to "true"
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", correctToken);
         }
 

@@ -6,14 +6,19 @@ using TodoWithDatabase.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using TodoWithDatabase.Services.Interfaces;
+using AutoMapper;
 
 namespace TodoWithDatabase.IntegrationTests
 {
     public class TestContext : IDisposable
     {
-        private TestServer server;
+        private TestServer _server;
+
         public HttpClient Client { get; set; }
+
         public MyContext Context { get; set; }
+
+        public IMapper Mapper { get; set; }
 
         public TestContext()
         {
@@ -21,17 +26,20 @@ namespace TodoWithDatabase.IntegrationTests
                 .UseEnvironment("Testing")
                 .UseStartup<Startup>();
 
-            server = new TestServer(builder);
-            Client = server.CreateClient();
+            _server = new TestServer(builder);
+            Client = _server.CreateClient();
 
-            Context = server.Host.Services.GetRequiredService<MyContext>();
-            var assigneeService = server.Host.Services.GetRequiredService<IAssigneeService>();
+            Mapper = _server.Host.Services.GetRequiredService<IMapper>();
+
+            Context = _server.Host.Services.GetRequiredService<MyContext>();
+
+            var assigneeService = _server.Host.Services.GetRequiredService<IAssigneeService>();
             DatabaseSeeder.InitializeDatabaseForTestsUsing(Context, assigneeService);
         }
 
         public void Dispose()
         {
-            server.Dispose();
+            _server.Dispose();
             Client.Dispose();
             Context.Dispose();
         }

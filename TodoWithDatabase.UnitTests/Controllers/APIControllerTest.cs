@@ -5,7 +5,6 @@ using Xunit;
 using Newtonsoft.Json.Linq;
 using TodoWithDatabase.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using FluentAssertions;
 
 namespace TodoWithDatabase.UnitTests
 {

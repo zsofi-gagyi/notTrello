@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using TodoWithDatabase.IntegrationTests;
-using TodoWithDatabase.IntegrationTests.Scenarios.API.Shared;
 using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services;
 using Xunit;
 

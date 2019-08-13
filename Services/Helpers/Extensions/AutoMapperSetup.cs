@@ -8,8 +8,13 @@ namespace TodoWithDatabase.Services.Extensions
 {
     public static class AutoMapperSetup
     {
-        
         public static void SetUpAutoMapper(this IServiceCollection services)
+        {
+            var mapper = CreateMapper();
+            services.AddSingleton<IMapper>(mapper);
+        }
+
+        public static IMapper CreateMapper()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -20,7 +25,7 @@ namespace TodoWithDatabase.Services.Extensions
             });
 
             var mapper = config.CreateMapper();
-            services.AddSingleton<IMapper>(mapper);
-        }   
+            return mapper;
+        }
     }
 }

@@ -11,9 +11,7 @@ namespace TodoWithDatabase.App.Services.Helpers.Extensions.AutoMapperProfiles
         {
             CreateMap<Assignee, AssigneeWithProjectsDTO>()
               .ForMember(dest => dest.ProjectWithCardsDTOs,
-                          opt => opt.MapFrom(a => a.AssigneeProjects.Select(ap => ap.Project)))
-              .ForMember(dest => dest.Role,
-                          opt => opt.MapFrom(a => a));
+                          opt => opt.MapFrom(a => a.AssigneeProjects.Select(ap => ap.Project)));
         }
     }
 }
