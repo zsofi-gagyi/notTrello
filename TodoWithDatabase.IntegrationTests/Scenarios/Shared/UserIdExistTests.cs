@@ -21,7 +21,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
             _testContext = testContext;
 
             var tokenService = new TokenService();
-            var correctToken = tokenService.GenerateToken("testUser", "TodoAdmin", false);
+            var correctToken = tokenService.GenerateToken("testId", "testUser", "TodoAdmin");
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", correctToken);
             _request = new StringContent("testRequest");
         }
@@ -45,6 +45,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
                 return new[]
                 {
                     new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithProjects", "GET" }
+                   // new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithCards", "GET" } to be added when the endpoint is ready
                 };
             }
         }

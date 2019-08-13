@@ -69,7 +69,7 @@ namespace TodoWithDatabase.Controllers
         [Authorize]
         public ActionResult<AssigneeWithProjectsDTO> GetAssigneeProjectForSelf()
         {
-            var userId = User.FindFirst(c => c.Type.Equals("UserId")).Value;
+            var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
             return GetAssigneeDTOFor(userId);
         }
 

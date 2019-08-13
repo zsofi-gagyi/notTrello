@@ -13,20 +13,23 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
     public class AuthorizationTests 
     {
         private readonly TestContext _testContext;
+        private static string _userId;
         private readonly string _correctTokenForUser;
         private readonly string _incorrectToken;
         private readonly HttpContent _request;
-        private static string _userId;
+
 
         public AuthorizationTests(TestContext testContext)
         {
             _testContext = testContext;
+            _userId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
 
             var tokenService = new TokenService();
-            _correctTokenForUser = tokenService.GenerateToken("testUser", "TodoUser", false);  // TODO this must be researched and changed to "true"
-            _incorrectToken = tokenService.GenerateToken("testUser", "IncorrectRole", false);
+            _correctTokenForUser = tokenService.GenerateToken(_userId, "testUser", "TodoUser"); 
+            _incorrectToken = tokenService.GenerateToken(_userId, "testUser", "IncorrectRole");
+
             _request = new StringContent("testRequest");
-            _userId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
+  
         }
 
         [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]

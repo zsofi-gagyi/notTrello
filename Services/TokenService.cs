@@ -9,25 +9,17 @@ namespace TodoWithDatabase.Services
 {
     public class TokenService : ITokenService
     {
-        public string GenerateToken(string userName, string role, bool testing)
+        public string GenerateToken(string Id, string userName, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
-            var key = Encoding.ASCII.GetBytes("");
-
-            if (testing)
-            {
-                key = Encoding.ASCII.GetBytes("secretTestingKey");
-            }
-            else
-            {
-                key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"));
-            }
+            var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
+                    new Claim("Id", Id),
                     new Claim(ClaimTypes.Name, userName),
                     new Claim(ClaimTypes.Role, role)
                 }),

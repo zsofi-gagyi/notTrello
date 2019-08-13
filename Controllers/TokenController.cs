@@ -4,11 +4,12 @@ using TodoWithDatabase.Services.Interfaces;
 
 namespace TodoWithDatabase.Controllers
 {
-    public class ApiGuideAndTokenController : Controller
+    public class 
+        TokenController : Controller
     {
         private readonly ITokenService _tokenService;
 
-        public ApiGuideAndTokenController(ITokenService tokenService)
+        public TokenController(ITokenService tokenService)
         {
             _tokenService = tokenService;
         }
@@ -17,8 +18,10 @@ namespace TodoWithDatabase.Controllers
         [Authorize]
         public IActionResult Token()
         {
+            var userId = User.FindFirst(c => c.Type.Equals("UserId")).Value;
+            var userName = User.Identity.Name;
             var role = User.IsInRole("TodoAdmin") ? "TodoAdmin" : "TodoUser";
-            ViewData["token"] = _tokenService.GenerateToken(User.Identity.Name, role, false);
+            ViewData["token"] = _tokenService.GenerateToken(userId, userName, role);
             return View();
         }
     }

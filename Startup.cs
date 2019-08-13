@@ -131,8 +131,9 @@ namespace TodoWithDatabase
                                    !context.User.IsInRole("UserAdmin"), 
                         UseProjectIdAccessVerifier);
 
-            app.UseWhen(context => context.Request.Path.ToString().Contains("userWithProjects") ||
-                                   context.Request.Path.ToString().Contains("userWithCards"),
+            app.UseWhen(context => (context.Request.Path.ToString().Contains("userWithProjects") ||
+                                    context.Request.Path.ToString().Contains("userWithCards"))  &&
+                                   !context.Request.Path.ToString().Contains("me"),
                         UseUserIdExistenceVerifier);
 
             app.UseCookiePolicy();
