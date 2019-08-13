@@ -8,7 +8,8 @@ namespace TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers
 {
     public static class AssigneeMaker
     {
-        public static Assignee Make()
+        public static Assignee Make() // this could amost be made into a database seeding, but in the real database 
+                                      // IDs are created by the databse. (comment to be deleted)                           
         {
             var assignee1 = new Assignee { Id = "1", UserName = "user1Name" };
             var assignee2 = new Assignee { Id = "2", UserName = "user2Name" };

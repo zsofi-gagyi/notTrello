@@ -22,7 +22,7 @@ namespace TodoWithDatabase.UnitTests.Services
         {
             var assignee = AssigneeMaker.Make();
 
-            var expectedDTO = AssigneeWithProjectsDTOMaker.Make();
+            var expectedDTO = AssigneeWithProjectsDTOMaker.MakeFrom(assignee);
             var expectedString = JsonConvert.SerializeObject(expectedDTO);
 
             var assigneeDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);

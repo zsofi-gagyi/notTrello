@@ -19,6 +19,6 @@ namespace TodoWithDatabase.Models.DTOs
         public List<AssigneeDTO> AssigneeDTOs { set; get; }
 
         [JsonProperty(PropertyName = "cards", Order = 5)]
-        public List<CardWithAssigneesDTO> CardWithAssigneeDTOs { set; get; }
+        public List<CardWithAssigneesDTO> CardWithAssigneesDTOs { set; get; }
     }
 }
