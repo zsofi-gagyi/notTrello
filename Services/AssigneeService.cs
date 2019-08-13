@@ -11,16 +11,22 @@ using System;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
+using TodoWithDatabase.Models.DTOs;
+using TodoWithDatabase.Models;
 
 namespace TodoWithDatabase.Services
 {
     public class AssigneeService :  IAssigneeService
     {
+        readonly UserManager<Assignee> _userManager;
+        readonly SignInManager<Assignee> _signInManager;
         readonly MyContext _myContext;
         readonly IMapper _mapper;
 
-        public AssigneeService(MyContext myContext, IMapper mapper)
+        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, MyContext myContext, IMapper mapper)
         {
+            _userManager = userManager;
+            _signInManager = signInManager;
             _myContext = myContext;
             _mapper = mapper;
         }
@@ -33,15 +39,32 @@ namespace TodoWithDatabase.Services
                 .SingleOrDefault();
         }
 
-        /*
+        public Assignee CreateAndReturnNew(AssigneeToCreateDTO assigneeDTO)
+        {
+            var newAssignee = new Assignee { UserName = assigneeDTO.Name };
+            _userManager.CreateAsync(newAssignee, assigneeDTO.Password).Wait();
+            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
+            return newAssignee;
+        }
+
+        public void CreateAndSignIn(string name, string password)
+        {
+            var newAssignee = new Assignee { UserName = name };
+            _userManager.CreateAsync(newAssignee, password).Wait();
+            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
+            _signInManager.SignInAsync(newAssignee, false).Wait();
+        }
+
+        
         public List<AssigneeDTO> GetAndTranslateAll()
         {
-            List<Assignee> assignees = GetAll().ToList();
+            List<Assignee> assignees = _myContext.Assignees.ToList();
             List<AssigneeDTO> result = new List<AssigneeDTO>();
-            assignees.ForEach(a => result.Add(a.ToDtoUsingMapper(_mapper)));
+            assignees.ForEach(a => result.Add(_mapper.Map<AssigneeDTO>(a)));
             return result;
         }
 
+        /*
         public AssigneeDTO GetAndTranslate(string id)
         {
             Assignee assignee = Get(id);

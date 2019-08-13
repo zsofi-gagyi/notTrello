@@ -25,20 +25,34 @@ namespace TodoWithDatabase
 {
     public class Startup
     {
-        private static void UseIdVerifier(IApplicationBuilder app) // middleware-related stuff
+        private static void UseIdVerifier(IApplicationBuilder app) 
         {
             app.UseMiddleware<IdVerifier>();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<MyContext>(options => options.UseMySql("server=localhost;database=todosincsharp;user=root;password=000password000",
-                  mySqlOptions =>
-                  {
-                      mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
-                  }
-                 ));
 
+            services.AddDbContext<MyContext>(options => options.UseMySql("server=localhost;database=todosincsharp;user=root;password=000password000", //TODO move these into environmental variables
+                mySqlOptions =>
+                {
+                      mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
+                }
+            ));
+
+           AddEnvironmentNeutralConfigurations(services);
+            
+        }
+
+        public void ConfigureTestingServices (IServiceCollection services)
+        {
+            services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
+
+            AddEnvironmentNeutralConfigurations(services);
+        }
+
+        public void AddEnvironmentNeutralConfigurations(IServiceCollection services)
+        {
             services.AddIdentity<Assignee, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MyContext>();
 
@@ -65,7 +79,7 @@ namespace TodoWithDatabase
 
                      var payload = new JObject
                      {
-                         ["error"] = "Unauthorized - user not recognized as an assignee"
+                         ["error"] = "Unauthorized - user not recognized"
                      };
 
                      return context.Response.WriteAsync(payload.ToString());
@@ -93,11 +107,11 @@ namespace TodoWithDatabase
                 options.LoginPath = new PathString("/login");
             });
 
-            services.AddTransient<IAssigneeService, AssigneeService>();
-            services.AddTransient<ICardService, CardService>();
+            services.AddScoped<IAssigneeService, AssigneeService>();
+            services.AddScoped<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProjectService, ProjectService>();
-            services.setUpAutoMapper();
+            services.SetUpAutoMapper();
 
             services.AddMvc().AddRazorPagesOptions(options =>
             {

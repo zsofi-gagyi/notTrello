@@ -3,11 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoWithDatabase", "TodoWithDatabase.csproj", "{84C8D5FB-8118-4B8A-B212-C432C1B3E7C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoWithDatabase.App", "TodoWithDatabase.App.csproj", "{84C8D5FB-8118-4B8A-B212-C432C1B3E7C4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoWithDatabase.IntegrationTests", "TodoWithDatabase.IntegrationTests\TodoWithDatabase.IntegrationTests.csproj", "{BEC5577A-3ECA-49BF-B352-81697A32CA35}"
+	ProjectSection(ProjectDependencies) = postProject
+		{84C8D5FB-8118-4B8A-B212-C432C1B3E7C4} = {84C8D5FB-8118-4B8A-B212-C432C1B3E7C4}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TodoWithDatabase.UnitTests", "TodoWithDatabase.UnitTests\TodoWithDatabase.UnitTests.csproj", "{3DA8B427-010C-47B3-86C8-4CAEE4E5C03A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TodoWithDatabase.UnitTests", "TodoWithDatabase.UnitTests\TodoWithDatabase.UnitTests.csproj", "{3DA8B427-010C-47B3-86C8-4CAEE4E5C03A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{84C8D5FB-8118-4B8A-B212-C432C1B3E7C4} = {84C8D5FB-8118-4B8A-B212-C432C1B3E7C4}
 	EndProjectSection

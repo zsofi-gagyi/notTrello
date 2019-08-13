@@ -7,33 +7,66 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services.Interfaces;
+using AutoMapper;
+using TodoWithDatabase.Models.DAOs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace TodoWithDatabase.Controllers
 {
     [ApiController]
-    public class APIController : ControllerBase
+    [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    public class UserController : ControllerBase
     {
+        private readonly IMapper _mapper;
+        private readonly UserManager<Assignee> _userManager;
         private readonly IAssigneeService _assigneeService;
 
-        public APIController(IAssigneeService assigneeService)
+        public UserController(IMapper mapper, UserManager<Assignee> userManager, IAssigneeService assigneeService)
         {
+            _mapper = mapper;
+            _userManager = userManager;
             _assigneeService = assigneeService;
         }
-        /*
-        [HttpPost("/api/add-assignee")]
-        [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO assigneeDTO) 
+
+        [HttpPost("/api/users")]
+        public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
         {
-            Assignee assignee = _assigneeService.FindByName(assigneeDTO.Name);
+            Assignee assignee = _userManager.FindByNameAsync(userDTO.Name).Result;
 
             if (assignee == null)
             {
-                var newAssignee = _assigneeService.SaveAndReturnNew(assigneeDTO.Name, assigneeDTO.Password);
-                return Created( "api/assignees/" + newAssignee.Id,  new { message = "assignee named " + assigneeDTO.Name + " succesfully created!" });
+                var newAssignee = _assigneeService.CreateAndReturnNew(userDTO);
+                return Created("api/users/" + newAssignee.Id + "/userWithProjects", new { message = "User with the name " + userDTO.Name + " has been succesfully created!" });
             }
 
-            return BadRequest(new { message = "assignee already exists!" });
+            return BadRequest(new { message = "This name is already in use." });
         }
+
+        [HttpGet("/api/users/all")]
+        public IActionResult GetAllAssignees()
+        {
+            var ok = true;
+            var result = new List<AssigneeDTO>();
+
+            try
+            {
+                result = _assigneeService.GetAndTranslateAll();
+            } 
+            catch
+            {
+                ok = false;
+            }
+
+            if (ok)
+            {
+                return Ok(result);
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        /*
 
         [HttpGet("/api/assignees")]
         [Authorize(Roles = "TodoUser" + "," + "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -61,5 +94,5 @@ namespace TodoWithDatabase.Controllers
             return result;
             }
             */
-        }
     }
+}

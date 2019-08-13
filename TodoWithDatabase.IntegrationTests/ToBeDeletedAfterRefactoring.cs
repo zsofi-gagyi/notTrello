@@ -3,14 +3,17 @@ using Xunit;
 using System.Threading.Tasks;
 using TodoWithDatabase.IntegrationTests.Helpers;
 using System.Net.Http;
+using TodoWithDatabase.Models.DTOs;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace TodoWithDatabase.IntegrationTests
 {
-    public class IntegrationTest1 : IClassFixture<WebApplicationFactory<TodoWithDatabase.Startup>>
+    public class ToBeDeletedAfterRefactoring : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<TodoWithDatabase.Startup> _factory;
+        private readonly WebApplicationFactory<Startup> _factory;
 
-        public IntegrationTest1(WebApplicationFactory<TodoWithDatabase.Startup> factory)
+        public ToBeDeletedAfterRefactoring(WebApplicationFactory<Startup> factory)
         {
            _factory = factory;
         }
@@ -101,16 +104,6 @@ namespace TodoWithDatabase.IntegrationTests
             Assert.Equal("to sleep", firstTodo.TextContent);
         }
 
-        [Theory]
-        [InlineData("/api/add-assignee")]
-        public async Task Post_CreatesNewUser(string url)
-        {
-            var client = _factory.CreateClient();
-            HttpContent request =
-                new StringContent("{\"Name\":\"testAssigneeName\",\"Password\":\"testAssigneePassword\"}", System.Text.Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync(url, request);
-           response.EnsureSuccessStatusCode();
-        }
+       
     }
 }

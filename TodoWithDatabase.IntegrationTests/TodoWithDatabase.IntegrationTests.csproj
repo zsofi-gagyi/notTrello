@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TodoWithDatabase.csproj" />
+    <ProjectReference Include="..\TodoWithDatabase.App.csproj" />
   </ItemGroup>
 
 </Project>

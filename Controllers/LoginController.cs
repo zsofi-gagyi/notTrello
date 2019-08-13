@@ -20,20 +20,14 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpPost("/signUp")]
-        public IActionResult DoSignUp([FromForm] string name, [FromForm]string password, string returnUrl = null)
+        public IActionResult DoSignUp([FromForm] string name, [FromForm]string password)
         {
-            returnUrl = returnUrl ?? Url.Content("/users");
-
-            Assignee assignee = _userManager.GetUserAsync(User).Result;
+            Assignee assignee = _userManager.FindByNameAsync(name).Result;
 
             if (assignee == null)
             {
-                var newAssignee = new Assignee { UserName = name };
-                _userManager.CreateAsync(newAssignee, password).Wait();
-                _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
-                _signInManager.SignInAsync(newAssignee, false).Wait();
-
-                return LocalRedirect(returnUrl);
+                _assigneeService.CreateAndSignIn(name, password);
+                return Redirect("/users");
             }
 
             return Redirect("/login.html");
