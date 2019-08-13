@@ -10,6 +10,7 @@ using TodoWithDatabase.Services.Interfaces;
 using AutoMapper;
 using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -45,7 +46,24 @@ namespace TodoWithDatabase.Controllers
         [HttpGet("/api/users/all")]
         public IActionResult GetAllAssignees()
         {
-            return Ok(_assigneeService.GetAndTranslateAll());
+            var ok = true;
+            var result = new List<AssigneeDTO>();
+
+            try
+            {
+                result = _assigneeService.GetAndTranslateAll();
+            } 
+            catch
+            {
+                ok = false;
+            }
+
+            if (ok)
+            {
+                return Ok(result);
+            }
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
         /*

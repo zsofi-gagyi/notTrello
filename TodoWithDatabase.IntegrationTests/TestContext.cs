@@ -26,7 +26,7 @@ namespace TodoWithDatabase.IntegrationTests
 
             Context = server.Host.Services.GetRequiredService<MyContext>();
             var assigneeService = server.Host.Services.GetRequiredService<IAssigneeService>();
-            Utilities.InitializeForTestsUsing(Context, assigneeService);
+            DatabaseSeeder.InitializeDatabaseForTestsUsing(Context, assigneeService);
         }
 
         public void Dispose()

@@ -9,11 +9,11 @@ using System.Net;
 
 namespace TodoWithDatabase.IntegrationTests
 {
-    public class IntegrationTest1 : IClassFixture<WebApplicationFactory<Startup>>
+    public class ToBeDeletedAfterRefactoring : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
 
-        public IntegrationTest1(WebApplicationFactory<Startup> factory)
+        public ToBeDeletedAfterRefactoring(WebApplicationFactory<Startup> factory)
         {
            _factory = factory;
         }

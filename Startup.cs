@@ -79,7 +79,7 @@ namespace TodoWithDatabase
 
                      var payload = new JObject
                      {
-                         ["error"] = "Unauthorized - user not recognized as an assignee"
+                         ["error"] = "Unauthorized - user not recognized"
                      };
 
                      return context.Response.WriteAsync(payload.ToString());
