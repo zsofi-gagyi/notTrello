@@ -127,9 +127,9 @@ namespace TaskManager
 
             app.UseAuthentication();
 
-            app.UseWhen(context => context.Request.Path.ToString().Contains("projects") &&
-                                   !context.User.IsInRole("UserAdmin"),
-                        UseProjectIdAccessVerifier);
+            //app.UseWhen(context => context.Request.Path.ToString().Contains("projects") &&
+              //                     !context.User.IsInRole("UserAdmin"),
+                //        UseProjectIdAccessVerifier);
 
             app.UseWhen(context => (context.Request.Path.ToString().Contains("userWithProjects") ||
                                     context.Request.Path.ToString().Contains("userWithCards")) &&

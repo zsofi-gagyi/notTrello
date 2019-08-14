@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTO;
 
-namespace TodoWithDatabase.Controllers
+namespace TodoWithDatabase.Controllers.API
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

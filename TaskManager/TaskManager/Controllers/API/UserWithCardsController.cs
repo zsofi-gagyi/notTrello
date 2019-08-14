@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTO;
 
-namespace TodoWithDatabase.Controllers
+namespace TodoWithDatabase.Controllers.API
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -19,17 +19,17 @@ namespace TodoWithDatabase.Controllers
 
         [HttpGet("/api/users/{userId}/userWithCards")]
         [Authorize(Roles = "TodoAdmin")]
-        public ActionResult<AssigneeWithCardsDTO> GetAssigneeProjectFor(string userId)
+        public ActionResult<AssigneeWithCardsDTO> GetAssigneeCardFor(string userId)
         {
             return GetAssigneeWithCardsDTOFor(userId);
         }
 
         [HttpGet("/api/users/me/userWithCards")]
         [Authorize]
-        public ActionResult<AssigneeWithCardsDTO> GetAssigneeProjectForSelf()
+        public ActionResult<AssigneeWithCardsDTO> GetAssigneeCardForSelf()
         {
             var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
-            return GetAssigneeWithCardsDTOFor(userId);
+            return GetAssigneeWithCardsDTOFor(userId); 
         }
 
         private AssigneeWithCardsDTO GetAssigneeWithCardsDTOFor(string userId)

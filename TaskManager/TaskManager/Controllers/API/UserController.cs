@@ -7,7 +7,7 @@ using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
-namespace TodoWithDatabase.Controllers
+namespace TodoWithDatabase.Controllers.API
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
@@ -26,7 +26,7 @@ namespace TodoWithDatabase.Controllers
         [Authorize(Roles = "TodoAdmin")]
         public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
         {
-            Assignee assignee = _userManager.FindByNameAsync(userDTO.Name).Result;
+            var assignee = _userManager.FindByNameAsync(userDTO.Name).Result;
 
             if (assignee == null)
             {

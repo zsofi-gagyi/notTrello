@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using System;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace TodoWithDatabase.Services.Extensions.Middleware
 {
@@ -23,7 +24,7 @@ namespace TodoWithDatabase.Services.Extensions.Middleware
             var projectsIndex = urlParts.IndexOf("projects");
             var projectId = urlParts[projectsIndex + 1];
 
-            string name = context.User.Identity.Name;
+            string name = context.User.Claims.Where(c => c.Type.Equals("unique_name")).First().Value;
             var isAllowed = projectService.userCollaboratesOnProject(name, projectId); 
 
             if (isAllowed)

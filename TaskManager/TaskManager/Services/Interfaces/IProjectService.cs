@@ -15,10 +15,14 @@ namespace TodoWithDatabase.Services.Interfaces
 
         Project Get(string projectId);
 
+        Project GetWithAssigneeProjects(string projectId);
+
         bool userCollaboratesOnProject(string assigneeName, string projectId);
 
         void Save(Project project);
 
         void Update(Project project);
+
+        void Delete(string projectId);
     }
 }

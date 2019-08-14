@@ -51,6 +51,14 @@ namespace TodoWithDatabase.Services
                .FirstOrDefault();
         }
 
+        public Project GetWithAssigneeProjects(string projectId)
+        {
+            return _myContext.Projects
+               .Where(p => p.Id.ToString().Equals(projectId))
+               .Include(p => p.AssigneeProjects)
+               .FirstOrDefault();
+        }
+
         public bool userCollaboratesOnProject(string assigneeName, string projectId)
         {
             var project = _myContext.Projects
@@ -75,6 +83,14 @@ namespace TodoWithDatabase.Services
         public void Update(Project project)
         {
             _myContext.Projects.Update(project);
+            _myContext.SaveChanges();
+        }
+
+        public void Delete(string projectId)
+        {
+            _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
+            _myContext.Cards.RemoveRange(_myContext.Cards.Where(ap => ap.Project.Id.ToString().Equals(projectId)));
+            _myContext.Projects.Remove(_myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).First());
             _myContext.SaveChanges();
         }
     }
