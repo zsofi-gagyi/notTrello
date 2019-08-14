@@ -1,7 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.Models.DAOs.JoinTables;
+using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Repository;
 using TodoWithDatabase.Services.Interfaces;
 
@@ -10,10 +13,12 @@ namespace TodoWithDatabase.Services
     public class ProjectService : IProjectService
     {
         readonly MyContext _myContext;
+        readonly IMapper _mapper;
 
-        public ProjectService(MyContext myContext)
+        public ProjectService(MyContext myContext, IMapper mapper)
         {
             _myContext = myContext;
+            _mapper = mapper;
         }
 
         public List<Project> GetAllFor(string userName)
@@ -80,8 +85,43 @@ namespace TodoWithDatabase.Services
 
         public void Update(Project project)
         {
-            _myContext.Projects.Update(project);
+            var originalProject = _myContext.FindAsync(typeof (Project), project.Id).Result;
+            _myContext.Entry(originalProject).State = EntityState.Detached;
+            _myContext.Entry(project).State = EntityState.Modified;
             _myContext.SaveChanges();
+        }
+
+        public void TranslateAndUpdate(ProjectWithCardsDTO projectDTO)
+        {
+            var project = _mapper.Map<Project>(projectDTO);
+
+            var cards = new List<Card>();
+            foreach (var cardDTO in projectDTO.CardWithAssigneesDTOs)
+            {
+                var assigneeCards = new List<AssigneeCard>();
+                var newCard = _mapper.Map<Card>(cardDTO);
+                newCard.AssigneeCards = new List<AssigneeCard>();
+
+                foreach (var assigneeDTO in cardDTO.AssigneeDTOs)
+                {
+                    var assignee = _mapper.Map<Assignee>(assigneeDTO);
+                    var newAssigneeCard = new AssigneeCard(assignee, newCard);
+
+                    newCard.AssigneeCards.Add(newAssigneeCard);
+                }
+
+                cards.Add(newCard);
+            }
+            project.Cards = cards;
+
+            var assigneeProjects = new List<AssigneeProject>();
+            foreach (var assigneeDTO in projectDTO.AssigneeDTOs)
+            {
+                assigneeProjects.Add(new AssigneeProject (_mapper.Map<Assignee>(assigneeDTO), project));
+            }
+            project.AssigneeProjects = assigneeProjects;
+
+            Update(project);
         }
 
         public void Delete(string projectId)

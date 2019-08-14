@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using System;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DTO;
-using System.Security.Claims;
 
 namespace TodoWithDatabase.Services
 {
@@ -22,15 +16,13 @@ namespace TodoWithDatabase.Services
     {
         readonly UserManager<Assignee> _userManager;
         readonly SignInManager<Assignee> _signInManager;
-        readonly RoleManager<IdentityRole> _roleManager;
         readonly MyContext _myContext;
         readonly IMapper _mapper;
 
-        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, RoleManager<IdentityRole> roleManager, MyContext myContext, IMapper mapper)
+        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, MyContext myContext, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _myContext = myContext;
             _mapper = mapper;
         }

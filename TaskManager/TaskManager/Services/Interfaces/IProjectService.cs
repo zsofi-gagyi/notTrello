@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.Models.DTOs;
 
 namespace TodoWithDatabase.Services.Interfaces
 {
@@ -18,6 +19,8 @@ namespace TodoWithDatabase.Services.Interfaces
         void Save(Project project);
 
         void Update(Project project);
+
+        void TranslateAndUpdate(ProjectWithCardsDTO projectDTO);
 
         void Delete(string projectId);
     }

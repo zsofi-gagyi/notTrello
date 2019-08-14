@@ -19,14 +19,16 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             var assignee2 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user2Name", Password = "user2Password" });
 
             var projectToDelete = new Project { Title = "projectToDelete" };
+            var projectToChange = new Project { Title = "projectToChange" };
             var sharedProject = new Project { Title = "sharedProject" };
-            context.Projects.AddRange(projectToDelete, sharedProject);
+            context.Projects.AddRange(projectToDelete, projectToChange, sharedProject);
             context.SaveChanges();
 
             var assignee1projectToDelete = new AssigneeProject(assignee1, projectToDelete);
+            var assignee1projectToChange = new AssigneeProject(assignee1, projectToChange);
             var assignee1sharedProject = new AssigneeProject(assignee1, sharedProject);
             var assignee2sharedProject = new AssigneeProject(assignee2, sharedProject);
-            context.AssigneeProjects.AddRange(assignee1projectToDelete, assignee1sharedProject, assignee2sharedProject);
+            context.AssigneeProjects.AddRange(assignee1projectToDelete, assignee1projectToChange, assignee1sharedProject, assignee2sharedProject);
             context.SaveChanges();
         }
 

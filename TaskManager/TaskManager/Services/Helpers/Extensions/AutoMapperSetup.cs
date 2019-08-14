@@ -27,6 +27,10 @@ namespace TodoWithDatabase.Services.Extensions
                 cfg.CreateMap<Project, ProjectDTO>(); 
                 cfg.AddProfile(new CardToCardWithProjectsDTO());
                 cfg.AddProfile(new AssigneeToAssigneeWithCardsDTO());
+
+                cfg.CreateMap<AssigneeDTO, Assignee>();
+                cfg.CreateMap<CardWithAssigneesDTO, Card>();
+                cfg.CreateMap<ProjectWithCardsDTO, Project>();
             });
 
             var mapper = config.CreateMapper();
