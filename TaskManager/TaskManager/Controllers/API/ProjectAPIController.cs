@@ -27,8 +27,9 @@ namespace TodoWithDatabase.Controllers.API
         public ActionResult<AssigneeWithCardsDTO> GetAssigneeProjectFor(string projectId)
         {
             var project = _projectService.GetWithAssigneeProjects(projectId);
+            var userIsEntitledToDelete = _projectService.userIsOnlyCollaboratorOnProject(User.Identity.Name, projectId);
 
-            if (project.AssigneeProjects.Count == 1)
+            if (userIsEntitledToDelete && project.AssigneeProjects.Count == 1)
             {
                 _projectService.Delete(projectId);
                 return NoContent();

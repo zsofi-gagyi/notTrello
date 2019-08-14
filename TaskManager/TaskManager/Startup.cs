@@ -16,18 +16,12 @@ using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Extensions;
 using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Services.Extensions.Middleware;
 using TodoWithDatabase.Models.DAOs;
 
 namespace TaskManager
 {
     public class Startup
     {
-        private static void UseProjectIdAccessVerifier(IApplicationBuilder app)
-        {
-            app.UseMiddleware<ProjectIdAccessVerifier>();
-        }
-
         private static void UseUserIdExistenceVerifier(IApplicationBuilder app)
         {
             app.UseMiddleware<UserIdExistenceVerifier>();
@@ -126,10 +120,6 @@ namespace TaskManager
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
-            //app.UseWhen(context => context.Request.Path.ToString().Contains("projects") &&
-              //                     !context.User.IsInRole("UserAdmin"),
-                //        UseProjectIdAccessVerifier);
 
             app.UseWhen(context => (context.Request.Path.ToString().Contains("userWithProjects") ||
                                     context.Request.Path.ToString().Contains("userWithCards")) &&

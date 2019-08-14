@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TodoWithDatabase.Models;
+﻿using System.Collections.Generic;
 using TodoWithDatabase.Models.DAOs;
 
 namespace TodoWithDatabase.Services.Interfaces
@@ -17,7 +13,7 @@ namespace TodoWithDatabase.Services.Interfaces
 
         Project GetWithAssigneeProjects(string projectId);
 
-        bool userCollaboratesOnProject(string assigneeName, string projectId);
+        bool userIsOnlyCollaboratorOnProject(string assigneeName, string projectId);
 
         void Save(Project project);
 

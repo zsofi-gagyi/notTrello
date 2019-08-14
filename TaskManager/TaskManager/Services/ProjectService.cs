@@ -59,7 +59,7 @@ namespace TodoWithDatabase.Services
                .FirstOrDefault();
         }
 
-        public bool userCollaboratesOnProject(string assigneeName, string projectId)
+        public bool userIsOnlyCollaboratorOnProject(string assigneeName, string projectId)
         {
             var project = _myContext.Projects
                .Where(p => p.Id.ToString().Equals(projectId))
@@ -69,9 +69,8 @@ namespace TodoWithDatabase.Services
 
               .FirstOrDefault();
 
-            return project.AssigneeProjects
-                .Where(ap => ap.Assignee.UserName.Equals(assigneeName))
-                .Count() > 0;
+            return project.AssigneeProjects.Count == 1 &&
+                   project.AssigneeProjects.First().Assignee.UserName.Equals(assigneeName);
         }
 
         public void Save(Project project)
