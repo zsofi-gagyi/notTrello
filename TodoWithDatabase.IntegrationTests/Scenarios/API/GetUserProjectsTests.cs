@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Newtonsoft.Json;
+using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
         [Theory]
         [InlineData("/api/users/", "/userWithProjects")]
-        public async Task Get_CorrectId_AdminToken_ReturnsUserWithProjects(params string[] urlParts)
+        public async Task Get_CorrectId_AdminToken_ReturnsCorrectUserWithProjects(params string[] urlParts)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _adminToken);
 
@@ -40,11 +41,12 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
             Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
+            Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
         }
 
         [Theory]
         [InlineData("/api/users/me/userWithProjects")]
-        public async Task Get_UserToken_ReturnsUserWithProjects(string url)
+        public async Task Get_UserToken_ReturnsCorrectUserWithProjects(string url)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _user1Token);
 
@@ -53,6 +55,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
             Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
+            Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
         }
     }
 }
