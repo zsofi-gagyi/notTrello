@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Zsofi\\Desktop\\TaskManager\\TaskManager\\TaskManager.csproj": {}
+    "D:\\work\\PROGRAMOZ\\newGithub\\C#\\notTrello\\TaskManager\\TaskManager\\TaskManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Zsofi\\Desktop\\TaskManager\\TaskManager\\TaskManager.csproj": {
+    "D:\\work\\PROGRAMOZ\\newGithub\\C#\\notTrello\\TaskManager\\TaskManager\\TaskManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Zsofi\\Desktop\\TaskManager\\TaskManager\\TaskManager.csproj",
+        "projectUniqueName": "D:\\work\\PROGRAMOZ\\newGithub\\C#\\notTrello\\TaskManager\\TaskManager\\TaskManager.csproj",
         "projectName": "TaskManager",
-        "projectPath": "C:\\Users\\Zsofi\\Desktop\\TaskManager\\TaskManager\\TaskManager.csproj",
+        "projectPath": "D:\\work\\PROGRAMOZ\\newGithub\\C#\\notTrello\\TaskManager\\TaskManager\\TaskManager.csproj",
         "packagesPath": "C:\\Users\\Zsofi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Zsofi\\Desktop\\TaskManager\\TaskManager\\obj\\",
+        "outputPath": "D:\\work\\PROGRAMOZ\\newGithub\\C#\\notTrello\\TaskManager\\TaskManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

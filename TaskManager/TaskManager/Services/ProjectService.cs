@@ -53,17 +53,11 @@ namespace TodoWithDatabase.Services
 
         public bool userCollaboratesOnProject(string assigneeName, string projectId)
         {
-            var pereererere = _myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).FirstOrDefault();
-
             var project = _myContext.Projects
               .Where(p => p.Id.ToString().Equals(projectId))
 
-              .Include(p => p.Cards)
-              .ThenInclude(c => c.AssigneeCards)
-              .ThenInclude(ac => ac.Assignee)
-
-               .Include(p => p.AssigneeProjects)
-               .ThenInclude(ap => ap.Assignee)
+              .Include(p => p.AssigneeProjects)
+                .ThenInclude(ap => ap.Assignee)
 
               .FirstOrDefault();
 
