@@ -47,7 +47,7 @@ namespace TaskManager
         }
         public void ConfigureTestingServices(IServiceCollection services)
         {
-            services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"));//, ServiceLifetime.Singleton);
+            services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
 
             AddEnvironmentNeutralConfigurations(services);
         }

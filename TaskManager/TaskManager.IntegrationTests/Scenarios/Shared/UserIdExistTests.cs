@@ -13,7 +13,6 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
     public class UserIdExistsTests
     {
         private readonly TestContext _testContext;
-        private readonly HttpContent _request;
 
         public UserIdExistsTests(TestContext testContext)
         {

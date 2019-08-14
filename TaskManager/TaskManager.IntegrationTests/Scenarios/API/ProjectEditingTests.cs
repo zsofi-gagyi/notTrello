@@ -1,0 +1,112 @@
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Threading.Tasks;
+using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
+using TodoWithDatabase.IntegrationTests.Fixtures;
+using TodoWithDatabase.IntegrationTests.Helpers;
+using TodoWithDatabase.Models.DTOs;
+using TodoWithDatabase.Services;
+using Xunit;
+
+namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+{
+    [Collection("BaseCollection")]
+    public class ProjectEditingTests
+    {
+        private readonly TestContext _testContext;
+        private readonly TokenService _tokenService;
+        private readonly string _user1SoloProjectId;
+        private readonly string _sharedProjectId;
+        private readonly HttpContent _requestToChangeShared;
+        private readonly HttpContent _requestToChangeUser1Solo;
+
+        public ProjectEditingTests(TestContext testContext)
+        {
+            _testContext = testContext;
+            _tokenService = new TokenService();
+
+            var projectNeedsRegenerating = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).Count() == 0;
+            if (projectNeedsRegenerating)                                          // this should not be a problem, I need to learn more about how test suites work (comment to be deleted)
+            {
+                var assignee1 = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault();
+                _testContext.Context.CreateProjectToEditFor(assignee1);
+            }
+
+            _user1SoloProjectId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
+            _sharedProjectId = _testContext.Context.Projects.Where(p => p.Title.Equals("sharedProject")).First().Id.ToString();
+
+            _requestToChangeUser1Solo = ProjectWithCardsContentMaker.MakeStringContentWith(_user1SoloProjectId);
+            _requestToChangeShared = ProjectWithCardsContentMaker.MakeStringContentWith(_sharedProjectId);
+        }
+
+        [Theory, MemberData(nameof(ProjectEditingEndpoints))]
+        public async Task UserIsAuthorized_Change(params string[] urlAndAction)
+        {
+            AuthorizeClientAsUser("user1Name");
+
+            var response = await RequestSender.Send(_testContext.Client, _requestToChangeUser1Solo, new string[] { urlAndAction[0] + _user1SoloProjectId, urlAndAction[1] });
+
+            if (urlAndAction[1].Equals("DELETE"))
+            {
+                Assert.Equal(HttpStatusCode.NoContent.ToString(), response.StatusCode.ToString());
+                Assert.True(_testContext.Context.Projects.Where(p => p.Id.ToString().Equals(_user1SoloProjectId)).Count() == 0);
+            }
+            else
+            {
+                var changedProject = _testContext.Context.Projects.Where(p => p.Id.ToString().Equals(_user1SoloProjectId)).First();
+                Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
+                Assert.Equal("changed", changedProject.Title);
+            }
+        }
+
+        [Theory, MemberData(nameof(ProjectEditingEndpoints))]
+        public async Task Project_IsNotOfUsers_Forbidden(params string[] urlAndAction)
+        {
+            AuthorizeClientAsUser("user2Name");
+
+            var response = await RequestSender.Send(_testContext.Client, _requestToChangeUser1Solo, new string[] { urlAndAction[0] + _user1SoloProjectId, urlAndAction[1] });
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Assert.Equal(HttpStatusCode.Forbidden.ToString(), response.StatusCode.ToString());
+            Assert.Contains("only their own projects", responseString);
+        }
+
+        [Theory, MemberData(nameof(ProjectEditingEndpoints))]
+        public async Task Project_IsShared_BadRequest(params string[] urlAndAction) // this could be "forbidden" too, but i feel it's 
+                                                                                    // maybe clearer like this? (comment to be deleted)
+        {
+            AuthorizeClientAsUser("user1Name");
+
+            var response = await RequestSender.Send(_testContext.Client, _requestToChangeShared, new string[] { urlAndAction[0] + _sharedProjectId, urlAndAction[1] });
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            Assert.Equal(HttpStatusCode.BadRequest.ToString(), response.StatusCode.ToString());
+            Assert.Contains("The project is shared with other users. Only solo projects can be", responseString);
+        }
+
+        private void AuthorizeClientAsUser(string userName)
+        {
+            var user = _testContext.Context.Assignees.Where(a => a.UserName.Equals(userName)).FirstOrDefault();
+            var userToken = _tokenService.GenerateToken(user.Id, userName, "TodoUser");
+            _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
+        }
+
+        public static IEnumerable<object[]> ProjectEditingEndpoints
+        {
+            get
+            {
+                return new[]
+                {
+                    new string[] { "/api/users/me/projects/", "PUT" },
+                    new string[] { "/api/users/me/projects/", "DELETE" },
+                };
+            }
+        }
+    }
+}

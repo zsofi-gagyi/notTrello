@@ -42,7 +42,7 @@ namespace TodoWithDatabase.Controllers.API
         {
             if (!changedProject.Id.Equals(projectId))
             {
-                return BadRequest(new { message = "The Id of the project is unclear form the request" });
+                return BadRequest(new { message = "The Id of the project is unclear from the request" });
             }
 
             var possibleResponse = CreateResponseIfRequestIsNotOK(projectId, "change");

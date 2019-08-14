@@ -1,32 +1,28 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
 using TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.Models.DAOs;
 using Xunit;
 
 namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
 {
-    [Collection("BaseCollection")]
+    [Collection("UnauthorizedCollection")]
     public class AutenticationTests
     {
         private readonly TestContext _testContext;
         private readonly HttpContent _request;
         private static string _user1Id;
-        private static string _projectToDeleteId;
-        private static string _projectToChangeId;
+        private static string _projectToEditId;
 
         public AutenticationTests(TestContext testContext)
         {
             _testContext = testContext;
             _user1Id = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
-            _projectToDeleteId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToDelete")).First().Id.ToString();
-            _projectToChangeId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToChange")).First().Id.ToString();
-            _request = new StringContent( JsonConvert.SerializeObject(new Project { Id = Guid.Parse(_projectToChangeId), Title = "changed" }));
+            _projectToEditId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
+            _request = ProjectWithCardsContentMaker.MakeStringContentWith(_projectToEditId);
         }
 
         [Theory, MemberData(nameof(AuthenticatedEndpoints))]
@@ -66,14 +62,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
 
             if (urlAndAction[0].Contains("/projects"))
             {
-                if (urlAndAction[1].Equals("PUT"))
-                {
-                    urlAndAction = new string[] { urlAndAction[0] + _projectToChangeId, urlAndAction[1] };
-                }
-                else if (urlAndAction[1].Equals("DELETE"))
-                {
-                    urlAndAction = new string[] { urlAndAction[0] + _projectToDeleteId, urlAndAction[1] };
-                }
+                urlAndAction = new string[] { urlAndAction[0] + _projectToEditId, urlAndAction[1] };
             };
 
             return urlAndAction;

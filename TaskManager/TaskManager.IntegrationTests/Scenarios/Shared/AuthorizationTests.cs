@@ -68,7 +68,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
             }
         }
 
-        private string[] InsertUserIdIfNecessary(string[] urlAndAction) // this is code repetition, but is it worth refactoring? (comment to be deleted)
+        private string[] InsertUserIdIfNecessary(string[] urlAndAction) 
         {
             if (urlAndAction.Count() == 3)
             {
