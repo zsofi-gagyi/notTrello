@@ -2,11 +2,10 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests;
 using TodoWithDatabase.IntegrationTests.Fixtures;
 using Xunit;
 
-namespace TodoWithDatabase.TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
+namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
 {
     [Collection("UnauthorizedCollection")]
     public class AutenticationTests
@@ -25,6 +24,8 @@ namespace TodoWithDatabase.TodoWithDatabase.IntegrationTests.Scenarios.API.Share
         [Theory, MemberData(nameof(AuthenticatedEndpoints))]
         public async Task Post_MissingToken_Unauthorized(params string[] urlAndAction)
         {
+            urlAndAction = InsertUserIdIfNecessary(urlAndAction);
+
             var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
 
             Assert.False(response.IsSuccessStatusCode);
@@ -38,9 +39,22 @@ namespace TodoWithDatabase.TodoWithDatabase.IntegrationTests.Scenarios.API.Share
                 {
                     new string[] { "/api/users", "POST" },
                     new string[] { "/api/users/all", "GET" },
-                    new string[] { "/api/users/" + _userId + "/userWithProjects", "GET" }
+                    new string[] { "/api/users/me/userWithProjects", "GET" },
+                    new string[] { "/api/users/me/userWithCards", "GET" },
+                    new string[] { "/api/users/", "/userWithProjects", "GET" },
+                    new string[] { "/api/users/",  "/userWithCards", "GET" }
                 };
             }
+        }
+
+        private string[] InsertUserIdIfNecessary (string[] urlAndAction)
+        {
+            if (urlAndAction.Count() == 3)
+            {
+                urlAndAction = new string[] { urlAndAction[0] + _userId + urlAndAction[1], urlAndAction[2] };
+            };
+
+            return urlAndAction;
         }
     }
 }
