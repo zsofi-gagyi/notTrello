@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -36,10 +37,12 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var expectedResponseString = JsonConvert.SerializeObject(expectedResponse);
 
             var response = await _testContext.Client.PostAsync(url, request);
+            var newUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName1")).First().Id;
 
             Assert.Equal(HttpStatusCode.Created.ToString(), response.StatusCode.ToString());
             Assert.Equal(expectedResponseString, response.Content.ReadAsStringAsync().Result);
             Assert.Equal(1, _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName1")).Count());
+            Assert.Equal("api/users/" + newUserId + "/userWithProjects", response.Headers.Location.ToString());
         }
 
         [Theory]
