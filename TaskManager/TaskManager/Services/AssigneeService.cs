@@ -14,6 +14,7 @@ using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DTO;
+using System.Security.Claims;
 
 namespace TodoWithDatabase.Services
 {
@@ -90,6 +91,32 @@ namespace TodoWithDatabase.Services
             assigneeWithProjectsDTO.Role = role;
 
             return assigneeWithProjectsDTO;
+        }
+
+        public AssigneeWithCardsDTO GetAndTranslateToAssigneWithCardsDTO(string userId)
+        {
+            var assignee = _myContext.Assignees
+                .Where(a => a.Id.Equals(userId))
+
+                .Include(c => c.AssigneeCards)
+                    .ThenInclude(ac => ac.Card)
+                        .ThenInclude(c => c.AssigneeCards)
+                            .ThenInclude(ac => ac.Assignee)
+
+                .Include(c => c.AssigneeCards)
+                    .ThenInclude(ac => ac.Card)
+                        .ThenInclude(c => c.Project)
+                            .ThenInclude(p => p.AssigneeProjects)
+                                .ThenInclude(ap => ap.Assignee)
+
+                .FirstOrDefault();
+
+            var assigneeWithCardsDTO = _mapper.Map<AssigneeWithCardsDTO>(assignee);
+
+            string role = _userManager.GetRolesAsync(assignee).Result.FirstOrDefault().ToString();
+            assigneeWithCardsDTO.Role = role;
+
+            return assigneeWithCardsDTO;
         }
     }
 }
