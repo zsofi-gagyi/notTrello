@@ -13,13 +13,18 @@ namespace ferrilata_devilline.IntegrationTests.Fixtures
     {
     }
 
-    [CollectionDefinition("ProjectsCollection")] 
+    [CollectionDefinition("DeleteUserCollection")]
     public class Collection3 : ICollectionFixture<TestContext>
     {
     }
 
-    [CollectionDefinition("UnauthorizedCollection")]
+    [CollectionDefinition("ProjectsCollection")] 
     public class Collection4 : ICollectionFixture<TestContext>
+    {
+    }
+
+    [CollectionDefinition("UnauthorizedCollection")]
+    public class Collection5 : ICollectionFixture<TestContext>
     {
     }
 }

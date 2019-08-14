@@ -5,6 +5,7 @@ using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTO;
 using Microsoft.AspNetCore.Identity;
 using TodoWithDatabase.Models.DAOs;
+using System.Net;
 
 namespace TodoWithDatabase.Controllers.API
 {
@@ -27,9 +28,14 @@ namespace TodoWithDatabase.Controllers.API
         public ActionResult<AssigneeWithCardsDTO> GetAssigneeProjectFor(string projectId)
         {
             var project = _projectService.GetWithAssigneeProjects(projectId);
-            var userIsEntitledToDelete = _projectService.userIsOnlyCollaboratorOnProject(User.Identity.Name, projectId);
+            var userIsEntitledToDelete = _projectService.UserIsCollaboratingOnProject(User.Identity.Name, projectId);
 
-            if (userIsEntitledToDelete && project.AssigneeProjects.Count == 1)
+            if (!userIsEntitledToDelete)
+            {
+                return StatusCode((int)HttpStatusCode.Forbidden, new { message = "Users can delete only their own projects." }); 
+            }
+
+            if (project.AssigneeProjects.Count == 1)
             {
                 _projectService.Delete(projectId);
                 return NoContent();

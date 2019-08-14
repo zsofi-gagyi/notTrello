@@ -23,11 +23,11 @@ namespace TodoWithDatabase.Services
                              .Any(ap => ap.Assignee.UserName.Equals(userName)))
 
                 .Include(p => p.Cards)
-                .ThenInclude(c => c.AssigneeCards)
-                .ThenInclude(ac => ac.Assignee)
+                    .ThenInclude(c => c.AssigneeCards)
+                        .ThenInclude(ac => ac.Assignee)
 
                 .Include(p => p.AssigneeProjects)
-                .ThenInclude(ap => ap.Assignee)
+                    .ThenInclude(ap => ap.Assignee)
 
                 .ToList();
         }
@@ -35,11 +35,11 @@ namespace TodoWithDatabase.Services
         public Project GetWithCards(string projectId)
         {
             return _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
+                .Where(p => p.Id.ToString().Equals(projectId))
 
-               .Include(p => p.Cards)
-               .ThenInclude(c => c.AssigneeCards)
-               .ThenInclude(ac => ac.Assignee)
+                .Include(p => p.Cards)
+                    .ThenInclude(c => c.AssigneeCards)
+                        .ThenInclude(ac => ac.Assignee)
 
                .FirstOrDefault();
         }
@@ -59,7 +59,7 @@ namespace TodoWithDatabase.Services
                .FirstOrDefault();
         }
 
-        public bool userIsOnlyCollaboratorOnProject(string assigneeName, string projectId)
+        public bool UserIsCollaboratingOnProject(string assigneeName, string projectId)
         {
             var project = _myContext.Projects
                .Where(p => p.Id.ToString().Equals(projectId))
@@ -69,8 +69,7 @@ namespace TodoWithDatabase.Services
 
               .FirstOrDefault();
 
-            return project.AssigneeProjects.Count == 1 &&
-                   project.AssigneeProjects.First().Assignee.UserName.Equals(assigneeName);
+            return project.AssigneeProjects.Where(ap => ap.Assignee.UserName.Equals(assigneeName)).Count() > 0;
         }
 
         public void Save(Project project)

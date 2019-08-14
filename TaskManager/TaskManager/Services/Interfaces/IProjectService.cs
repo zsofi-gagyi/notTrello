@@ -13,7 +13,7 @@ namespace TodoWithDatabase.Services.Interfaces
 
         Project GetWithAssigneeProjects(string projectId);
 
-        bool userIsOnlyCollaboratorOnProject(string assigneeName, string projectId);
+        bool UserIsCollaboratingOnProject(string assigneeName, string projectId);
 
         void Save(Project project);
 
