@@ -3,17 +3,15 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using System;
-using System.Web;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
+using Newtonsoft.Json;
 
 namespace TodoWithDatabase.Services.Extensions.Middleware
 {
-    public class IdVerifier
+    public class ProjectIdAccessVerifier
     {
         private readonly RequestDelegate _next;
 
-        public IdVerifier(RequestDelegate next)
+        public ProjectIdAccessVerifier(RequestDelegate next)
         {
             _next = next;
         }
@@ -23,7 +21,7 @@ namespace TodoWithDatabase.Services.Extensions.Middleware
             var path = context.Request.Path.Value;
             string[] urlParts = path.Split("/");
             var projectsIndex = urlParts.IndexOf("projects");
-            var projectId = urlParts[projectsIndex + 1];
+            var projectId = urlParts[projectsIndex - 1];
 
             string name = context.User.Identity.Name;
             var isAllowed = projectService.userCollaboratesOnProject(name, projectId); 
@@ -32,10 +30,17 @@ namespace TodoWithDatabase.Services.Extensions.Middleware
             {
                 await _next(context);
             }
-            else
-            {
-                context.Response.Redirect("/users");
-            }
+
+            context.Response.Clear();
+            context.Response.StatusCode = 400;
+            context.Response.ContentType = "application/json";
+
+            var responseObject = new { error = "User is not authorized to access this project" };
+            var responseContent = JsonConvert.SerializeObject(responseObject);
+
+            await context.Response.WriteAsync(responseContent);
+            return;
+
         }
     }
 }

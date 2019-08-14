@@ -43,7 +43,7 @@ namespace TodoWithDatabase.IntegrationTests
         {
             var client = _factory.CreateClient();
             var response = await client.GetAsync(url);
-            var content = await MyHtmlHelpers.GetDocumentAsync(response);
+            var content = await HtmlParser.Parse(response);
             var titleElement = content.QuerySelectorAll(".title");
             var firstTitle = content.QuerySelector(".title");
 
@@ -85,7 +85,7 @@ namespace TodoWithDatabase.IntegrationTests
             */
 
             var response = await client.GetAsync(url);
-            var content = await MyHtmlHelpers.GetDocumentAsync(response);
+            var content = await HtmlParser.Parse(response);
             var todoElement = content.QuerySelectorAll(".todo");
 
             Assert.Equal(9, todoElement.Length);
@@ -98,7 +98,7 @@ namespace TodoWithDatabase.IntegrationTests
         {
             var client = _factory.CreateClient();
             var response = await client.GetAsync(url);
-            var content = await MyHtmlHelpers.GetDocumentAsync(response);
+            var content = await HtmlParser.Parse(response);
             var firstTodo = content.QuerySelector("tr.todo td.description");  // this gets the first one
 
             Assert.Equal("to sleep", firstTodo.TextContent);

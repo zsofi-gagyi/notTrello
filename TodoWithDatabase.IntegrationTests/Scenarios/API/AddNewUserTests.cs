@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests.Scenarios.API.Shared;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Services;
 using Xunit;
@@ -21,7 +20,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         {
             _testContext = testContext;
             var tokenService = new TokenService();
-            var correctToken = tokenService.GenerateToken("testAdmin", "TodoAdmin", false); // TODO this must be researched and changed to "true"
+            var correctToken = tokenService.GenerateToken("testId", "testAdmin", "TodoAdmin"); 
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", correctToken);
         }
 
@@ -40,6 +39,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
             Assert.Equal(HttpStatusCode.Created.ToString(), response.StatusCode.ToString());
             Assert.Equal(expectedResponseString, response.Content.ReadAsStringAsync().Result);
+            Assert.Equal(1, _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName1")).Count());
         }
 
         [Theory]
@@ -53,19 +53,21 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var response = await _testContext.Client.PostAsync(url, request);
 
             Assert.Equal(HttpStatusCode.BadRequest.ToString(), response.StatusCode.ToString());
+            Assert.Equal(0, _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName2")).Count());
         }
 
         [Theory]
         [InlineData("/api/users")]
         public async Task Post_AlreadyExistingUser_BadRequest(string url)
         {
-            var assigneeDTO = new { Name = "testName2" };
+            var assigneeDTO = new { Name = "user1Name", Password = "testPassword" };
             var assigneeJson = JsonConvert.SerializeObject(assigneeDTO);
             HttpContent request = new StringContent(assigneeJson, Encoding.UTF8, "application/json");
 
             var response = await _testContext.Client.PostAsync(url, request);
 
             Assert.Equal(HttpStatusCode.BadRequest.ToString(), response.StatusCode.ToString());
+            Assert.Equal(1, _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).Count()); // no duplicate created
         }
     }
 }

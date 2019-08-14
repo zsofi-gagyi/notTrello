@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TodoWithDatabase.IntegrationTests.Fixtures;
@@ -8,27 +10,29 @@ using Xunit;
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
 {
     [Collection("BaseCollection")]
-    public class AuthorizationTests //: IClassFixture<TestContext> TODO research if this should be in a collection or not
+    public class AuthorizationTests 
     {
         private readonly TestContext _testContext;
+        private static string _userId;
         private readonly string _correctTokenForUser;
         private readonly string _incorrectToken;
         private readonly HttpContent _request;
 
+
         public AuthorizationTests(TestContext testContext)
         {
             _testContext = testContext;
+            _userId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
 
             var tokenService = new TokenService();
-            _correctTokenForUser = tokenService.GenerateToken("testUser", "TodoUser", false);  // TODO this must be researched and changed to "true"
-            _incorrectToken = tokenService.GenerateToken("testUser", "IncorrectRole", false);
+            _correctTokenForUser = tokenService.GenerateToken(_userId, "testUser", "TodoUser"); 
+            _incorrectToken = tokenService.GenerateToken(_userId, "testUser", "IncorrectRole");
 
             _request = new StringContent("testRequest");
+  
         }
 
-        [Theory]
-        [InlineData("/api/users", "POST" )]
-        [InlineData("/api/users/all", "GET")]
+        [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_TokenForUser_Forbidden(params string[] urlAndAction)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _correctTokenForUser);
@@ -38,9 +42,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
             Assert.False(response.IsSuccessStatusCode);
         }
 
-        [Theory]
-        [InlineData("/api/users", "POST")]
-        [InlineData("/api/users/all", "GET")]
+        [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_IncorrectToken_Forbidden(params string[] urlAndAction)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _incorrectToken);
@@ -48,6 +50,19 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
             var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
 
             Assert.False(response.IsSuccessStatusCode);
+        }
+
+        public static IEnumerable<object[]> RestrictedToAdminEndpoints
+        {
+            get
+            {
+                return new[]
+                {
+                    new string[] { "/api/users", "POST" },
+                    new string[] { "/api/users/all", "GET" },
+                    new string[] { "/api/users/" + _userId + "/userWithProjects", "GET" }
+                };
+            }
         }
     }
 }

@@ -1,15 +1,15 @@
-﻿using System.Net.Http;
+﻿using AngleSharp;
+using AngleSharp.Html.Dom;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
-using AngleSharp;
-using AngleSharp.Html.Dom;
 
 namespace TodoWithDatabase.IntegrationTests.Helpers
 {
-    public class MyHtmlHelpers
+    public class HtmlParser
     {
-        public static async Task<IHtmlDocument> GetDocumentAsync(HttpResponseMessage response)
+        public static async Task<IHtmlDocument> Parse(HttpResponseMessage response)
         {
             var content = await response.Content.ReadAsStringAsync();
             var document = await BrowsingContext.New()

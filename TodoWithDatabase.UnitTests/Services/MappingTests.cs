@@ -1,16 +1,37 @@
-using Xunit;
-using TodoWithDatabase.Services.Extensions;
-using TodoWithDatabase.Models;
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using TodoWithDatabase.IntegrationTests;
 using TodoWithDatabase.Models.DTO;
-using AutoMapper;
-using System.Collections.Generic;
-using Moq;
+using TodoWithDatabase.Services.Extensions;
+using TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers;
+using Xunit;
 
-namespace TodoWithDatabase.UnitTests.Services.Extensions
+namespace TodoWithDatabase.UnitTests.Services
 {
-    public class AssigneeTranslatorTest
+    public class MappingTests  
     {
-/*
+        private readonly IMapper _mapper;
+
+        public MappingTests()
+        {
+            _mapper = AutoMapperSetup.CreateMapper();
+        }
+
+        [Fact]
+        public void Assignee_To_AssigneeWithProjectsDTO_Translates()
+        {
+            var assignee = AssigneeMaker.Make();
+
+            var expectedDTO = AssigneeWithProjectsDTOMaker.MakeFrom(assignee);
+            var expectedString = JsonConvert.SerializeObject(expectedDTO);
+
+            var assigneeDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);
+            var resultString = JsonConvert.SerializeObject(assigneeDTO);
+
+            Assert.Equal(expectedString, resultString);
+        }
+
+        /*
         Mock<IMapper> _mockMapper;
         Assignee _testAssignee;
 

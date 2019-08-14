@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.Models.DTO;
 using TodoWithDatabase.Models.DTOs;
 
 namespace TodoWithDatabase.Services.Interfaces
@@ -18,8 +19,6 @@ namespace TodoWithDatabase.Services.Interfaces
 
         List<AssigneeDTO> GetAndTranslateAll();
 
-        /*
-        AssigneeDTO GetAndTranslate(string id);
-        */
+        AssigneeWithProjectsDTO GetAndTranslateToAssigneWithProjectsDTO(string userId);
     }
 }

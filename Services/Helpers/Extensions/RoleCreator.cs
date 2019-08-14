@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models;
 
 namespace TodoWithDatabase.Services.Extensions
 {
@@ -10,7 +8,7 @@ namespace TodoWithDatabase.Services.Extensions
     {
         public static async Task CreateRoles(this IServiceCollection services)
         {
-            var roleManager = (RoleManager<IdentityRole>)services.BuildServiceProvider().GetService(typeof(RoleManager<IdentityRole>));
+            var roleManager = services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
 
             var role1 = new IdentityRole { Name = "TodoAdmin" };
             if (!roleManager.RoleExistsAsync("TodoAdmin").Result)

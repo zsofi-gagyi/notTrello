@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Services;
 using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,25 +9,26 @@ using AutoMapper;
 using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using TodoWithDatabase.Models.DTO;
+using System.Linq;
 
 namespace TodoWithDatabase.Controllers
 {
     [ApiController]
-    [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly UserManager<Assignee> _userManager;
         private readonly IAssigneeService _assigneeService;
 
-        public UserController(IMapper mapper, UserManager<Assignee> userManager, IAssigneeService assigneeService)
+        public UserController(UserManager<Assignee> userManager, IAssigneeService assigneeService)
         {
-            _mapper = mapper;
             _userManager = userManager;
             _assigneeService = assigneeService;
         }
 
         [HttpPost("/api/users")]
+        [Authorize(Roles = "TodoAdmin")]
         public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
         {
             Assignee assignee = _userManager.FindByNameAsync(userDTO.Name).Result;
@@ -44,55 +43,39 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpGet("/api/users/all")]
+        [Authorize(Roles = "TodoAdmin")]
         public IActionResult GetAllAssignees()
         {
-            var ok = true;
-            var result = new List<AssigneeDTO>();
-
             try
             {
-                result = _assigneeService.GetAndTranslateAll();
+                var result = _assigneeService.GetAndTranslateAll();
+                return Ok(result);
             } 
             catch
             {
-                ok = false;
+                return StatusCode(StatusCodes.Status500InternalServerError);
+                //TODO if this project will get a logger, this error will need to be logged
             }
-
-            if (ok)
-            {
-                return Ok(result);
-            }
-
-            return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
-        /*
-
-        [HttpGet("/api/assignees")]
-        [Authorize(Roles = "TodoUser" + "," + "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<List<AssigneeDTO>> GetAssignees()
+        [HttpGet("/api/users/{userId}/userWithProjects")]
+        [Authorize(Roles = "TodoAdmin")]
+        public ActionResult<AssigneeWithProjectsDTO> GetAssigneeProjectFor(string userId)
         {
-            List<AssigneeDTO> result = _assigneeService.GetAndTranslateAll().ToList();
-            return result;
+            return GetAssigneeDTOFor(userId);
         }
 
-        [HttpGet("/api/assignees/{Id}")]
-        [Authorize(Roles = "TodoAdmin", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<AssigneeDTO> GetAssignee([FromRoute(Name = "Id")]string id)
+        [HttpGet("/api/users/me/userWithProjects")]
+        [Authorize]
+        public ActionResult<AssigneeWithProjectsDTO> GetAssigneeProjectForSelf()
         {
-            AssigneeDTO result = _assigneeService.GetAndTranslate(id);
-            return result;
+            var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
+            return GetAssigneeDTOFor(userId);
         }
 
-        [HttpGet("/api/assignees/me")]
-        [Authorize(Roles = "TodoAdmin" + "," + "TodoUser", AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public ActionResult<AssigneeDTO> GetMe()
+        private AssigneeWithProjectsDTO GetAssigneeDTOFor(string userId)
         {
-            var name = User.Identity.Name;
-            var id = _assigneeService.FindByName(name).Id;
-            AssigneeDTO result = _assigneeService.GetAndTranslate(id);
-            return result;
-            }
-            */
+            return _assigneeService.GetAndTranslateToAssigneWithProjectsDTO(userId);
+        }
     }
 }

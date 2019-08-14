@@ -4,30 +4,33 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.StaticFiles;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using TodoWithDatabase.Services.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Identity;
+
+using TodoWithDatabase.Repository;
+using TodoWithDatabase.Services;
+using TodoWithDatabase.Services.Extensions;
+using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Services.Extensions.Middleware;
 using TodoWithDatabase.Models.DAOs;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace TodoWithDatabase
 {
     public class Startup
     {
-        private static void UseIdVerifier(IApplicationBuilder app) 
+        private static void UseProjectIdAccessVerifier(IApplicationBuilder app) 
         {
-            app.UseMiddleware<IdVerifier>();
+            app.UseMiddleware<ProjectIdAccessVerifier>();
+        }
+
+        private static void UseUserIdExistenceVerifier(IApplicationBuilder app)
+        {
+            app.UseMiddleware<UserIdExistenceVerifier>();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -43,7 +46,6 @@ namespace TodoWithDatabase
            AddEnvironmentNeutralConfigurations(services);
             
         }
-
         public void ConfigureTestingServices (IServiceCollection services)
         {
             services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
@@ -125,7 +127,14 @@ namespace TodoWithDatabase
 
             app.UseAuthentication();
 
-            app.UseWhen(context => context.Request.Path.ToString().Contains("projects"), UseIdVerifier);
+            app.UseWhen(context => context.Request.Path.ToString().Contains("projects") && 
+                                   !context.User.IsInRole("UserAdmin"), 
+                        UseProjectIdAccessVerifier);
+
+            app.UseWhen(context => (context.Request.Path.ToString().Contains("userWithProjects") ||
+                                    context.Request.Path.ToString().Contains("userWithCards"))  &&
+                                   !context.Request.Path.ToString().Contains("me"),
+                        UseUserIdExistenceVerifier);
 
             app.UseCookiePolicy();
 

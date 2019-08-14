@@ -14,8 +14,8 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
                 myContext.Database.EnsureDeleted();
                 myContext.Database.EnsureCreated();
 
-                assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user1Name", Password = "user1Password" });
-
+                var assignee1 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO {  Name = "user1Name", Password = "user1Password" });
+                
                 //List<Assignee> assignees = GetSeedingAssignees();
                 //myContext.Assignees.AddRange(assignees);
                 // myContext.Cards.AddRange(GetSeedingTodos(assignees));

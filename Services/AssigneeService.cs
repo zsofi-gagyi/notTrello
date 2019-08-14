@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
+using TodoWithDatabase.Models.DTO;
 
 namespace TodoWithDatabase.Services
 {
@@ -20,13 +21,15 @@ namespace TodoWithDatabase.Services
     {
         readonly UserManager<Assignee> _userManager;
         readonly SignInManager<Assignee> _signInManager;
+        readonly RoleManager<IdentityRole> _roleManager;
         readonly MyContext _myContext;
         readonly IMapper _mapper;
 
-        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, MyContext myContext, IMapper mapper)
+        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, RoleManager<IdentityRole> roleManager, MyContext myContext, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _myContext = myContext;
             _mapper = mapper;
         }
@@ -55,7 +58,6 @@ namespace TodoWithDatabase.Services
             _signInManager.SignInAsync(newAssignee, false).Wait();
         }
 
-        
         public List<AssigneeDTO> GetAndTranslateAll()
         {
             List<Assignee> assignees = _myContext.Assignees.ToList();
@@ -64,13 +66,30 @@ namespace TodoWithDatabase.Services
             return result;
         }
 
-        /*
-        public AssigneeDTO GetAndTranslate(string id)
+        public AssigneeWithProjectsDTO GetAndTranslateToAssigneWithProjectsDTO(string userId)
         {
-            Assignee assignee = Get(id);
-            AssigneeDTO result = assignee.ToDtoUsingMapper(_mapper);
-            return result;
+            var assignee = _myContext.Assignees
+                .Where(a => a.Id.Equals(userId))
+
+                .Include(c => c.AssigneeProjects)
+                    .ThenInclude(ap => ap.Project)
+                        .ThenInclude(p => p.AssigneeProjects)
+                            .ThenInclude(ap => ap.Assignee)
+
+                .Include(c => c.AssigneeProjects)
+                    .ThenInclude(ap => ap.Project)
+                        .ThenInclude(p => p.Cards)
+                            .ThenInclude(c => c.AssigneeCards)
+                                .ThenInclude(ac => ac.Assignee)
+
+                .FirstOrDefault();
+
+            var assigneeWithProjectsDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);
+
+            string role = _userManager.GetRolesAsync(assignee).Result.FirstOrDefault().ToString();
+            assigneeWithProjectsDTO.Role = role;
+
+            return assigneeWithProjectsDTO;
         }
-        */
     }
 }
