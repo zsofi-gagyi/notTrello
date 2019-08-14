@@ -63,7 +63,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
                     new string[] { "/api/users", "POST" },
                     new string[] { "/api/users/all", "GET" },
                     new string[] { "/api/users/", "/userWithProjects", "GET" },
-                    new string[] { "/api/users/", "/userWithCards", "GET" }
+                    new string[] { "/api/users/", "/userWithCards", "GET" },
                 };
             }
         }
