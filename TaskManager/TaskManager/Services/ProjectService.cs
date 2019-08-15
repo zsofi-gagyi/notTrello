@@ -91,7 +91,7 @@ namespace TodoWithDatabase.Services
             _myContext.SaveChanges();
         }
 
-        public void TranslateAndUpdate(ProjectWithCardsDTO projectDTO)
+        public Project TranslateToProject(ProjectWithCardsDTO projectDTO)
         {
             var project = _mapper.Map<Project>(projectDTO);
 
@@ -121,7 +121,7 @@ namespace TodoWithDatabase.Services
             }
             project.AssigneeProjects = assigneeProjects;
 
-            Update(project);
+            return project;
         }
 
         public void Delete(string projectId)

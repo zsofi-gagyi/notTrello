@@ -20,7 +20,7 @@ namespace TodoWithDatabase.Services.Interfaces
 
         void Update(Project project);
 
-        void TranslateAndUpdate(ProjectWithCardsDTO projectDTO);
+        Project TranslateToProject(ProjectWithCardsDTO projectDTO);
 
         void Delete(string projectId);
     }

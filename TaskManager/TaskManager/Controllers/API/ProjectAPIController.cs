@@ -38,9 +38,9 @@ namespace TodoWithDatabase.Controllers.API
         }
 
         [HttpPut("/api/users/me/projects/{projectId}")]
-        public ActionResult ChangeProject([FromBody] ProjectWithCardsDTO changedProject, string projectId)
+        public ActionResult ChangeProject([FromBody] ProjectWithCardsDTO changedProjectDTO, string projectId)
         {
-            if (!changedProject.Id.Equals(projectId))
+            if (!changedProjectDTO.Id.Equals(projectId))
             {
                 return BadRequest(new { message = "The Id of the project is unclear from the request" });
             }
@@ -51,7 +51,8 @@ namespace TodoWithDatabase.Controllers.API
                 return possibleResponse;
             }
 
-            _projectService.TranslateAndUpdate(changedProject);
+            var changedProject = _projectService.TranslateToProject(changedProjectDTO);
+            _projectService.Update(changedProject);
             return Ok();
         }
 
