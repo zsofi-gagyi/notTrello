@@ -13,7 +13,7 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
 {
     public static class DatabaseSeeder
     {
-        public static void InitializeDatabaseForTestsUsing(this MyContext context, IAssigneeService assigneeService)
+        public static void InitializeDatabaseForAPITestsUsing(this MyContext context, IAssigneeService assigneeService)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
@@ -30,6 +30,63 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             var assignee1sharedProject = new AssigneeProject(assignee1, sharedProject);
             var assignee2sharedProject = new AssigneeProject(assignee2, sharedProject);
             context.AssigneeProjects.AddRange(assignee1projectToEdit, assignee1sharedProject, assignee2sharedProject);
+            context.SaveChanges();
+        }
+
+        public static void InitializeDatabaseForHtmlTestsUsing(this MyContext context, IAssigneeService assigneeService, IProjectService projectService)
+        {
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            var user1 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user1", Password = "1t" });
+            var user2 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user2", Password = "2" });
+
+            context.Entry(user1).State = EntityState.Detached;
+            context.Entry(user2).State = EntityState.Detached;
+
+            var project = new Project
+            {
+                Title = "project title",
+                Description = "project description",
+            };
+
+            projectService.Save(project);
+            context.Entry(project).State = EntityState.Detached;
+
+            var user1Project = new AssigneeProject(user1, project);
+            var user2Project = new AssigneeProject(user2, project);
+            context.AssigneeProjects.AddRange(user1Project, user2Project);
+
+            var doneCard = new Card
+            {
+                Title = "done card title",
+                Description = "done card description",
+                Deadline = DateTime.Now - new TimeSpan(2, 3, 12, 0),
+                Done = true,
+                Project = project
+            };
+
+            var user1DoneCard = new AssigneeCard(user1, doneCard);
+            var user2DoneCard = new AssigneeCard(user2, doneCard);
+            context.AssigneeCards.AddRange( user1DoneCard, user2DoneCard);
+
+            var toDoCard = new Card
+            {
+                Title = "todo card title",
+                Description = "todo card description",
+                Deadline = DateTime.Now + new TimeSpan(100, 7, 45, 0),
+                Done = false,
+                Project = project
+            };
+
+            var user1ToDoCard = new AssigneeCard(user1, toDoCard);
+            context.AssigneeCards.Add(user1ToDoCard);
+
+            project.Cards = new List<Card> { doneCard, toDoCard };
+
+            context.Entry(project).State = EntityState.Modified;
+            context.Entry(user1).State = EntityState.Modified;
+            context.Entry(user2).State = EntityState.Modified;
             context.SaveChanges();
         }
 
