@@ -35,8 +35,10 @@ namespace TaskManager
             services.AddDbContext<MyContext>
                 (
                     options => options.UseMySql
-                    (   
-                        "server=localhost;database=todosincsharp;user=root;password=000password000", //TODO move these into environmental variables
+                    (   $"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
+                        $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
+                        $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +
+                        $"password= {Environment.GetEnvironmentVariable("TaskManagerPASSWORD")};",
                         mySqlOptions =>
                         {
                             mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
