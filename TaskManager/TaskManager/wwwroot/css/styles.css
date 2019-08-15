@@ -256,6 +256,8 @@ li.titleToBeCentered {
     border-bottom: 3px solid #ebebeb;
     height: 15px;
     color: #707070;
+    margin: 0 -15px;
+    padding: 0 15px;
 }
 
     .stats a {
