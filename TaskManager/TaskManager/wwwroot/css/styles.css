@@ -242,6 +242,41 @@ nav {
         text-decoration: none;
     }
 
+/* ------------- card - in - project specific ------------- */
+
+li.titleToBeCentered {
+    margin: 10px 0;
+}
+
+.stats {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 3px solid #ebebeb;
+    height: 15px;
+    color: #707070;
+}
+
+    .stats a {
+        text-decoration: underline;
+        font-weight: bold;
+        color: #707070;
+        font-size: 20px;
+    }
+
+    .stats p {
+        font-weight: normal;
+        color: #707070;
+        font-size: 20px;
+    }
+
+        .stats p.pastDeadline {
+            color: #f26f68;
+        }
+
+
+
 /* ------------- for input ------------- */
 
 .inputContainer {
