@@ -17,6 +17,7 @@ using TodoWithDatabase.Services.Extensions;
 using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.IntegrationTests.Helpers;
 
 namespace TaskManager
 {
@@ -44,7 +45,9 @@ namespace TaskManager
 
             AddEnvironmentNeutralConfigurations(services);
 
+            services.EnsureDatabaseHasGuestData();
         }
+
         public void ConfigureTestingServices(IServiceCollection services)
         {
             services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
