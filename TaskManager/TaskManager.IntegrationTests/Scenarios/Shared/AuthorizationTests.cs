@@ -7,7 +7,7 @@ using TodoWithDatabase.IntegrationTests.Fixtures;
 using TodoWithDatabase.Services;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
+namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
 {
     [Collection("BaseCollection")]
     public class AuthorizationTests 
@@ -35,6 +35,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
         [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_TokenForUser_Forbidden(params string[] urlAndAction)
         {
+            urlAndAction = InsertUserIdIfNecessary(urlAndAction);
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _correctTokenForUser);
 
             var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
@@ -45,6 +46,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
         [Theory, MemberData(nameof(RestrictedToAdminEndpoints))]
         public async Task Post_IncorrectToken_Forbidden(params string[] urlAndAction)
         {
+            urlAndAction = InsertUserIdIfNecessary(urlAndAction);
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _incorrectToken);
 
             var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
@@ -60,9 +62,20 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Shared
                 {
                     new string[] { "/api/users", "POST" },
                     new string[] { "/api/users/all", "GET" },
-                    new string[] { "/api/users/" + _userId + "/userWithProjects", "GET" }
+                    new string[] { "/api/users/", "/userWithProjects", "GET" },
+                    new string[] { "/api/users/", "/userWithCards", "GET" },
                 };
             }
+        }
+
+        private string[] InsertUserIdIfNecessary(string[] urlAndAction) 
+        {
+            if (urlAndAction.Count() == 3)
+            {
+                urlAndAction = new string[] { urlAndAction[0] + _userId + urlAndAction[1], urlAndAction[2] };
+            };
+
+            return urlAndAction;
         }
     }
 }

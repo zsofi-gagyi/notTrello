@@ -23,9 +23,14 @@
                         (containing the cards in each project).
                     </li>
                     <li>
+                        By sending a <strong>GET</strong> request to <strong>"/api/users/me/userWithCards"</strong>,
+                        users can get a JSON object containing information regarding their account and their cards 
+                        (containing the projects each card is part of).
+                    </li>
+                    <li>
                         By sending a <strong>PUT</strong> request with a corresponding JSON object to <strong>
-                            "/api/users/me/projects/{Id}"
-                        </strong>, where "{Id}" represents an Id of an existing project of theirs, users can modify their projects.
+                        "/api/users/me/projects/{Id}</strong>, where "{Id}" represents an Id of an existing project of theirs,
+                        users can modify their solo projects  (i.e. if they haven't been collaborating on them with anyone else).
                         The required format is the same as the one used by the userWithProjects endpoint.
                     </li>
                     <li>
@@ -39,10 +44,6 @@
                 <p>Restricted to Admins</p>
                 <ul class="apiList">
                     <li>
-                        By sending a <strong>POST</strong> request with a JSON object (fields: "name" and "password") to
-                        <strong>"/api/users"</strong>, Admins can create new accounts (in the role of "User").
-                    </li>
-                    <li>
                         By sending a <strong>GET</strong> request to <strong>"/api/users/all"</strong>, Admins can get a
                         JSON object containing the name and Id of every user.
                     </li>
@@ -55,6 +56,10 @@
                         By sending a <strong>GET</strong> request to <strong>"/api/users/{Id}/userWithCards"</strong>,
                         where "{Id}" represents the Id of any user, Admins can get a JSON object containing information
                         regarding that user and their cards (containing the projects each card is part of).
+                    </li>
+                    <li>
+                        By sending a <strong>POST</strong> request with a JSON object (fields: "name" and "password") to
+                        <strong>"/api/users"</strong>, Admins can create new accounts (in the role of "User").
                     </li>
                 </ul>
             </div>

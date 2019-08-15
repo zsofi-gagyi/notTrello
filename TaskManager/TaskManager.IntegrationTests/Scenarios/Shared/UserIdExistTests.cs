@@ -4,7 +4,6 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests.Fixtures;
 using TodoWithDatabase.Services;
 using Xunit;
 
@@ -14,7 +13,6 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
     public class UserIdExistsTests
     {
         private readonly TestContext _testContext;
-        private readonly HttpContent _request;
 
         public UserIdExistsTests(TestContext testContext)
         {
@@ -23,15 +21,14 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
             var tokenService = new TokenService();
             var correctToken = tokenService.GenerateToken("testId", "testUser", "TodoAdmin");
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", correctToken);
-            _request = new StringContent("testRequest");
         }
 
         [Theory, MemberData(nameof (ProjectRelatedEndpoints))]
-        public async Task InexistentProjectId_BadRequest(params string[] urlAndAction)
+        public async Task InexistentProjectId_BadRequest(string url)
         {
             var expectedString = JsonConvert.SerializeObject(new { error = "Incorrect user Id" });
 
-            var response = await RequestSender.Send(_testContext.Client, _request, urlAndAction);
+            var response = await _testContext.Client.GetAsync(url);
             var responseString = await response.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.BadRequest.ToString(), response.StatusCode.ToString());
@@ -44,8 +41,8 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
             {
                 return new[]
                 {
-                    new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithProjects", "GET" }
-                   // new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithCards", "GET" } to be added when the endpoint is ready
+                    new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithProjects" },
+                    new string[] { "/api/users/00000000-0000-0000-0000-000000000000/userWithCards" } 
                 };
             }
         }

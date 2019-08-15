@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using TodoWithDatabase.Models;
+﻿using System.Collections.Generic;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.Models.DTOs;
 
 namespace TodoWithDatabase.Services.Interfaces
 {
@@ -15,10 +12,16 @@ namespace TodoWithDatabase.Services.Interfaces
 
         Project Get(string projectId);
 
-        bool userCollaboratesOnProject(string assigneeName, string projectId);
+        Project GetWithAssigneeProjects(string projectId);
+
+        bool UserIsCollaboratingOnProject(string assigneeName, string projectId);
 
         void Save(Project project);
 
         void Update(Project project);
+
+        Project TranslateToProject(ProjectWithCardsDTO projectDTO);
+
+        void Delete(string projectId);
     }
 }

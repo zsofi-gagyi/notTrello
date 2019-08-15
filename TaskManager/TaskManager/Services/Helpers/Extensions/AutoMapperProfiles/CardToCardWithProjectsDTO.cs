@@ -5,12 +5,14 @@ using TodoWithDatabase.Models.DTOs;
 
 namespace TodoWithDatabase.App.Services.Helpers.Extensions.AutoMapperProfiles
 {
-    public class CardToCardWithAssigneesDTO : Profile
+    public class CardToCardWithProjectsDTO : Profile
     {
-        public CardToCardWithAssigneesDTO()
+        public CardToCardWithProjectsDTO()
         {
-            CreateMap<Card, CardWithAssigneesDTO>()
-                .ForMember(dest => dest.AssigneeDTOs, 
+            CreateMap<Card, CardWithProjectDTO>()
+                .ForMember(dest => dest.ProjectDTO,
+                            opt => opt.MapFrom(c => c.Project))
+                .ForMember(dest => dest.AssigneeDTOs,
                             opt => opt.MapFrom(c => c.AssigneeCards.Select(ac => ac.Assignee)));
         }
     }

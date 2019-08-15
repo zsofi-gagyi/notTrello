@@ -3,13 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services.Extensions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using System;
-using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
@@ -21,15 +16,13 @@ namespace TodoWithDatabase.Services
     {
         readonly UserManager<Assignee> _userManager;
         readonly SignInManager<Assignee> _signInManager;
-        readonly RoleManager<IdentityRole> _roleManager;
         readonly MyContext _myContext;
         readonly IMapper _mapper;
 
-        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, RoleManager<IdentityRole> roleManager, MyContext myContext, IMapper mapper)
+        public AssigneeService(UserManager<Assignee> userManager, SignInManager<Assignee> signInManager, MyContext myContext, IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _roleManager = roleManager;
             _myContext = myContext;
             _mapper = mapper;
         }
@@ -90,6 +83,32 @@ namespace TodoWithDatabase.Services
             assigneeWithProjectsDTO.Role = role;
 
             return assigneeWithProjectsDTO;
+        }
+
+        public AssigneeWithCardsDTO GetAndTranslateToAssigneWithCardsDTO(string userId)
+        {
+            var assignee = _myContext.Assignees
+                .Where(a => a.Id.Equals(userId))
+
+                .Include(c => c.AssigneeCards)
+                    .ThenInclude(ac => ac.Card)
+                        .ThenInclude(c => c.AssigneeCards)
+                            .ThenInclude(ac => ac.Assignee)
+
+                .Include(c => c.AssigneeCards)
+                    .ThenInclude(ac => ac.Card)
+                        .ThenInclude(c => c.Project)
+                            .ThenInclude(p => p.AssigneeProjects)
+                                .ThenInclude(ap => ap.Assignee)
+
+                .FirstOrDefault();
+
+            var assigneeWithCardsDTO = _mapper.Map<AssigneeWithCardsDTO>(assignee);
+
+            string role = _userManager.GetRolesAsync(assignee).Result.FirstOrDefault().ToString();
+            assigneeWithCardsDTO.Role = role;
+
+            return assigneeWithCardsDTO;
         }
     }
 }

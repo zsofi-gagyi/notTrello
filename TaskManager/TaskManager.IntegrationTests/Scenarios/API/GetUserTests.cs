@@ -12,7 +12,7 @@ using Xunit;
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 {
     [Collection("UserCollection")]
-    public class GetUserProjectsTests
+    public class GetUserTests
     {
         private readonly TestContext _testContext;
         private readonly string _user1Id;
@@ -20,7 +20,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         private readonly string _adminToken;
         private readonly string _user1Token;
 
-        public GetUserProjectsTests(TestContext testContext)
+        public GetUserTests(TestContext testContext)
         {
             _testContext = testContext;
             var tokenService = new TokenService();
@@ -32,6 +32,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
         [Theory]
         [InlineData("/api/users/", "/userWithProjects")]
+        [InlineData("/api/users/", "/userWithCards")]
         public async Task Get_CorrectId_AdminToken_ReturnsCorrectUserWithProjects(params string[] urlParts)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _adminToken);
@@ -40,12 +41,23 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var responseString = await response.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
-            Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
-            Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
+
+            if (urlParts[1].Contains("Project")) // this sounds like code repetition, but... is it worth pushing them together? 
+                                                 // or maybe I can just delete this version?
+            {
+                Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
+                Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
+            }
+            else
+            {
+                Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithCardsDTO)));
+                Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithCardsDTO>(responseString).Id);
+            }
         }
 
         [Theory]
         [InlineData("/api/users/me/userWithProjects")]
+        [InlineData("/api/users/me/userWithCards")]
         public async Task Get_UserToken_ReturnsCorrectUserWithProjects(string url)
         {
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _user1Token);
@@ -54,8 +66,17 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var responseString = await response.Content.ReadAsStringAsync();
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
-            Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
-            Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
+
+            if (url.Contains("Project"))
+            {
+                Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
+                Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);
+            }
+            else
+            {
+                Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithCardsDTO)));
+                Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithCardsDTO>(responseString).Id);
+            }
         }
     }
 }

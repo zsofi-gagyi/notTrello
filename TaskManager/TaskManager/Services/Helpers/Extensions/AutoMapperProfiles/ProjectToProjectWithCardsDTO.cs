@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using System.Linq;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Models.DTOs;
