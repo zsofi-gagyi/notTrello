@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
-using TodoWithDatabase.IntegrationTests;
 using TodoWithDatabase.Models.DTO;
 using TodoWithDatabase.Services.Extensions;
 using TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers;
@@ -20,7 +19,7 @@ namespace TodoWithDatabase.UnitTests.Services
         [Fact]
         public void Assignee_To_AssigneeWithProjectsDTO_Translates()
         {
-            var assignee = AssigneeMaker.Make();
+            var assignee = AssigneeMaker.MakeAssigneeWithProject();
 
             var expectedDTO = AssigneeWithProjectsDTOMaker.MakeFrom(assignee);
             var expectedString = JsonConvert.SerializeObject(expectedDTO);
