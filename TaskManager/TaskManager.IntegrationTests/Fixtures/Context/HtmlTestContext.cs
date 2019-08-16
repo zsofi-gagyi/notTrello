@@ -11,7 +11,7 @@ using TaskManager;
 
 namespace TodoWithDatabase.IntegrationTests
 {
-    public class TestContext : IDisposable
+    public class AlwaysAuthenticatedTestContext : IDisposable
     {
         private TestServer _server;
 
@@ -21,10 +21,10 @@ namespace TodoWithDatabase.IntegrationTests
 
         public IMapper Mapper { get; set; }
 
-        public TestContext()
+        public AlwaysAuthenticatedTestContext()
         {
             var builder = new WebHostBuilder()
-                .UseEnvironment("Testing")
+                .UseEnvironment("TestingWithoutAuthentication")
                 .UseStartup<Startup>();
 
             _server = new TestServer(builder);
@@ -35,7 +35,8 @@ namespace TodoWithDatabase.IntegrationTests
             Context = _server.Host.Services.GetRequiredService<MyContext>();
 
             var assigneeService = _server.Host.Services.GetRequiredService<IAssigneeService>();
-            DatabaseSeeder.InitializeDatabaseForAPITestsUsing(Context, assigneeService);
+            var projectService = _server.Host.Services.GetRequiredService<IProjectService>();
+            DatabaseSeeder.InitializeDatabaseForHtmlTestsUsing(Context, assigneeService, projectService);
         }
 
         public void Dispose()
@@ -45,4 +46,3 @@ namespace TodoWithDatabase.IntegrationTests
         }
     }
 }
-                    

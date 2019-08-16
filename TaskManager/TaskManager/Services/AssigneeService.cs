@@ -59,6 +59,14 @@ namespace TodoWithDatabase.Services
             return result;
         }
 
+        public void Update(Assignee assignee)
+        {
+            var originalAssignee = _myContext.FindAsync(typeof(Assignee), assignee.Id).Result;
+            _myContext.Entry(originalAssignee).State = EntityState.Detached;
+            _myContext.Entry(assignee).State = EntityState.Modified;
+            _myContext.SaveChanges();
+        }
+
         public AssigneeWithProjectsDTO GetAndTranslateToAssigneWithProjectsDTO(string userId)
         {
             var assignee = _myContext.Assignees

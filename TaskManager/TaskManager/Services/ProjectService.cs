@@ -46,6 +46,9 @@ namespace TodoWithDatabase.Services
                     .ThenInclude(c => c.AssigneeCards)
                         .ThenInclude(ac => ac.Assignee)
 
+                .Include(p => p.AssigneeProjects)
+                    .ThenInclude(ap => ap.Assignee)
+
                .FirstOrDefault();
         }
 

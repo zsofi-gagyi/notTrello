@@ -17,6 +17,8 @@ using TodoWithDatabase.Services.Extensions;
 using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
+using TodoWithDatabase.IntegrationTests.Helpers;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace TaskManager
 {
@@ -33,8 +35,10 @@ namespace TaskManager
             services.AddDbContext<MyContext>
                 (
                     options => options.UseMySql
-                    (   
-                        "server=localhost;database=todosincsharp;user=root;password=000password000", //TODO move these into environmental variables
+                    (   $"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
+                        $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
+                        $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +
+                        $"password= {Environment.GetEnvironmentVariable("TaskManagerPASSWORD")};",
                         mySqlOptions =>
                         {
                             mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
@@ -43,13 +47,32 @@ namespace TaskManager
                 , ServiceLifetime.Scoped);
 
             AddEnvironmentNeutralConfigurations(services);
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
 
+            services.EnsureDatabaseHasGuestData();
         }
+
         public void ConfigureTestingServices(IServiceCollection services)
         {
             services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
 
             AddEnvironmentNeutralConfigurations(services);
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
+        }
+
+        public void ConfigureTestingWithoutAuthenticationServices(IServiceCollection services)
+        {
+            ConfigureTestingServices(services);
+            services.AddMvc(options => 
+            {
+                options.Filters.Add(new AllowAnonymousFilter());
+            });
         }
 
         public void AddEnvironmentNeutralConfigurations(IServiceCollection services)
@@ -113,11 +136,6 @@ namespace TaskManager
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProjectService, ProjectService>();
             services.SetUpAutoMapper();
-
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AuthorizePage("/users/changeRole");
-            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

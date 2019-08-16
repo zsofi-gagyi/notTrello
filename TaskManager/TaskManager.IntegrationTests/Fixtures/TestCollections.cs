@@ -27,4 +27,9 @@ namespace ferrilata_devilline.IntegrationTests.Fixtures
     public class Collection5 : ICollectionFixture<TestContext>
     {
     }
+
+    [CollectionDefinition("AlwaysAuthenticatedCollection")]
+    public class Collection6 : ICollectionFixture<AlwaysAuthenticatedTestContext>
+    {
+    }
 }

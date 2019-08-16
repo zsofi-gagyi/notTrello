@@ -58,9 +58,6 @@ namespace TodoWithDatabase.Controllers
             card.AssigneeCards.AddRange(newCards);
             _cardService.Update(card);
 
-           // user.AssigneeCards.AddRange(newCards);
-            _userManager.UpdateAsync(user).Wait();
-
             return Redirect("/users/projects/" + projectId);
         }
 
