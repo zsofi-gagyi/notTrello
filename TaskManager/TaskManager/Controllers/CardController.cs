@@ -35,9 +35,14 @@ namespace TodoWithDatabase.Controllers
         [Authorize]
         public IActionResult DoAddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
         {
+            var project = _projectService.Get(projectId);
+            if (project == null)
+            {
+                return BadRequest();
+            }
+
             _cardService.Save(card);
 
-            var project = _projectService.Get(projectId);
             card.Project = project;
 
             var responsibles = new List<Assignee>();

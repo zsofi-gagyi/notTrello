@@ -8,8 +8,8 @@
 <div class="displayCardsContainer primaryContainer firstContainer">
     @{var project = (Project)ViewData["project"];
         <ul class="displayCard primaryCard">
-            <li class="mainTitle">@project.Title</li>
-            <li class="description">@project.Description</li>
+            <li class="mainTitle" data-test="projectTitle">@project.Title</li>
+            <li class="description" data-test="projectDescription">@project.Description</li>
             <li class="responsibles">
                 @foreach (var assigneeProject in project.AssigneeProjects)
                 {
@@ -26,6 +26,7 @@
                     </ul>
                     @{
                         ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
+                        ViewData["cardType"] = "toDoCard";
                         ViewData["toggleName"] = "mark as done";
                     }
                     @await Html.PartialAsync("_CardsPartial.cshtml")
@@ -34,6 +35,7 @@
                     <p>Done</p>
                     @{
                         ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
+                        ViewData["cardType"] = "doneCard";
                         ViewData["toggleName"] = "mark as not done";
                     }
                     @await Html.PartialAsync("_CardsPartial.cshtml")

@@ -12,12 +12,11 @@ namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
             var user1 = new Assignee { UserName = "user1", Id = "1t" };
             var user2 = new Assignee { UserName = "user2", Id = "2" };
 
-            var project = new Project
-            {
-                Id = new Guid(),
-                Title = "project title",
-                Description = "project description",
-            };
+            var project = new Project();
+
+            project.Id = new Guid();
+            project.Title = "project title";
+            project.Description = "project description";
 
             var user1Project = new AssigneeProject(user1, project);
             var user2Project = new AssigneeProject(user2, project);
