@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Identity;
-
+using Microsoft.AspNetCore.Mvc.Authorization;
 using TodoWithDatabase.Repository;
 using TodoWithDatabase.Services;
 using TodoWithDatabase.Services.Extensions;
@@ -18,17 +18,11 @@ using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.IntegrationTests.Helpers;
-using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace TaskManager
 {
     public class Startup
     {
-        private static void UseUserIdExistenceVerifier(IApplicationBuilder app)
-        {
-            app.UseMiddleware<UserIdExistenceVerifier>();
-        }
-
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -157,6 +151,11 @@ namespace TaskManager
             {
                 app.UseDeveloperExceptionPage();
             }
+        }
+
+        private static void UseUserIdExistenceVerifier(IApplicationBuilder app)
+        {
+            app.UseMiddleware<UserIdExistenceVerifier>();
         }
     }
 }

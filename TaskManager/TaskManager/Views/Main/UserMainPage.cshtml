@@ -7,30 +7,30 @@
 <div class="displayCardsContainer primaryContainer firstContainer">
     <ul class="displayCard linkCard">
         <li class="title">
-            <a id="createNewLink" href="users/addProject">Add new project...</a>
+            <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project...</a>
         </li>
     </ul>
     @foreach (Project project in (List<Project>)ViewData["projects"])
     {
-        <ul class="displayCard">
-            <li class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></li>
-            <li class="title">@project.Title</li>
-            <li class="description">@project.Description</li>
+        <div class="displayCard" data-test="project">
+            <div class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></div>
+            <div class="title" data-test="title">@project.Title</div>
+            <div class="description" data-test="description">@project.Description</div>
             @if (project.AssigneeProjects.Count() > 1)
              {
-                <li class="responsibles">
+                <div class="responsibles" data-test="collaborators">
                     <span>Collaborating with:</span>
                     @{var otherCollaborators = project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
                       foreach (AssigneeProject assigneeProject in project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)))
                       {
-                          <span class="responsibleName">@assigneeProject.Assignee.UserName</span>
+                          <span class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</span>
                       }
                     }
-                </li>
+                </div>
              }
-            <li class="details">
-                <a href="users/projects/@project.Id">Details...</a>
-            </li>
-        </ul>
+            <div class="details">
+                <a href="users/projects/@project.Id" data-test="detailsLink">Details...</a>
+            </div>
+        </div>
     }
 </div>

@@ -11,6 +11,24 @@
 //
 // -- This is a parent command --
 // Cypress.Commands.add("login", (email, password) => { ... })
+
+Cypress.Commands.add("login", () => {
+    cy.visit('https://localhost:44374/login')
+
+    cy.get('[name="Name"]')
+        .type('Guest')
+
+    cy.get('[name="Password"]')
+        .type('guest')
+
+    cy.get('[type=submit]')
+        .click()
+})
+
+Cypress.Commands.add("logout", () => {
+    cy.visit('https://localhost:44374/logout')
+})
+
 //
 //
 // -- This is a child command --

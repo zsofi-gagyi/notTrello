@@ -30,7 +30,7 @@ namespace TodoWithDatabase.Controllers
                 return Redirect("/users");
             }
 
-            return Redirect("/login.html");
+            return Redirect("/login");
         }
 
         [HttpPost("/login")]
@@ -45,7 +45,7 @@ namespace TodoWithDatabase.Controllers
                 return LocalRedirect(returnUrl);
             }
 
-            return Redirect("/login.html");
+            return Redirect("/login");
         }
 
         [HttpGet("/logout")]
