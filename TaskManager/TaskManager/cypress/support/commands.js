@@ -13,21 +13,36 @@
 // Cypress.Commands.add("login", (email, password) => { ... })
 
 Cypress.Commands.add("login", () => {
-    cy.visit('https://localhost:44374/login')
-
-    cy.get('[name="Name"]')
-        .type('Guest')
-
-    cy.get('[name="Password"]')
-        .type('guest')
-
-    cy.get('[type=submit]')
-        .click()
+    cy.request({
+        method: 'POST',
+        url: 'https://localhost:44374/login',
+        form: true,
+        body: {
+            name: 'Guest',
+            password: 'guest'
+        }
+    })
 })
 
 Cypress.Commands.add("logout", () => {
     cy.visit('https://localhost:44374/logout')
 })
+
+Cypress.Commands.add("get_user_token", () => {
+    cy.login()
+    cy.visit('https://localhost:44374/APIguide')
+
+    cy.get('a')
+        .contains('token')
+        .click()
+
+    cy.get('#token')
+        .then(($userToken) => {
+            return $userToken
+    })
+})
+
+
 
 //
 //
