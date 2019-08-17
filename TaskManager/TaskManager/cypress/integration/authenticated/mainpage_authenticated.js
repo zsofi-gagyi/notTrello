@@ -20,46 +20,49 @@ it('mainpage for user displays correctly', () => {
             expect(projects.length).to.eq(2)
         })
 
-        .first(project => {
-            project
-                .find('[data-test=title]')
-                .should('have.text', "Personal project")
-
-            project
-                .find('[data-test=description]')
-                .contains("As an individual")
-
-            project
-                .find('[data-test=collaborators]')
-                .length.to.eq(0)
-
-            project.find('div > [data-test=detailsLink]')
-                .then(detailsLink => {
-                    expect(detailsLink).to.have.attr('href')
-                        .and('contain', 'users/projects/')
-                })
+    cy.get('[data-test=project]')
+        .each(($project) => {
+            cy.wrap($project)
+                .find('div > [data-test=detailsLink]')
+                .should('have.text', "Details")
+                .invoke('attr', 'href')
+                .then(href => {
+                    href === "/users/projects/"
+                });
         })
 
-        .last(project => {
-            project
-                .find('[data-test=title]')
-                .should('have.text', "Team project")
+    cy.get('[data-test=project]')
+        .first()
+        .find('[data-test=title]')
+        .should('have.text', "Personal project")
 
-            project
-                .find('[data-test=description]')
-                .contains("As a team")
+    cy.get('[data-test=project]')
+        .first()
+        .find('[data-test=description]')
+        .contains("As an individual")
 
-            project.find('[data-test=collaborators]')
-                .then(collaborators => {
-                    collaborators.length.to.eq(2)
-                    collaborators.first.should('have.text', "Alice")
-                    collaborators.last.should('have.text', "Bob")
-                })
+    cy.get('[data-test=project]')
+        .first()
+        .find('[data-test=collaborators]')
+        .should('not.exist')
 
-            project.find('div > [data-test=detailsLink]')
-                .then(detailsLink => {
-                    expect(detailsLink).to.have.attr('href')
-                        .and('contain', 'users/projects/')
-                })
+    cy.get('[data-test=project]')
+        .last()
+        .find('[data-test=description]')
+        .contains("As a team")
+
+    cy.get('[data-test=project]')
+        .last()
+        .find('[data-test=collaborators] > [data-test=responsibleName]')
+        .should(($listOfCollaborators) => {
+            expect($listOfCollaborators).to.have.length(2)
         })
+        .first()
+        .should('have.text', "Bob")
+
+    cy.get('[data-test=project]')
+        .last()
+        .find('[data-test=collaborators] > [data-test=responsibleName]')
+        .last()
+        .should('have.text', "Alice")
 });

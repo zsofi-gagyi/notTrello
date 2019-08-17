@@ -239,7 +239,7 @@ nav {
     }
     .displayCard .details a {
         color: #707070;
-        text-decoration: none;
+        text-decoration: underline;
     }
 
 /* ------------- card - in - project specific ------------- */
