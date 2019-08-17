@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using TodoWithDatabase.IntegrationTests.Helpers;
 using Xunit;
@@ -27,15 +26,15 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
             var content = await HtmlParser.Parse(response);
 
-            var projectTitle = content.QuerySelector(".mainTitle").TextContent;
-            var projectDescription = content.QuerySelector(".primaryContainer li.description").TextContent;
+            var projectTitle = content.QuerySelector("[data-test=projectTitle]").TextContent;
+            var projectDescription = content.QuerySelector("[data-test=projectDescription]").TextContent;
 
-            var cardsToDoNumber = content.QuerySelectorAll(".toDoCard").Length;
-            var cardsDoneNumber = content.QuerySelectorAll(".doneCard").Length;
-            var cardToDoTitle = content.QuerySelector(".toDoCard li.title").TextContent;
-            var cardDoneDescription = content.QuerySelector(".doneCard li.description").TextContent;
+            var cardsToDoNumber = content.QuerySelectorAll("[data-test=toDoCard]").Length;
+            var cardsDoneNumber = content.QuerySelectorAll("[data-test=doneCard]").Length;
+            var cardToDoTitle = content.QuerySelector("[data-test=toDoCard] > [data-test=title]").TextContent;
+            var cardDoneDescription = content.QuerySelector("[data-test=doneCard] > [data-test=description]").TextContent;
 
-            var cardDoneResponsibles = content.QuerySelectorAll(".doneCard li.responsibles span.responsibleName");
+            var cardDoneResponsibles = content.QuerySelectorAll("[data-test=doneCard] >> [data-test=responsibleName]");
 
             Assert.Equal("project title", projectTitle);
             Assert.Equal("project description", projectDescription);

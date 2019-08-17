@@ -8,7 +8,7 @@ using TodoWithDatabase.Models.DAOs.JoinTables;
 
 namespace TodoWithDatabase.Models.DAOs
 {
-    public class Card
+    public class Card 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

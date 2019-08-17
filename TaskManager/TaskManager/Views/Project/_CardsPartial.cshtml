@@ -3,21 +3,21 @@
 
 @{ foreach (Card card in (List<Card>)ViewData["cards"])
    {
-       <ul class="displayCard @(ViewData["toggleName"].Equals("mark as done") ? "toDoCard" : "doneCard")">
+       <ul class="displayCard" data-test="@ViewData["cardType"]">
            <li class="stats">
-               <p class="@(@card.Deadline < DateTime.Now && @ViewData["toggleName"].Equals("mark as done") ? "pastDeadline" : "deadline")">
+               <p class="@((card.Deadline < DateTime.Now && @ViewData["cardType"].Equals("toDoCard")) ? "pastDeadline" : "deadline")">
                    deadline: @card.Deadline
                </p>
                <a class="toggleDone" href="@card.Project.Id/cards/@card.Id/toggleDone">@ViewData["toggleName"]</a>
            </li>
-           <li class="title titleToBeCentered">@card.Title</li>
-           <li class="description">@card.Description</li>
+           <li class="title titleToBeCentered" data-test="title">@card.Title</li>
+           <li class="description" data-test="description">@card.Description</li>
            @if (((Project)ViewData["project"]).AssigneeProjects.Count() > 1)
             {
                 <li class="responsibles">
                 @foreach (AssigneeCard assigneeCard in card.AssigneeCards)
                  {
-                       <span class="responsibleName">@assigneeCard.Assignee.UserName</span>
+                       <span class="responsibleName" data-test="responsibleName">@assigneeCard.Assignee.UserName</span>
                  }
                 </li>
             }

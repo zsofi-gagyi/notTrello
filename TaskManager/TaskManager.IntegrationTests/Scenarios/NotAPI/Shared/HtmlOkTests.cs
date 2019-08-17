@@ -37,7 +37,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var response = await _testContext.Client.GetAsync(url[0]);
 
             var content = await HtmlParser.Parse(response);
-            var logo = content.QuerySelector(".logo");
+            var logo = content.QuerySelector("[data-test=logo]");
 
             Assert.Equal("TaskManager", logo.TextContent);
         }

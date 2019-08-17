@@ -31,6 +31,7 @@ namespace TodoWithDatabase.Controllers
             {
                 _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
                 _signInManager.RefreshSignInAsync(assignee).Wait();
+                ViewData.Add("role", "Admin");
                 ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
             {
@@ -51,6 +52,7 @@ namespace TodoWithDatabase.Controllers
             _userManager.RemoveFromRoleAsync(assignee, "TodoAdmin").Wait();
             _signInManager.RefreshSignInAsync(assignee).Wait();
 
+            ViewData.Add("role", "User");
             ViewData.Add("result", "You have succesfully renounced of the title \"admin\".");
             return View("Views/Roles/result.cshtml");
         }

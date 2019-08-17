@@ -6,11 +6,15 @@
         <nav>
             <div>
                 <a href="/users">
-                    <h1 class="logo">TaskManager</h1>
+                    <h1 class="logo" data-test="logo">TaskManager</h1>
                 </a>
             </div>
             <div>
-                <p>@User.Identity.Name as @(User.IsInRole("TodoAdmin") ? "Admin" : "User")</p>
+                @{var role = ViewData["role"] == null ?
+                            (User.IsInRole("TodoAdmin") ? "Admin" : "User") :
+                            ViewData["role"];
+                    <p>@User.Identity.Name as @role</p>
+                }
                 <a href="/users/changeRole">Change role</a>
                 <a class="logout" href="/logout">Sign out</a>
             </div>
