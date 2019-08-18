@@ -16,9 +16,6 @@
         </nav>
         @RenderBody()
     </div>
-    <div class="footer" data-test="footer">
-        <a href="/APIguide" data-test="APIguide">For developers: a guide to our API services</a>
-        <p data-test="credits">This app uses the ASP.NET Core framework, and is hosted on Azure.</p>
-    </div>
+    @await Html.PartialAsync("~/Views/Shared/_LayoutFooterPartial.cshtml")
 </body>
 </html>

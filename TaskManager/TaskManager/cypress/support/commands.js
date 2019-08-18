@@ -27,15 +27,14 @@ Cypress.Commands.add("create_project", () => {
     cy.login()
     cy.visit('https://localhost:44374/users/addProject')
 
-    cy.request({
-        method: 'POST',
-        url: 'https://localhost:44374/users/addProjects',
-        form: true,
-        body: {
-            title: 'test title',
-            description: 'test description'
-        }
-    })
+    cy.get('[name="Title"]')
+        .type('test title')
+
+    cy.get('[name="Description"]')
+        .type('test description')
+
+    cy.get('[type=submit]')
+        .click()
 });
 
 Cypress.Commands.add("delete_project", (projectUrl) => {

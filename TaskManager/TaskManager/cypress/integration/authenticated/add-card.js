@@ -1,16 +1,37 @@
 ﻿it('create card', () => {
-    cy.login()
-    cy.create_project() /
+    cy.create_project()
+        .then(() => {
+            cy.contains('Create new card')
+                .click()
 
-        //create card
+            cy.get('[name=Title]')
+                .type('test card title')
 
-    cy.location('pathname')
-        .should('contain', "/users/projects/")
+            cy.get('[name=Description]')
+                .type('test card description')
 
-    //verify the card is there
+            cy.get('[type=submit]')
+                .click()
 
-    cy.url()
-        .then(($urlWithProjectId) => {
-            cy.delete_project($urlWithProjectId)
+            cy.location('pathname')
+                .should('contain', "/users/projects/")
+
+            cy.get('[data-test=toDoCard]')
+                .first()
+                .find('[data-test=title]')
+                .should('contain', 'test card title')
+
+                .parent()
+                .find('[data-test=description]')
+                .should('contain', 'test card description')
+
+                .parent()
+                .find('a')
+                .should('contain', 'mark as done')
+
+            cy.url()
+                .then(($urlWithProjectId) => {
+                    cy.delete_project($urlWithProjectId)
+                })
         })
 });

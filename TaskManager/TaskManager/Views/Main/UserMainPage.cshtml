@@ -20,8 +20,11 @@
              {
                 <div class="responsibles" data-test="collaborators">
                     <span>Collaborating with:</span>
-                    @{var otherCollaborators = project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
-                      foreach (AssigneeProject assigneeProject in project.AssigneeProjects.AsQueryable().Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)))
+                    @{var otherCollaborators = project.AssigneeProjects.AsQueryable()
+                                      .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
+
+                      var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
+                      foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
                       {
                           <span class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</span>
                       }
