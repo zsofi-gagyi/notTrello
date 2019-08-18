@@ -15,7 +15,7 @@
            @if (((Project)ViewData["project"]).AssigneeProjects.Count() > 1)
             {
                 <li class="responsibles">
-                @foreach (AssigneeCard assigneeCard in card.AssigneeCards)
+                @foreach (AssigneeCard assigneeCard in card.AssigneeCards.OrderBy(ac => ac.Assignee.UserName).ToList())
                  {
                        <span class="responsibleName" data-test="responsibleName">@assigneeCard.Assignee.UserName</span>
                  }

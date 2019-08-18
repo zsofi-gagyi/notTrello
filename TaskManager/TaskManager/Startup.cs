@@ -46,7 +46,7 @@ namespace TaskManager
                 options.Conventions.AuthorizePage("/users/changeRole");
             });
 
-            services.EnsureDatabaseHasGuestData();
+            services.EnsureDatabaseHasStandardGuestData();
         }
 
         public void ConfigureTestingServices(IServiceCollection services)

@@ -23,6 +23,21 @@ Cypress.Commands.add("get_user_token", () => {
     })
 })
 
+Cypress.Commands.add("create_project", () => {
+    cy.login()
+    cy.visit('https://localhost:44374/users/addProject')
+
+    cy.request({
+        method: 'POST',
+        url: 'https://localhost:44374/users/addProjects',
+        form: true,
+        body: {
+            title: 'test title',
+            description: 'test description'
+        }
+    })
+});
+
 Cypress.Commands.add("delete_project", (projectUrl) => {
     var projectId = projectUrl.substring(39)
     cy.get_user_token().then(($token) => { 

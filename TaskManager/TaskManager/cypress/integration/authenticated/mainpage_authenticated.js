@@ -58,11 +58,11 @@ it('mainpage for user displays correctly', () => {
             expect($listOfCollaborators).to.have.length(2)
         })
         .first()
-        .should('have.text', "Bob")
+        .should('have.text', "Alice")
 
     cy.get('[data-test=project]')
         .last()
         .find('[data-test=collaborators] > [data-test=responsibleName]')
         .last()
-        .should('have.text', "Alice")
+        .should('have.text', "Bob")
 });
