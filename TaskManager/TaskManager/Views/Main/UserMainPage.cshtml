@@ -7,30 +7,30 @@
 <div class="displayCardsContainer primaryContainer firstContainer">
     <ul class="displayCard linkCard">
         <li class="title">
-            <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project...</a>
+            <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project</a>
         </li>
     </ul>
     @foreach (Project project in (List<Project>)ViewData["projects"])
     {
         <div class="displayCard" data-test="project">
-            <div class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></div>
+            <div class=@((project.Cards.Where(c => c.Done == false).Any()) ? "notDone" : "done")></div>
             <div class="title" data-test="title">@project.Title</div>
             <div class="description" data-test="description">@project.Description</div>
             @if (project.AssigneeProjects.Count() > 1)
-             {
+            {
                 <div class="responsibles" data-test="collaborators">
                     <span>Collaborating with:</span>
                     @{var otherCollaborators = project.AssigneeProjects.AsQueryable()
-                                      .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
+                                        .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
 
-                      var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
-                      foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
-                      {
-                          <span class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</span>
-                      }
+                        var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
+                        foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
+                        {
+                            <span class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</span>
+                        }
                     }
                 </div>
-             }
+            }
             <div class="details">
                 <a href="users/projects/@project.Id" data-test="detailsLink">Details</a>
             </div>

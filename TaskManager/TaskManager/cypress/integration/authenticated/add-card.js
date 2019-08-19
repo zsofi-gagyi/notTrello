@@ -1,7 +1,7 @@
 ﻿it('create card', () => {
     cy.create_project()
         .then(() => {
-            cy.contains('Create new card')
+            cy.contains('Add new card')
                 .click()
 
             cy.get('[name=Title]')
@@ -9,6 +9,13 @@
 
             cy.get('[name=Description]')
                 .type('test card description')
+
+            cy.get('[name=Deadline]')
+                .click()
+
+            cy.get('.flatpickr-day')
+                .first()
+                .click()
 
             cy.get('[type=submit]')
                 .click()
@@ -27,7 +34,7 @@
 
                 .parent()
                 .find('a')
-                .should('contain', 'mark as done')
+                .should('contain', 'Mark as done')
 
             cy.url()
                 .then(($urlWithProjectId) => {

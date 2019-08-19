@@ -13,6 +13,11 @@ body {
 
 a {
     text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
 }
 
 ul {
@@ -174,18 +179,26 @@ nav {
 
             #createNewLink {
                 color: #707070;
-                font-weight: 400;
+                font-weight: 800;
+                text-decoration: underline;
             }
 
-    .displayCard .notDone, .done {
+    .displayCard .notDone, .done, .backArrow {
         position: relative;
-        left: calc(100% - 30px);
         top: 30px;
         margin-top: -30px;
+    }
+
+    .displayCard .notDone, .done {
+        left: calc(100% - 30px);
         height: 30px;
         width: 30px;
         border-radius: 50%;
     }
+        .backArrow a img {
+            position: relative;
+            margin-right: calc(100% - 10px);
+        }
 
     .displayCard .notDone {
         background-color: #f26f68
@@ -206,6 +219,7 @@ nav {
 
     .displayCard .mainTitle {
         font-size: 30px;
+        margin-top: -20px;
     }
 
     .displayCard .description {
