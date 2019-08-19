@@ -2,9 +2,9 @@
     Layout = "_userLayout";
 }
     <div class="displayCardsContainer narrowContainer firstContainer">
-        <div class="displayCard">
-            <div class="title">Your token is here, @User.Identity.Name:</div>
+        <article class="displayCard">
+            <h3 class="title">Your token is here, @User.Identity.Name:</h3>
             <p id="token" data-test="token"> @ViewData["token"]</p>
-            <div class="description">Be aware that this will expire in a day.</div>
-        </div>
+            <p class="description">Be aware that this will expire in a day.</p>
+        </article>
     </div>

@@ -7,28 +7,24 @@
 
 <div class="displayCardsContainer primaryContainer firstContainer">
     @{var project = (Project)ViewData["project"];
-        <ul class="displayCard primaryCard">
-            <li class="backArrow">
-                <a href="/users">
-                    <img src="~/back.png" alt="back to the projects page" />
-                </a>
-            </li>
-            <li class="mainTitle" data-test="projectTitle">@project.Title</li>
-            <li class="description" data-test="projectDescription">@project.Description</li>
-            <li class="responsibles">
+        <article class="displayCard primaryCard">
+            <a class="backArrow" href="/users">
+                <img src="~/back.png" alt="back to the projects page" />
+            </a>
+            <h2 class="mainTitle" data-test="projectTitle">@project.Title</h2>
+            <p class="description" data-test="projectDescription">@project.Description</p>
+            <ul class="responsibles">
                 @foreach (var assigneeProject in project.AssigneeProjects.OrderBy(ap => ap.Assignee.UserName).ToList())
                  {
-                    <span class="responsibleName">@assigneeProject.Assignee.UserName</span>
+                    <li class="responsibleName">@assigneeProject.Assignee.UserName</li>
                  }
-            </li>
-            <li class="cardsInColumns">
+            </ul>
+            <div class="cardsInColumns">
                 <div class="displayCardsContainer secondaryContainer">
-                    <p>To do</p>
-                    <ul class="displayCard linkCard">
-                        <li class="title">
-                            <a id="createNewLink" href="@project.Id/cards/addCard">Add new card</a>
-                        </li>
-                    </ul>
+                    <h3 class="columnTitle">To do</h3>
+                    <section class="displayCard linkCard">
+                        <a id="createNewLink" href="@project.Id/cards/addCard">Add new card</a>
+                    </section>
                     @{
                         ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
                         ViewData["cardType"] = "toDoCard";
@@ -37,7 +33,7 @@
                     @await Html.PartialAsync("_CardsPartial.cshtml")
                 </div>
                 <div class="displayCardsContainer secondaryContainer">
-                    <p>Done</p>
+                    <h3 class="columnTitle">Done</h3>
                     @{
                         ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
                         ViewData["cardType"] = "doneCard";
@@ -45,7 +41,7 @@
                     }
                     @await Html.PartialAsync("_CardsPartial.cshtml")
                 </div>
-            </li>
-        </ul>
+            </div>
+        </article>
     }
 </div>
