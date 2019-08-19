@@ -68,7 +68,7 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
 
             var user1DoneCard = new AssigneeCard(user1, doneCard);
             var user2DoneCard = new AssigneeCard(user2, doneCard);
-            context.AssigneeCards.AddRange( user1DoneCard, user2DoneCard);
+            context.AssigneeCards.AddRange(user1DoneCard, user2DoneCard);
 
             var toDoCard = new Card
             {
@@ -101,21 +101,38 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             context.SaveChanges();
         }
 
-        public static void EnsureDatabaseHasGuestData(this IServiceCollection services)
+        public static void EnsureDatabaseHasStandardGuestData(this IServiceCollection services)
         {
             var context = services.BuildServiceProvider().GetRequiredService<MyContext>();
+            var assigneeService = services.BuildServiceProvider().GetRequiredService<IAssigneeService>();
+            var projectService = services.BuildServiceProvider().GetRequiredService<IProjectService>();
 
-            if (context.Assignees.Where(a => a.UserName.Equals("Guest")).Count() != 1) 
+            if (context.Assignees.Where(a => a.UserName.Equals("Guest")).Count() > 0)
             {
-                var assigneeService = services.BuildServiceProvider().GetRequiredService<IAssigneeService>();
-                var projectService = services.BuildServiceProvider().GetRequiredService<IProjectService>();
-
-                var guest = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Guest", Password = "guest" });
-                var alice = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Alice", Password = "a" });
-                var bob = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Bob", Password = "b" });
-               
-                context.CreateProjects(guest, alice, bob, projectService);
+                DeleteGuestData(context, projectService);
             }
+
+            var guest = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Guest", Password = "guest" });
+            var alice = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Alice", Password = "a" });
+            var bob = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Bob", Password = "b" });
+
+            context.CreateProjects(guest, alice, bob, projectService);
+        }
+
+        private static void DeleteGuestData(MyContext context, IProjectService projectService)
+        {
+            var guestToDelete = context.Assignees.Where(a => a.UserName.Equals("Guest")).First();
+            var aliceToDelete = context.Assignees.Where(a => a.UserName.Equals("Alice")).First();
+            var bobToDelete = context.Assignees.Where(a => a.UserName.Equals("Bob")).First();
+
+            var projectsToRemove = context.AssigneeProjects.Where(ap => ap.Assignee.Id.Equals(guestToDelete.Id)).Select(ap => ap.Project).ToList();
+            foreach (var project in projectsToRemove)
+            {
+                projectService.Delete(project.Id.ToString());
+            }
+
+            context.Assignees.RemoveRange(guestToDelete, aliceToDelete, bobToDelete);
+            context.SaveChanges();
         }
 
         private static void CreateProjects(this MyContext context, Assignee guest, Assignee alice, Assignee bob, IProjectService projectService)
@@ -150,7 +167,7 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
 
             projectService.Save(sharedProject);
             context.Entry(sharedProject).State = EntityState.Detached;
-            
+
             var guestSoloProject = new AssigneeProject(guest, soloProject);
             var guestSharedProject = new AssigneeProject(guest, sharedProject);
             context.AssigneeProjects.AddRange(guestSoloProject, guestSharedProject);

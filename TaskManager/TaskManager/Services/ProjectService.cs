@@ -130,7 +130,7 @@ namespace TodoWithDatabase.Services
         public void Delete(string projectId)
         {
             _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
-            _myContext.Cards.RemoveRange(_myContext.Cards.Where(ap => ap.Project.Id.ToString().Equals(projectId)));
+            _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.ToString().Equals(projectId)));
             _myContext.Projects.Remove(_myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).First());
             _myContext.SaveChanges();
         }

@@ -31,7 +31,8 @@ namespace TodoWithDatabase.Controllers.API
             if (assignee == null)
             {
                 var newAssignee = _assigneeService.CreateAndReturnNew(userDTO);
-                return Created("api/users/" + newAssignee.Id + "/userWithProjects", new { message = "User with the name " + userDTO.Name + " has been succesfully created!" });
+                var responseMessage = new { message = "User with the name " + userDTO.Name + " has been succesfully created!" };
+                return Created("api/users/" + newAssignee.Id + "/userWithProjects", responseMessage );
             }
 
             return BadRequest(new { message = "This name is already in use." });

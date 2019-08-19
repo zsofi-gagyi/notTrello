@@ -11,10 +11,10 @@
             <li class="mainTitle" data-test="projectTitle">@project.Title</li>
             <li class="description" data-test="projectDescription">@project.Description</li>
             <li class="responsibles">
-                @foreach (var assigneeProject in project.AssigneeProjects)
-                {
+                @foreach (var assigneeProject in project.AssigneeProjects.OrderBy(ap => ap.Assignee.UserName).ToList())
+                 {
                     <span class="responsibleName">@assigneeProject.Assignee.UserName</span>
-                }
+                 }
             </li>
             <li class="cardsInColumns">
                 <div class="displayCardsContainer secondaryContainer">
