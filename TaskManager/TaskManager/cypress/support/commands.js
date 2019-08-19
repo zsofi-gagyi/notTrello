@@ -17,7 +17,7 @@ Cypress.Commands.add("logout", () => {
 Cypress.Commands.add("get_user_token", () => {
     cy.visit('https://localhost:44374/users/token')
 
-    cy.get('#token')
+    cy.get('[data-test=token]')
         .then(($userToken) => {
             return $userToken.text()
     })
