@@ -18,6 +18,10 @@ using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.IntegrationTests.Helpers;
+using System.Net;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
 
 namespace TaskManager
 {
@@ -29,7 +33,7 @@ namespace TaskManager
             services.AddDbContext<MyContext>
                 (
                     options => options.UseMySql
-                    (   $"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
+                    ($"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
                         $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
                         $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +
                         $"password= {Environment.GetEnvironmentVariable("TaskManagerPASSWORD")};",
@@ -63,7 +67,7 @@ namespace TaskManager
         public void ConfigureTestingWithoutAuthenticationServices(IServiceCollection services)
         {
             ConfigureTestingServices(services);
-            services.AddMvc(options => 
+            services.AddMvc(options =>
             {
                 options.Filters.Add(new AllowAnonymousFilter());
             });
@@ -123,6 +127,8 @@ namespace TaskManager
                 options.ReturnUrlParameter = "returnTo";
                 options.SlidingExpiration = true;
                 options.LoginPath = new PathString("/login");
+                options.Events.OnRedirectToAccessDenied = ReplaceRedirector(HttpStatusCode.Forbidden, options.Events.OnRedirectToAccessDenied);
+                options.Events.OnRedirectToLogin = ReplaceRedirector(HttpStatusCode.Unauthorized, options.Events.OnRedirectToLogin);
             });
 
             services.AddScoped<IAssigneeService, AssigneeService>();
@@ -157,5 +163,18 @@ namespace TaskManager
         {
             app.UseMiddleware<UserIdExistenceVerifier>();
         }
+
+        private static Func<RedirectContext<CookieAuthenticationOptions>, Task> 
+            ReplaceRedirector(HttpStatusCode statusCode, Func<RedirectContext<CookieAuthenticationOptions>, Task> existingRedirector) =>
+                context =>
+                {
+                    if (context.Request.Path.StartsWithSegments("/api"))
+                    {
+                        context.Response.StatusCode = (int)statusCode;
+                        return Task.CompletedTask;
+                    }
+
+                    return existingRedirector(context);
+                };
     }
 }
