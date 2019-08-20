@@ -3,8 +3,8 @@
     Layout = "_publicLayout";
 }
 <div class="displayCardsContainer narrowContainer firstContainer">
-    <div class="displayCard">
-        <div class="title">Sign up</div>
+    <article class="displayCard">
+        <h2 class="title">Sign up</h2>
         <form class="validatedForm" action="/signUp" method="POST">
             <div id="inputContainer">
                 <input type="text" name="Name" placeholder="Name" required />
@@ -14,10 +14,10 @@
                 @await Html.PartialAsync("_VerifyPasswordScriptPartial.cshtml")
             </div>
         </form>
-        <div class="title" id="or">or</div>
+        <p class="title" id="or">or</p>
         <a class="largeButton" id="googleLink" href="google/link/to/be/researched">
             <img src="~/googlelogo.png" alt="Google logo" height="30" width="30" />
             <p>with Google</p>
         </a>
-    </div>
+    </article>
 </div>

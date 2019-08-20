@@ -3,11 +3,11 @@
 }
 
 <div class="displayCardsContainer narrowContainer firstContainer">
-    <div class="displayCard">
-        <div class="description">@ViewData["result"]</div>
+    <article class="displayCard">
+        <p class="description">@ViewData["result"]</p>
         @if (ViewData["advice"] != null)
-         {  <br />
-            <div class="description">@ViewData["advice"]</div>
+         {  
+            <p class="description">@ViewData["advice"]</p>
          }
-    </div>
+    </article>
 </div>

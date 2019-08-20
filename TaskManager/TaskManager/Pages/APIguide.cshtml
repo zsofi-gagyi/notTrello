@@ -11,11 +11,11 @@
 }
 
 <div class="displayCardsContainer primaryContainer firstContainer">
-    <div class="displayCard apiCard">
-        <div class="mainTitle">Our API services</div>
+    <article class="displayCard apiCard">
+        <h2 class="mainTitle">Our API services</h2>
         <div class="cardsInColumns">
-            <div class="displayCardsContainer secondaryContainer">
-                <p>Accessible for everyone</p>
+            <section class="displayCardsContainer secondaryContainer">
+                <h3>Accessible for everyone</h3>
                 <ul class="apiList">
                     <li>
                         By sending a <strong>GET</strong> request to <strong>"/api/users/me/userWithProjects"</strong>,
@@ -39,9 +39,9 @@
                         been collaborating on them with anyone else).
                     </li>
                 </ul>
-            </div>
-            <div class="displayCardsContainer secondaryContainer">
-                <p>Restricted to Admins</p>
+            </section>
+            <section class="displayCardsContainer secondaryContainer">
+                <h3>Restricted to Admins</h3>
                 <ul class="apiList">
                     <li>
                         By sending a <strong>GET</strong> request to <strong>"/api/users/all"</strong>, Admins can get a
@@ -62,9 +62,9 @@
                         <strong>"/api/users"</strong>, Admins can create new accounts (in the role of "User").
                     </li>
                 </ul>
-            </div>
+            </section>
         </div>
-        <div class="title, apiTokenMessage">To use these services, you will need an authentication token.</div>
+        <p class="title, apiTokenMessage">To use these services, you will need an authentication token.</p>
         @if (User.Identity.IsAuthenticated)
         {
         <div class="largeButton">
@@ -77,5 +77,5 @@
             <a class="largeButton" href="/signUp">Sign up now!</a>
         </div>
         }
-    </div>
+    </article>
 </div>

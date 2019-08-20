@@ -5,35 +5,35 @@
     Layout = "_userLayout";
 }
 <div class="displayCardsContainer primaryContainer firstContainer">
-    <ul class="displayCard linkCard">
-        <li class="title">
-            <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project...</a>
-        </li>
-    </ul>
+    <article class="displayCard linkCard">
+        <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project</a>
+    </article>
     @foreach (Project project in (List<Project>)ViewData["projects"])
     {
-        <div class="displayCard" data-test="project">
-            <div class=@((project.Cards.AsQueryable().Select(c => !c.Done).Count() > 0) ? "notDone" : "done")></div>
-            <div class="title" data-test="title">@project.Title</div>
-            <div class="description" data-test="description">@project.Description</div>
+        <article class="displayCard" data-test="project">
+            <p class=@((project.Cards.Where(c => c.Done == false).Any()) ? "notDone" : "done")></p>
+            <h2 class="titleToBeSlidUp" data-test="title">@project.Title</h2>
+            <p class="description" data-test="description">@project.Description</p>
             @if (project.AssigneeProjects.Count() > 1)
-             {
+            {
                 <div class="responsibles" data-test="collaborators">
-                    <span>Collaborating with:</span>
-                    @{var otherCollaborators = project.AssigneeProjects.AsQueryable()
-                                      .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
+                    <label>Collaborating with:</label>
+                    <ul>
+                        @{var otherCollaborators = project.AssigneeProjects.AsQueryable()
+                                              .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
 
-                      var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
-                      foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
-                      {
-                          <span class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</span>
-                      }
-                    }
+                            var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
+                            foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
+                            {
+                                <li class="responsibleName" data-test="responsibleName">@assigneeProject.Assignee.UserName</li>
+                            }
+                        }
+                    </ul>
                 </div>
-             }
+            }
             <div class="details">
                 <a href="users/projects/@project.Id" data-test="detailsLink">Details</a>
             </div>
-        </div>
+        </article>
     }
 </div>

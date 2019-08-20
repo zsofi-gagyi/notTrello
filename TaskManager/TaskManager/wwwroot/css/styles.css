@@ -13,11 +13,17 @@ body {
 
 a {
     text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
 }
 
 ul {
     list-style-type: none;
     padding: 0;
+    margin: 15px 5px 0 25px;
 }
 
 #centerContent {
@@ -127,8 +133,8 @@ nav {
         padding-bottom: 5px;
     }
 
-        .secondaryContainer p {
-            margin: 10px 0 0 0;
+        .secondaryContainer .columnTitle {
+            margin: 5px 0;
             font-size: 24px;
             color: #707070;
         }
@@ -162,30 +168,43 @@ nav {
         border-radius: 45px;
     }
 
+        .primaryCard h2.mainTitle {
+            margin-top: -50px;
+            font-size: 30px;
+        }
+
     .linkCard {
         background-color: #ebebeb;
-        padding: 0;
+        padding: 4px;
         height: 40px;
     }
 
-        .linkCard li.title {
+        .linkCard a {
             margin-bottom: 0;
         }
 
             #createNewLink {
                 color: #707070;
-                font-weight: 400;
+                font-weight: 800;
+                text-decoration: underline;
             }
 
-    .displayCard .notDone, .done {
-        position: relative;
-        left: calc(100% - 30px);
+    .notDone, .done, .backArrow {
         top: 30px;
         margin-top: -30px;
+    }
+
+    .notDone, .done {
+        position: relative;
+        left: calc(100% - 30px);
         height: 30px;
         width: 30px;
         border-radius: 50%;
     }
+        .backArrow img {
+            position: relative;
+            margin-right: calc(100% - 10px);
+        }
 
     .displayCard .notDone {
         background-color: #f26f68
@@ -198,10 +217,22 @@ nav {
     .displayCard .title, .displayCard .mainTitle {
         text-align: center;
         margin-bottom: 15px;
+        margin-top: 0;
     }
 
-    .displayCard .title {
+    .displayCard h3.title {
         font-size: 22px;
+        margin: 15px 0 5px 0;
+    }
+
+    .displayCard h2.title {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .displayCard h2.titleToBeSlidUp {
+        font-size: 22px;
+        margin-top: -20px;
     }
 
     .displayCard .mainTitle {
@@ -222,21 +253,34 @@ nav {
         height: 30px;
         color: #00c9b5;
     }
-    .displayCard .responsibles span {
-        margin: 5px;
-        font-size: 18px;
-    }
-        .displayCard .responsibles .responsibleName {
-            padding: 5px 15px;
-            border: 2px solid;
-            border-radius: 30px;
-            border-color: #00c9b5;
+
+        .displayCard .responsibles ul {
+            margin: 0 3px;
         }
 
-    .displayCard .details{
+            .displayCard .responsibles ul .responsibleName,
+            .responsibles .responsibleName {
+                font-size: 18px;
+                display: inline;
+                padding: 5px 15px;
+                border: 2px solid;
+                border-radius: 30px;
+                border-color: #00c9b5;
+            }
+
+            .displayCard .responsibles ul .responsibleName {
+                margin: 2px;
+            }
+
+            .responsibles .responsibleName {
+                margin: 5px;
+            }
+
+    .displayCard .details {
         text-align: right;
-        margin: 5px 0;
+        margin: -20px 0 0 0;
     }
+
     .displayCard .details a {
         color: #707070;
         text-decoration: underline;
@@ -244,7 +288,7 @@ nav {
 
 /* ------------- card - in - project specific ------------- */
 
-li.titleToBeCentered {
+.titleToBeCentered {
     margin: 10px 0;
 }
 
@@ -271,13 +315,12 @@ li.titleToBeCentered {
         font-weight: normal;
         color: #707070;
         font-size: 20px;
+        margin: 0;
     }
 
         .stats p.pastDeadline {
             color: #f26f68;
         }
-
-
 
 /* ------------- for input ------------- */
 
@@ -312,9 +355,22 @@ li.titleToBeCentered {
         color: #00c9b5;
     }
 
-    .responsibles label {
-        margin: 5px;
-    }
+.pc-trigger {
+    font-size: 18px;
+}
+
+.picker .pc-select .pc-trigger {
+    margin-bottom: 0 !important;
+}
+
+.picker .pc-element {
+    font-size: 18px;
+    margin-bottom: 0 !important;
+}
+
+.responsibles label {
+    margin: 5px 10px 5px 5px;
+}
 
     #multipleSelector {
         width: 20px;
@@ -324,10 +380,21 @@ li.titleToBeCentered {
         text-align: center;
     }
 
-button.largeButton {
+button.largeButton, .renounceAdminButton {
+    letter-spacing: 1px;
     font-size: 25px;
     border: hidden;
     margin-bottom: 5px;
+}
+
+p.largeButton {
+    margin: 20px auto 5px auto;
+}
+
+.renounceAdminButton {
+    font-weight: 400;
+    color: white;
+    margin-bottom: -20px;;
 }
 
 #googleLink {
@@ -374,6 +441,7 @@ button.largeButton {
 
 .apiCard {
     padding-bottom: 25px;
+    border-radius: 45px;
 }
 
     .apiCard .largeButton {
@@ -395,7 +463,7 @@ button.largeButton {
     flex: 1 0 auto;
 }
 
-.footer {
+footer {
     flex-shrink: 0;
     height: 80px;
     width: 100%;
@@ -405,14 +473,14 @@ button.largeButton {
     color: #707070;
 }
 
-    .footer a {
+    footer a {
         color: #707070;
         text-decoration: underline;
         font-size: 20px;
         font-weight: bold;
     }
 
-    .footer p{
+    footer p{
         margin: 4px auto 20px auto;
         font-size: 16px;
     }
