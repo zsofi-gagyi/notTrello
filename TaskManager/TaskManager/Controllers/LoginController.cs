@@ -20,13 +20,13 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpPost("/signUp")]
-        public IActionResult DoSignUp([FromForm] string name, [FromForm]string password)
+        public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
         {
-            Assignee assignee = _userManager.FindByNameAsync(name).Result;
+            Assignee assignee = await _userManager.FindByNameAsync(name);
 
             if (assignee == null)
             {
-                _assigneeService.CreateAndSignIn(name, password);
+                await _assigneeService.CreateAndSignInAsync(name, password);
                 return Redirect("/users");
             }
 
@@ -37,8 +37,7 @@ namespace TodoWithDatabase.Controllers
         public async Task<IActionResult> LogIn([FromForm] string name, [FromForm]string password, [FromRoute]string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("/users");
-            var result = await _signInManager.PasswordSignInAsync(name,
-                password, false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(name, password, false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {

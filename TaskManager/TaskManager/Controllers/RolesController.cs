@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using System.Threading.Tasks;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Services.Interfaces;
 
@@ -22,15 +23,15 @@ namespace TodoWithDatabase.Controllers
 
         [HttpPost("/users/becomeAdmin")]
         [Authorize(Roles = "TodoUser")]
-        public IActionResult BecomeAdmin([FromForm]string motivation)
+        public async Task<IActionResult> BecomeAdmin([FromForm]string motivation)
         {
             var assignee = _assigneeService.GetWithAssigneeCards(User.Identity.Name);
             var cardsNr = assignee.AssigneeCards.Count();
 
             if (cardsNr > 0 && motivation.Length > 20)
             {
-                _userManager.AddToRoleAsync(assignee, "TodoAdmin").Wait(); //TODO research await and Wait() 
-                _signInManager.RefreshSignInAsync(assignee).Wait();
+                await _userManager.AddToRoleAsync(assignee, "TodoAdmin");  
+                await _signInManager.RefreshSignInAsync(assignee);
                 ViewData.Add("role", "Admin");
                 ViewData.Add("result", "You have been granted the title \"Admin\".");
             } else
@@ -45,12 +46,12 @@ namespace TodoWithDatabase.Controllers
 
         [HttpGet("/users/stopBeingAdmin")]
         [Authorize(Roles = "TodoAdmin")]
-        public IActionResult StopBeingAdmin()
+        public async Task<IActionResult> StopBeingAdmin()
         {
-            var assignee = _userManager.GetUserAsync(User).Result;
+            var assignee = await _userManager.GetUserAsync(User);
 
-            _userManager.RemoveFromRoleAsync(assignee, "TodoAdmin").Wait();
-            _signInManager.RefreshSignInAsync(assignee).Wait();
+            await _userManager.RemoveFromRoleAsync(assignee, "TodoAdmin");
+            await _signInManager.RefreshSignInAsync(assignee);
 
             ViewData.Add("role", "User");
             ViewData.Add("result", "You have succesfully renounced of the title \"admin\".");

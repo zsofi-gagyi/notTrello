@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTO;
+using System.Threading.Tasks;
 
 namespace TodoWithDatabase.Controllers.API
 {
@@ -19,22 +20,22 @@ namespace TodoWithDatabase.Controllers.API
 
         [HttpGet("/api/users/{userId}/userWithCards")]
         [Authorize(Roles = "TodoAdmin")]
-        public ActionResult<AssigneeWithCardsDTO> GetAssigneeCardFor(string userId)
+        public Task<AssigneeWithCardsDTO> GetAssigneeCardFor(string userId)
         {
-            return GetAssigneeWithCardsDTOFor(userId);
+            return  GetAssigneeWithCardsDTOForAsync(userId);
         }
 
         [HttpGet("/api/users/me/userWithCards")]
         [Authorize]
-        public ActionResult<AssigneeWithCardsDTO> GetAssigneeCardForSelf()
+        public Task<AssigneeWithCardsDTO> GetAssigneeCardForSelf()
         {
             var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
-            return GetAssigneeWithCardsDTOFor(userId); 
+            return  GetAssigneeWithCardsDTOForAsync(userId); 
         }
 
-        private AssigneeWithCardsDTO GetAssigneeWithCardsDTOFor(string userId)
+        private Task<AssigneeWithCardsDTO> GetAssigneeWithCardsDTOForAsync(string userId)
         {
-            return _assigneeService.GetAndTranslateToAssigneWithCardsDTO(userId);
+            return _assigneeService.GetAndTranslateToAssigneWithCardsDTOAsync(userId);
         }
     }
 }

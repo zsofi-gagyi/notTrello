@@ -8,18 +8,19 @@ using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models.DAOs.JoinTables;
+using System.Threading.Tasks;
 
 namespace TodoWithDatabase.IntegrationTests.Helpers
 {
     public static class DatabaseSeeder
     {
-        public static void InitializeDatabaseForAPITestsUsing(this MyContext context, IAssigneeService assigneeService)
+        public static async Task InitializeDatabaseForAPITestsUsing(this MyContext context, IAssigneeService assigneeService)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var assignee1 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user1Name", Password = "user1Password" });
-            var assignee2 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user2Name", Password = "user2Password" });
+            var assignee1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1Name", Password = "user1Password" });
+            var assignee2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2Name", Password = "user2Password" });
 
             var projectToEdit = new Project { Title = "projectToEdit" };
             var sharedProject = new Project { Title = "sharedProject" };
@@ -33,13 +34,13 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             context.SaveChanges();
         }
 
-        public static void InitializeDatabaseForHtmlTestsUsing(this MyContext context, IAssigneeService assigneeService, IProjectService projectService)
+        public static async Task InitializeDatabaseForHtmlTestsUsing(this MyContext context, IAssigneeService assigneeService, IProjectService projectService)
         {
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var user1 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user1", Password = "1t" });
-            var user2 = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "user2", Password = "2" });
+            var user1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1", Password = "1t" });
+            var user2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2", Password = "2" });
 
             context.Entry(user1).State = EntityState.Detached;
             context.Entry(user2).State = EntityState.Detached;
@@ -101,7 +102,7 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
             context.SaveChanges();
         }
 
-        public static void EnsureDatabaseHasStandardGuestData(this IServiceCollection services)
+        public static async Task EnsureDatabaseHasStandardGuestData(this IServiceCollection services)
         {
             var context = services.BuildServiceProvider().GetRequiredService<MyContext>();
             var assigneeService = services.BuildServiceProvider().GetRequiredService<IAssigneeService>();
@@ -112,9 +113,9 @@ namespace TodoWithDatabase.IntegrationTests.Helpers
                 DeleteGuestData(context, projectService);
             }
 
-            var guest = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Guest", Password = "guest" });
-            var alice = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Alice", Password = "a" });
-            var bob = assigneeService.CreateAndReturnNew(new AssigneeToCreateDTO { Name = "Bob", Password = "b" });
+            var guest = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "Guest", Password = "guest" });
+            var alice = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "Alice", Password = "a" });
+            var bob = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "Bob", Password = "b" });
 
             context.CreateProjects(guest, alice, bob, projectService);
         }

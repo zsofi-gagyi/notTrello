@@ -11,13 +11,13 @@ namespace TodoWithDatabase.Services.Extensions
             var roleManager = services.BuildServiceProvider().GetRequiredService<RoleManager<IdentityRole>>();
 
             var role1 = new IdentityRole { Name = "TodoAdmin" };
-            if (!roleManager.RoleExistsAsync("TodoAdmin").Result)
+            if (!await roleManager.RoleExistsAsync("TodoAdmin"))
             {
                 await roleManager.CreateAsync(role1);
             };
 
             var role2 = new IdentityRole { Name = "TodoUser" };
-            if (!roleManager.RoleExistsAsync("TodoUser").Result)
+            if (!await roleManager.RoleExistsAsync("TodoUser"))
             {
                 await roleManager.CreateAsync(role2);
             };

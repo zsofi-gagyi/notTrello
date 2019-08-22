@@ -9,6 +9,7 @@ using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DTO;
+using System.Threading.Tasks;
 
 namespace TodoWithDatabase.Services
 {
@@ -35,20 +36,23 @@ namespace TodoWithDatabase.Services
                 .SingleOrDefault();
         }
 
-        public Assignee CreateAndReturnNew(AssigneeToCreateDTO assigneeDTO)
+        public async Task<Assignee> CreateAndReturnNewAsync(AssigneeToCreateDTO assigneeDTO)
         {
             var newAssignee = new Assignee { UserName = assigneeDTO.Name };
-            _userManager.CreateAsync(newAssignee, assigneeDTO.Password).Wait();
-            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
+
+            await _userManager.CreateAsync(newAssignee, assigneeDTO.Password);
+            await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
+
             return newAssignee;
         }
 
-        public void CreateAndSignIn(string name, string password)
+        public async Task CreateAndSignInAsync(string name, string password)
         {
             var newAssignee = new Assignee { UserName = name };
-            _userManager.CreateAsync(newAssignee, password).Wait();
-            _userManager.AddToRoleAsync(newAssignee, "TodoUser").Wait();
-            _signInManager.SignInAsync(newAssignee, false).Wait();
+
+            await _userManager.CreateAsync(newAssignee, password);
+            await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
+            await _signInManager.SignInAsync(newAssignee, false);
         }
 
         public List<AssigneeDTO> GetAndTranslateAll()
@@ -56,18 +60,19 @@ namespace TodoWithDatabase.Services
             List<Assignee> assignees = _myContext.Assignees.ToList();
             List<AssigneeDTO> result = new List<AssigneeDTO>();
             assignees.ForEach(a => result.Add(_mapper.Map<AssigneeDTO>(a)));
+
             return result;
         }
 
         public void Update(Assignee assignee)
         {
-            var originalAssignee = _myContext.FindAsync(typeof(Assignee), assignee.Id).Result;
+            var originalAssignee = _myContext.Find(typeof(Assignee), assignee.Id);
             _myContext.Entry(originalAssignee).State = EntityState.Detached;
             _myContext.Entry(assignee).State = EntityState.Modified;
             _myContext.SaveChanges();
         }
 
-        public AssigneeWithProjectsDTO GetAndTranslateToAssigneWithProjectsDTO(string userId)
+        public async Task<AssigneeWithProjectsDTO> GetAndTranslateToAssigneWithProjectsDTOAsync(string userId)
         {
             var assignee = _myContext.Assignees
                 .Where(a => a.Id.Equals(userId))
@@ -87,13 +92,14 @@ namespace TodoWithDatabase.Services
 
             var assigneeWithProjectsDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);
 
-            string role = _userManager.GetRolesAsync(assignee).Result.FirstOrDefault().ToString();
+            var rolesEnumerable = await _userManager.GetRolesAsync(assignee);
+            var role = rolesEnumerable.FirstOrDefault().ToString();
             assigneeWithProjectsDTO.Role = role;
 
             return assigneeWithProjectsDTO;
         }
 
-        public AssigneeWithCardsDTO GetAndTranslateToAssigneWithCardsDTO(string userId)
+        public async Task<AssigneeWithCardsDTO> GetAndTranslateToAssigneWithCardsDTOAsync(string userId)
         {
             var assignee = _myContext.Assignees
                 .Where(a => a.Id.Equals(userId))
@@ -113,7 +119,8 @@ namespace TodoWithDatabase.Services
 
             var assigneeWithCardsDTO = _mapper.Map<AssigneeWithCardsDTO>(assignee);
 
-            string role = _userManager.GetRolesAsync(assignee).Result.FirstOrDefault().ToString();
+            var rolesEnumerable = await _userManager.GetRolesAsync(assignee);
+            var role = rolesEnumerable.FirstOrDefault().ToString();
             assigneeWithCardsDTO.Role = role;
 
             return assigneeWithCardsDTO;
