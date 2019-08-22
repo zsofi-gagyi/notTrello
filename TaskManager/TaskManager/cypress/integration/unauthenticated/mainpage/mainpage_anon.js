@@ -13,6 +13,6 @@ it('mainpage for anon displays correctly', () => {
 
     cy.get('[data-test=signUpButton]')
         .contains("Sign up now!")
-        .should('have.attr', 'href')
+            .should('have.attr', 'href')
             .and('eq', '/signUp')
 });

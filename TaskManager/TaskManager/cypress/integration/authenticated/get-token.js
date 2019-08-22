@@ -18,7 +18,7 @@
                 }
             })
 
-            var unauthorized_result = cy.request({
+            let unauthorized_result = cy.request({
                 method: 'POST',
                 url: 'https://localhost:44374/api/users',
                 headers: {

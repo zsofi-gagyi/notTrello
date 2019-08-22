@@ -38,7 +38,7 @@ Cypress.Commands.add("create_project", () => {
 });
 
 Cypress.Commands.add("delete_project", (projectUrl) => {
-    var projectId = projectUrl.substring(39)
+    let projectId = projectUrl.substring(39)
     cy.get_user_token().then(($token) => { 
 
         cy.request({

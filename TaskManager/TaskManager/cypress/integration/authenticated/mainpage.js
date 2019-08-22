@@ -12,8 +12,8 @@ it('mainpage for user displays correctly', () => {
 
     cy.get('[data-test=addProject]')
         .contains("Add new")
-        .should('have.attr', 'href')
-        .and('eq', 'users/addProject')
+            .should('have.attr', 'href')
+            .and('eq', 'users/addProject')
 
     cy.get('[data-test=project]')
         .then(projects => {
@@ -33,36 +33,33 @@ it('mainpage for user displays correctly', () => {
 
     cy.get('[data-test=project]')
         .first()
-        .find('[data-test=title]')
-        .should('have.text', "Personal project")
+            .find('[data-test=title]')
+            .should('have.text', "Personal project")
 
-    cy.get('[data-test=project]')
-        .first()
-        .find('[data-test=description]')
-        .contains("As an individual")
+        .parent()
+            .find('[data-test=description]')
+            .contains("As an individual")
 
-    cy.get('[data-test=project]')
-        .first()
-        .find('[data-test=collaborators]')
-        .should('not.exist')
-
-    cy.get('[data-test=project]')
-        .last()
-        .find('[data-test=description]')
-        .contains("As a team")
+        .parent()
+            .find('[data-test=collaborators]')
+            .should('not.exist')
 
     cy.get('[data-test=project]')
         .last()
-        .find('[data-test=collaborators] > [data-test=responsibleName]')
-        .should(($listOfCollaborators) => {
-            expect($listOfCollaborators).to.have.length(2)
-        })
-        .first()
-        .should('have.text', "Alice")
+            .find('[data-test=description]')
+            .contains("As a team")
+
+        .parent()
+            .find('[data-test=collaborators] > ul > [data-test=responsibleName]')
+            .should(($listOfCollaborators) => {
+                expect($listOfCollaborators).to.have.length(2)
+            })
+                .first()
+                .should('have.text', "Alice")
 
     cy.get('[data-test=project]')
         .last()
-        .find('[data-test=collaborators] > [data-test=responsibleName]')
-        .last()
-        .should('have.text', "Bob")
+        .find('[data-test=collaborators] > ul > [data-test=responsibleName]')
+            .last()
+            .should('have.text', "Bob")
 });
