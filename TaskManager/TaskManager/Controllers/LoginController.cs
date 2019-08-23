@@ -6,6 +6,7 @@ using TodoWithDatabase.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Google;
 using System;
+using System.Linq;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -53,12 +54,13 @@ namespace TodoWithDatabase.Controllers
         [HttpGet("/google-login")]
         public async Task<IActionResult> LogInWithGoogle()
         {
-            Assignee assignee = await _userManager.FindByNameAsync(User.Identity.Name.Replace(" ", "_"));
+            var email = User.Claims.Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")).First().Value;
+            Assignee assignee = await _userManager.FindByEmailAsync(email);
 
-            if (User.Identity.IsAuthenticated && assignee == null)
+            if (assignee == null)
             {
-                await _assigneeService.CreateAndSignInAsync(User.Identity.Name.Replace(" ", "_"), new Guid().ToString());
-            }
+                await _assigneeService.CreateAndSignInWithEmailAsync(User.Identity.Name, email);
+            } 
             else
             {
                 await _signInManager.SignInAsync(assignee, false, "googleAuth");

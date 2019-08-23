@@ -15,6 +15,8 @@ namespace TodoWithDatabase.Services.Interfaces
 
         Task CreateAndSignInAsync(string name, string password);
 
+        Task CreateAndSignInWithEmailAsync(string name, string email);
+
         void Update(Assignee assignee);
 
         List<AssigneeDTO> GetAndTranslateAll();

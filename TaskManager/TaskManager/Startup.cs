@@ -66,10 +66,6 @@ namespace TaskManager
             services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
 
             AddEnvironmentNeutralConfigurations(services);
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AuthorizePage("/users/changeRole");
-            });
         }
 
         public void ConfigureTestingWithoutAuthenticationServices(IServiceCollection services)
@@ -90,9 +86,8 @@ namespace TaskManager
                 .AddGoogle(options =>
                 {
                     IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-
-                    options.ClientId = googleAuthNSection["ClientIdTaskManager"];
-                    options.ClientSecret = googleAuthNSection["ClientSecretTaskManager"];
+                    options.ClientId = googleAuthNSection["ClientIdTaskManager"] ?? "testingId";
+                    options.ClientSecret = googleAuthNSection["ClientSecretTaskManager"] ?? "testingSecret"; ;
                 })
                 .AddJwtBearer(config =>
                 {
@@ -150,7 +145,13 @@ namespace TaskManager
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProjectService, ProjectService>();
+
             services.SetUpAutoMapper();
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
