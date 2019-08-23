@@ -48,7 +48,8 @@ namespace TodoWithDatabase.Services
 
         public async Task CreateAndSignInAsync(string name, string password)
         {
-            var newAssignee = new Assignee { UserName = name };
+            var correctedName = name.Replace(" ", "_");
+            var newAssignee = new Assignee { UserName = correctedName };
 
             await _userManager.CreateAsync(newAssignee, password);
             await _userManager.AddToRoleAsync(newAssignee, "TodoUser");

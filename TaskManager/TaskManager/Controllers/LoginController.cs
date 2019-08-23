@@ -3,6 +3,9 @@ using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Google;
+using System;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -27,16 +30,15 @@ namespace TodoWithDatabase.Controllers
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInAsync(name, password);
-                return Redirect("/users");
             }
 
-            return Redirect("/login");
+            return Redirect("/");
         }
 
         [HttpPost("/login")]
         public async Task<IActionResult> LogIn([FromForm] string name, [FromForm]string password, [FromRoute]string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("/users");
+            returnUrl = returnUrl ?? Url.Content("/");
             var result = await _signInManager.PasswordSignInAsync(name, password, false, lockoutOnFailure: false);
 
             if (result.Succeeded)
@@ -45,6 +47,24 @@ namespace TodoWithDatabase.Controllers
             }
 
             return Redirect("/login");
+        }
+
+        [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
+        [HttpGet("/google-login")]
+        public async Task<IActionResult> LogInWithGoogle()
+        {
+            Assignee assignee = await _userManager.FindByNameAsync(User.Identity.Name.Replace(" ", "_"));
+
+            if (User.Identity.IsAuthenticated && assignee == null)
+            {
+                await _assigneeService.CreateAndSignInAsync(User.Identity.Name.Replace(" ", "_"), new Guid().ToString());
+            }
+            else
+            {
+                await _signInManager.SignInAsync(assignee, false, "googleAuth");
+            }
+
+            return Redirect("/");
         }
 
         [HttpGet("/logout")]

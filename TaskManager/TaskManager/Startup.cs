@@ -22,11 +22,19 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace TaskManager
 {
     public class Startup
     {
+        private IConfiguration Configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -79,34 +87,41 @@ namespace TaskManager
                 .AddEntityFrameworkStores<MyContext>();
 
             services.AddAuthentication()
-             .AddJwtBearer(config =>
-             {
-                 config.RequireHttpsMetadata = false;
-                 config.SaveToken = true;
-                 config.TokenValidationParameters = new TokenValidationParameters
-                 {
-                     ValidateIssuerSigningKey = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(
-                          Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"))),
-                     ValidateIssuer = false,
-                     ValidateAudience = false,
-                     ClockSkew = TimeSpan.Zero
-                 };
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
 
-                 config.Events = new JwtBearerEvents();
-                 config.Events.OnChallenge = context =>
-                 {
-                     context.HandleResponse();
-                     context.Response.StatusCode = 401;
+                    options.ClientId = googleAuthNSection["ClientIdTaskManager"];
+                    options.ClientSecret = googleAuthNSection["ClientSecretTaskManager"];
+                })
+                .AddJwtBearer(config =>
+                {
+                    config.RequireHttpsMetadata = false;
+                    config.SaveToken = true;
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                                Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"))),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
+                    };
 
-                     var payload = new JObject
-                     {
-                         ["error"] = "Unauthorized - user not recognized"
-                     };
+                    config.Events = new JwtBearerEvents();
+                    config.Events.OnChallenge = context =>
+                    {
+                        context.HandleResponse();
+                        context.Response.StatusCode = 401;
 
-                     return context.Response.WriteAsync(payload.ToString());
-                 };
-             }
+                        var payload = new JObject
+                        {
+                            ["error"] = "Unauthorized - user not recognized"
+                        };
+
+                        return context.Response.WriteAsync(payload.ToString());
+                    };
+                }
            );
 
             services.Configure<IdentityOptions>(options =>
