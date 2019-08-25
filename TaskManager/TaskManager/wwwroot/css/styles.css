@@ -194,13 +194,15 @@ nav {
         margin-top: -30px;
     }
 
-    .notDone, .done {
-        position: relative;
-        left: calc(100% - 30px);
-        height: 30px;
-        width: 30px;
-        border-radius: 50%;
-    }
+.notDone, .done {
+    top: 22px;
+    margin-top: -30px;
+    position: relative;
+    left: calc(100% - 22px);
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+}
         .backArrow img {
             position: relative;
             margin-right: calc(100% - 10px);

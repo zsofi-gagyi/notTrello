@@ -25,16 +25,16 @@
 
             cy.get('[data-test=toDoCard]')
                 .first()
-                .find('[data-test=title]')
-                .should('contain', 'test card title')
+                    .find('[data-test=title]')
+                    .should('contain', 'test card title')
 
                 .parent()
-                .find('[data-test=description]')
-                .should('contain', 'test card description')
+                    .find('[data-test=description]')
+                    .should('contain', 'test card description')
 
                 .parent()
-                .find('a')
-                .should('contain', 'Mark as done')
+                    .find('a')
+                    .should('contain', 'Mark as done')
 
             cy.url()
                 .then(($urlWithProjectId) => {

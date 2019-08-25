@@ -3,6 +3,10 @@ using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using TodoWithDatabase.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Google;
+using System;
+using System.Linq;
 
 namespace TodoWithDatabase.Controllers
 {
@@ -20,25 +24,23 @@ namespace TodoWithDatabase.Controllers
         }
 
         [HttpPost("/signUp")]
-        public IActionResult DoSignUp([FromForm] string name, [FromForm]string password)
+        public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
         {
-            Assignee assignee = _userManager.FindByNameAsync(name).Result;
+            Assignee assignee = await _userManager.FindByNameAsync(name);
 
             if (assignee == null)
             {
-                _assigneeService.CreateAndSignIn(name, password);
-                return Redirect("/users");
+                await _assigneeService.CreateAndSignInAsync(name, password);
             }
 
-            return Redirect("/login");
+            return Redirect("/");
         }
 
         [HttpPost("/login")]
         public async Task<IActionResult> LogIn([FromForm] string name, [FromForm]string password, [FromRoute]string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("/users");
-            var result = await _signInManager.PasswordSignInAsync(name,
-                password, false, lockoutOnFailure: false);
+            returnUrl = returnUrl ?? Url.Content("/");
+            var result = await _signInManager.PasswordSignInAsync(name, password, false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
@@ -46,6 +48,25 @@ namespace TodoWithDatabase.Controllers
             }
 
             return Redirect("/login");
+        }
+
+        [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
+        [HttpGet("/google-login")]
+        public async Task<IActionResult> LogInWithGoogle()
+        {
+            var email = User.Claims.Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")).First().Value;
+            Assignee assignee = await _userManager.FindByEmailAsync(email);
+
+            if (assignee == null)
+            {
+                await _assigneeService.CreateAndSignInWithEmailAsync(User.Identity.Name, email);
+            } 
+            else
+            {
+                await _signInManager.SignInAsync(assignee, false, "googleAuth");
+            }
+
+            return Redirect("/");
         }
 
         [HttpGet("/logout")]

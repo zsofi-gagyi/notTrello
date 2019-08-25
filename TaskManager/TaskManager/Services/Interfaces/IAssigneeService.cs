@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Models.DTO;
@@ -10,16 +11,18 @@ namespace TodoWithDatabase.Services.Interfaces
     {
         Assignee GetWithAssigneeCards(string name);
 
-        Assignee CreateAndReturnNew(AssigneeToCreateDTO assigneeDTO);
+        Task<Assignee> CreateAndReturnNewAsync(AssigneeToCreateDTO assigneeDTO);
 
-        void CreateAndSignIn(string name, string password);
+        Task CreateAndSignInAsync(string name, string password);
+
+        Task CreateAndSignInWithEmailAsync(string name, string email);
 
         void Update(Assignee assignee);
 
         List<AssigneeDTO> GetAndTranslateAll();
 
-        AssigneeWithProjectsDTO GetAndTranslateToAssigneWithProjectsDTO(string userId);
+        Task<AssigneeWithProjectsDTO> GetAndTranslateToAssigneWithProjectsDTOAsync(string userId);
 
-        AssigneeWithCardsDTO GetAndTranslateToAssigneWithCardsDTO(string userId);
+        Task<AssigneeWithCardsDTO> GetAndTranslateToAssigneWithCardsDTOAsync(string userId);
     }
 }

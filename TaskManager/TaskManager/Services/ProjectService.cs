@@ -77,7 +77,12 @@ namespace TodoWithDatabase.Services
 
               .FirstOrDefault();
 
-            return project.AssigneeProjects.Where(ap => ap.Assignee.UserName.Equals(assigneeName)).Count() > 0;
+            return project.AssigneeProjects
+                .Where(ap => ap
+                            .Assignee
+                            .UserName
+                            .Equals(assigneeName))
+                .Count() > 0;
         }
 
         public void Save(Project project)
@@ -88,7 +93,7 @@ namespace TodoWithDatabase.Services
 
         public void Update(Project project)
         {
-            var originalProject = _myContext.FindAsync(typeof (Project), project.Id).Result;
+            var originalProject = _myContext.Find(typeof (Project), project.Id); 
             _myContext.Entry(originalProject).State = EntityState.Detached;
             _myContext.Entry(project).State = EntityState.Modified;
             _myContext.SaveChanges();
@@ -120,7 +125,8 @@ namespace TodoWithDatabase.Services
             var assigneeProjects = new List<AssigneeProject>();
             foreach (var assigneeDTO in projectDTO.AssigneeDTOs)
             {
-                assigneeProjects.Add(new AssigneeProject (_mapper.Map<Assignee>(assigneeDTO), project));
+                var newAssigneeProject = new AssigneeProject(_mapper.Map<Assignee>(assigneeDTO), project);
+                assigneeProjects.Add(newAssigneeProject);
             }
             project.AssigneeProjects = assigneeProjects;
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
-using TodoWithDatabase.Services.Interfaces;
 using System;
 using Newtonsoft.Json;
 using TodoWithDatabase.Repository;
@@ -18,7 +17,7 @@ namespace TodoWithDatabase.App.Services.Helpers.Extensions.Middleware
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, MyContext dbcontext)
+        public async Task InvokeAsync(HttpContext context)
         {
             var path = context.Request.Path.Value;
             string[] urlParts = path.Split("/");

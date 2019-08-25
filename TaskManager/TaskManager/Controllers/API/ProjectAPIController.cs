@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TodoWithDatabase.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using TodoWithDatabase.Models.DAOs;
 using System.Net;
 using TodoWithDatabase.Models.DTOs;
 
@@ -13,15 +11,11 @@ namespace TodoWithDatabase.Controllers.API
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectAPIController : ControllerBase
     {
-        private readonly IAssigneeService _assigneeService;
         private readonly IProjectService _projectService;
-        private readonly UserManager<Assignee> _userManager;
 
-        public ProjectAPIController(IAssigneeService assigneeService,IProjectService projectService, UserManager<Assignee> userManager)
+        public ProjectAPIController( IProjectService projectService )
         {
-            _assigneeService = assigneeService;
             _projectService = projectService;
-            _userManager = userManager;
         }
 
         [HttpDelete("/api/users/me/projects/{projectId}")]
@@ -68,7 +62,8 @@ namespace TodoWithDatabase.Controllers.API
 
             if (project.AssigneeProjects.Count != 1)
             {
-                return BadRequest(new { message = "The project is shared with other users. Only solo projects can be " + requestedAction + "d using this method" });
+                return BadRequest(new { message = "The project is shared with other users. Only solo projects can be " 
+                    + requestedAction + "d using this method" });
             }
 
             return null;

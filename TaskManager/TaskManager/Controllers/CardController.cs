@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace TodoWithDatabase.Controllers
 
         [HttpPost("/users/projects/{Id}/cards/addCard")]
         [Authorize]
-        public IActionResult DoAddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
+        public async Task<IActionResult> DoAddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
         {
             var project = _projectService.Get(projectId);
             if (project == null)
@@ -46,11 +47,11 @@ namespace TodoWithDatabase.Controllers
             card.Project = project;
 
             var responsibles = new List<Assignee>();
-            var user = _userManager.GetUserAsync(User).Result;
+            var user = await _userManager.GetUserAsync(User);
             responsibles.Add(user);
             foreach (string id in collaboratorIds)
             {
-                var collaborator = _userManager.FindByIdAsync(id).Result;
+                var collaborator = await _userManager.FindByIdAsync(id);
                 responsibles.Add(collaborator);
             }
 

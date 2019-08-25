@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TodoWithDatabase.Models.DAOs;
 using TodoWithDatabase.Services.Interfaces;
 
@@ -20,10 +21,11 @@ namespace TodoWithDatabase.Controllers
 
         [HttpGet("/users/token")]
         [Authorize]
-        public IActionResult Token()
+        public async Task<IActionResult> Token()
         {
             var userName = User.Identity.Name;
-            var userId = _userManager.FindByNameAsync(userName).Result.Id;
+            var user = await _userManager.FindByNameAsync(userName);
+            var userId = user.Id;
             var role = User.IsInRole("TodoAdmin") ? "TodoAdmin" : "TodoUser";
             ViewData["token"] = _tokenService.GenerateToken(userId, userName, role);
             return View();

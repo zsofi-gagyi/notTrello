@@ -22,11 +22,19 @@ using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace TaskManager
 {
     public class Startup
     {
+        private IConfiguration Configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -58,10 +66,6 @@ namespace TaskManager
             services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
 
             AddEnvironmentNeutralConfigurations(services);
-            services.AddMvc().AddRazorPagesOptions(options =>
-            {
-                options.Conventions.AuthorizePage("/users/changeRole");
-            });
         }
 
         public void ConfigureTestingWithoutAuthenticationServices(IServiceCollection services)
@@ -79,34 +83,40 @@ namespace TaskManager
                 .AddEntityFrameworkStores<MyContext>();
 
             services.AddAuthentication()
-             .AddJwtBearer(config =>
-             {
-                 config.RequireHttpsMetadata = false;
-                 config.SaveToken = true;
-                 config.TokenValidationParameters = new TokenValidationParameters
-                 {
-                     ValidateIssuerSigningKey = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(
-                          Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"))),
-                     ValidateIssuer = false,
-                     ValidateAudience = false,
-                     ClockSkew = TimeSpan.Zero
-                 };
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
+                    options.ClientId = googleAuthNSection["ClientIdTaskManager"] ?? "testingId";
+                    options.ClientSecret = googleAuthNSection["ClientSecretTaskManager"] ?? "testingSecret"; ;
+                })
+                .AddJwtBearer(config =>
+                {
+                    config.RequireHttpsMetadata = false;
+                    config.SaveToken = true;
+                    config.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                                Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"))),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ClockSkew = TimeSpan.Zero
+                    };
 
-                 config.Events = new JwtBearerEvents();
-                 config.Events.OnChallenge = context =>
-                 {
-                     context.HandleResponse();
-                     context.Response.StatusCode = 401;
+                    config.Events = new JwtBearerEvents();
+                    config.Events.OnChallenge = context =>
+                    {
+                        context.HandleResponse();
+                        context.Response.StatusCode = 401;
 
-                     var payload = new JObject
-                     {
-                         ["error"] = "Unauthorized - user not recognized"
-                     };
+                        var payload = new JObject
+                        {
+                            ["error"] = "Unauthorized - user not recognized"
+                        };
 
-                     return context.Response.WriteAsync(payload.ToString());
-                 };
-             }
+                        return context.Response.WriteAsync(payload.ToString());
+                    };
+                }
            );
 
             services.Configure<IdentityOptions>(options =>
@@ -135,7 +145,13 @@ namespace TaskManager
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IProjectService, ProjectService>();
+
             services.SetUpAutoMapper();
+
+            services.AddMvc().AddRazorPagesOptions(options =>
+            {
+                options.Conventions.AuthorizePage("/users/changeRole");
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

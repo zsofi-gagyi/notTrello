@@ -16,11 +16,11 @@ describe('navbar for anon displays correctly', () => {
 
             cy.contains("Log in")
                 .should('have.attr', 'href')
-                    .and('eq', '/login')
+                .and('eq', '/login')
 
             cy.contains("Sign up")
                 .should('have.attr', 'href')
-                    .and('eq', '/signUp')
+                .and('eq', '/signUp')
         })
     })
 })

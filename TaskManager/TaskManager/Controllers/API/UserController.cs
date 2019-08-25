@@ -6,6 +6,7 @@ using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 namespace TodoWithDatabase.Controllers.API
 {
@@ -24,13 +25,13 @@ namespace TodoWithDatabase.Controllers.API
 
         [HttpPost("/api/users")]
         [Authorize(Roles = "TodoAdmin")]
-        public IActionResult AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
+        public async Task<IActionResult> AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
         {
-            var assignee = _userManager.FindByNameAsync(userDTO.Name).Result;
+            var assignee = await _userManager.FindByNameAsync(userDTO.Name);
 
             if (assignee == null)
             {
-                var newAssignee = _assigneeService.CreateAndReturnNew(userDTO);
+                var newAssignee = await _assigneeService.CreateAndReturnNewAsync(userDTO);
                 var responseMessage = new { message = "User with the name " + userDTO.Name + " has been succesfully created!" };
                 return Created("api/users/" + newAssignee.Id + "/userWithProjects", responseMessage );
             }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -40,15 +41,15 @@ namespace TodoWithDatabase.Controllers
 
         [HttpPost("/users/addProject")]
         [Authorize]
-        public IActionResult AddProject([FromForm] Project project, List<string> collaboratorIds)
+        public async Task<IActionResult> AddProject([FromForm] Project project, List<string> collaboratorIds)
         {
             _projectService.Save(project); 
 
             var responsibles = new List<Assignee>();
-            responsibles.Add(_userManager.GetUserAsync(User).Result);
+            responsibles.Add(await _userManager.GetUserAsync(User));
             foreach (string id in collaboratorIds)
             {
-                var collaborator = _userManager.FindByIdAsync(id).Result;
+                var collaborator = await _userManager.FindByIdAsync(id);
                 responsibles.Add(collaborator);
             }
 
