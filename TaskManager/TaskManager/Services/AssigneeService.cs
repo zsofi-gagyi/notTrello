@@ -10,6 +10,7 @@ using TodoWithDatabase.Models.DTOs;
 using TodoWithDatabase.Models;
 using TodoWithDatabase.Models.DTO;
 using System.Threading.Tasks;
+using System;
 
 namespace TodoWithDatabase.Services
 {
@@ -51,6 +52,20 @@ namespace TodoWithDatabase.Services
             var newAssignee = new Assignee { UserName = name };
 
             await _userManager.CreateAsync(newAssignee, password);
+            await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
+            await _signInManager.SignInAsync(newAssignee, false);
+        }
+
+        public async Task CreateAndSignInWithEmailAsync(string name, string email)
+        {
+            var correctedName = name.Replace(" ", "_");
+            var newAssignee = new Assignee { UserName = correctedName, Email = email };
+
+            await _userManager.CreateAsync(newAssignee, new Guid().ToString());
+                    // TODO there should be an option for these users (created following 
+                    // Google Authentication) to change their passwords, 
+                    // so they can access their accounts without using Google, too
+
             await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
             await _signInManager.SignInAsync(newAssignee, false);
         }
