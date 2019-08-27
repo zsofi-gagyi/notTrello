@@ -22,7 +22,7 @@ namespace TodoWithDatabase.Models.DAOs
 
         public List<Card> Cards { set; get; }
 
-        public Project() // necessary for model binding
+        public Project() 
         {
             AssigneeProjects = new List<AssigneeProject>();
             Cards = new List<Card>();

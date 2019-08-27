@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using TodoWithDatabase.Repository;
-using TodoWithDatabase.IntegrationTests.Helpers;
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
 using TodoWithDatabase.Services.Interfaces;
 using AutoMapper;
 using TaskManager;
+using TodoWithDatabase.Services.Extensions;
 
 namespace TodoWithDatabase.IntegrationTests
 {
@@ -36,7 +36,7 @@ namespace TodoWithDatabase.IntegrationTests
 
             var assigneeService = _server.Host.Services.GetRequiredService<IAssigneeService>();
             var projectService = _server.Host.Services.GetRequiredService<IProjectService>();
-            DatabaseSeeder.InitializeDatabaseForHtmlTestsUsing(Context, assigneeService, projectService);
+            Context.InitializeDatabaseForHtmlTestsUsing(assigneeService, projectService).Wait();
         }
 
         public void Dispose()

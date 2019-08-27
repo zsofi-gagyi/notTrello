@@ -21,7 +21,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         {
             _testContext = testContext;
             var tokenService = new TokenService();
-            var correctToken = tokenService.GenerateToken("testID", "testAdmin", "TodoAdmin"); // TODO this must be researched and changed to "true"
+            var correctToken = tokenService.GenerateToken("testID", "testAdmin", "TodoAdmin"); 
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", correctToken);
         }
 

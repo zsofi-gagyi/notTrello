@@ -36,8 +36,7 @@ namespace TodoWithDatabase.App.Services.Helpers.Extensions.Middleware
             {
                 await _next(context);
             }
-            else    // i'd prefer to get rid of this "else" clause, and put it all just after the IF has failed,
-                    // but the threads somehow get mixed up otherwise and the test fails. (comment to be deleted)
+            else          
             {
 
                 context.Response.Clear();

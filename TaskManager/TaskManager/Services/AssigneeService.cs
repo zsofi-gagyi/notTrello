@@ -62,9 +62,9 @@ namespace TodoWithDatabase.Services
             var newAssignee = new Assignee { UserName = correctedName, Email = email };
 
             await _userManager.CreateAsync(newAssignee, new Guid().ToString());
-                    // TODO there should be an option for these users (created following 
+                    // TODO there could be an option for these users (created following 
                     // Google Authentication) to change their passwords, 
-                    // so they can access their accounts without using Google, too
+                    // so they can access their accounts without using Google
 
             await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
             await _signInManager.SignInAsync(newAssignee, false);

@@ -6,8 +6,8 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
 using TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.IntegrationTests.Helpers;
 using TodoWithDatabase.Services;
+using TodoWithDatabase.Services.Extensions;
 using Xunit;
 
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
@@ -28,10 +28,10 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             _tokenService = new TokenService();
 
             var projectNeedsRegenerating = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).Count() == 0;
-            if (projectNeedsRegenerating)                                          // this should not be a problem, I need to learn more about how test suites work (comment to be deleted)
+            if (projectNeedsRegenerating)                                         
             {
                 var assignee1 = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault();
-                _testContext.Context.CreateProjectToEditFor(assignee1);
+                _testContext.Context.CreateTestProjectToEditFor(assignee1);
             }
 
             _user1SoloProjectId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
@@ -74,8 +74,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         }
 
         [Theory, MemberData(nameof(ProjectEditingEndpoints))]
-        public async Task Project_IsShared_BadRequest(params string[] urlAndAction) // this could be "forbidden" too, but i feel it's 
-                                                                                    // maybe clearer like this? (comment to be deleted)
+        public async Task Project_IsShared_BadRequest(params string[] urlAndAction) 
         {
             AuthorizeClientAsUser("user1Name");
 

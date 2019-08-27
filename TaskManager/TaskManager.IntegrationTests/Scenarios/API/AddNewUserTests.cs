@@ -71,7 +71,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var response = await _testContext.Client.PostAsync(url, request);
 
             Assert.Equal(HttpStatusCode.BadRequest.ToString(), response.StatusCode.ToString());
-            Assert.Equal(1, _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).Count()); // no duplicate created
+            Assert.Equal(1, _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).Count());
         }
     }
 }

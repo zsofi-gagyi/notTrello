@@ -17,7 +17,6 @@ using TodoWithDatabase.Services.Extensions;
 using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
 using TodoWithDatabase.Services.Interfaces;
 using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.IntegrationTests.Helpers;
 using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -39,8 +38,7 @@ namespace TaskManager
         {
 
             services.AddDbContext<MyContext>
-                (
-                    options => options.UseMySql
+                (options => options.UseMySql
                     ($"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
                         $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
                         $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +

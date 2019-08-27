@@ -15,8 +15,7 @@ namespace TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers
             var assigneeWithProjects = new AssigneeWithProjectsDTO
             {
                 Id = assignee.Id,
-                UserName = assignee.UserName,
-                Role = null,                        // this will is overwritten in the actual AssigneeService method (comment to be deleted)
+                UserName = assignee.UserName                    
             };
 
             var project4 = new ProjectWithCardsDTO

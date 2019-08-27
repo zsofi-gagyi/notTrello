@@ -7,7 +7,7 @@ namespace TodoWithDatabase.Controllers
     {
         [HttpGet("/")]
         [AllowAnonymous] 
-        public IActionResult RedirectFromBasicDomain() //TODO find a better place for this default-setting
+        public IActionResult RedirectFromBasicDomain() 
         {
             if (User.Identity.IsAuthenticated)
             {

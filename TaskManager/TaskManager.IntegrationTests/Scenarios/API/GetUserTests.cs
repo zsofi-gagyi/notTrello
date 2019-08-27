@@ -8,7 +8,6 @@ using TodoWithDatabase.Models.DTO;
 using TodoWithDatabase.Services;
 using Xunit;
 
-
 namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 {
     [Collection("UserCollection")]
@@ -42,8 +41,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
 
-            if (urlParts[1].Contains("Project")) // this sounds like code repetition, but... is it worth pushing them together? 
-                                                 // or maybe I can just delete this version?
+            if (urlParts[1].Contains("Project"))
             {
                 Assert.True(FormatVerifier.StringIsValidAs(responseString, typeof(AssigneeWithProjectsDTO)));
                 Assert.Equal(_user1Id, JsonConvert.DeserializeObject<AssigneeWithProjectsDTO>(responseString).Id);

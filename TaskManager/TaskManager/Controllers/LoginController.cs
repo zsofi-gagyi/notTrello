@@ -34,6 +34,7 @@ namespace TodoWithDatabase.Controllers
             }
 
             return Redirect("/");
+            // TODO: give more explicit (but not dangerously informative) feedback to users in case signing up has failed.
         }
 
         [HttpPost("/login")]
@@ -48,18 +49,28 @@ namespace TodoWithDatabase.Controllers
             }
 
             return Redirect("/login");
+            // TODO: give more explicit  (but not dangerously informative) feedback to users in case the login has failed.
         }
 
         [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
         [HttpGet("/google-login")]
         public async Task<IActionResult> LogInWithGoogle()
         {
-            var email = User.Claims.Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")).First().Value;
+            var email = User
+                .Claims
+                .Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))
+                .First()
+                .Value;
+
             Assignee assignee = await _userManager.FindByEmailAsync(email);
 
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInWithEmailAsync(User.Identity.Name, email);
+                // This is not the best solution (two users with the same name could cause problems). 
+                // To solve this properly, the entire sign up process should be changed (requiring an 
+                // email address and verifying it), and then this email could be used as a key value
+                // instead of the name, the way it is currently. 
             } 
             else
             {

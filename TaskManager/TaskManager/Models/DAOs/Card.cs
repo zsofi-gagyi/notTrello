@@ -27,7 +27,7 @@ namespace TodoWithDatabase.Models.DAOs
 
         public List<AssigneeCard> AssigneeCards { set; get; }
 
-        public Card() // necessary for model binding
+        public Card() 
         {
             Done = false;
             AssigneeCards = new List<AssigneeCard>();
