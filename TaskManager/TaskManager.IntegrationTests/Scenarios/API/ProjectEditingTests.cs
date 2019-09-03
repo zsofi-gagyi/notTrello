@@ -4,7 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
+using TaskManager.TestUtilities.TestObjectMakers;
 using TaskManager.IntegrationTests.Fixtures;
 using TaskManager.Services;
 using Xunit;

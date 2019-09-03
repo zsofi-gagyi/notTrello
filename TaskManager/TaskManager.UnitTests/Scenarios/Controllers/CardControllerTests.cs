@@ -4,12 +4,12 @@ using Moq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xunit;
-using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
 using TaskManager.Services.Interfaces;
 using TaskManager.Services.Extensions;
 using TaskManager.Controllers;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DTOs;
+using TaskManager.TestUtilities.TestObjectMakers;
 
 namespace TaskManager.UnitTests.Scenarios.Controllers
 {

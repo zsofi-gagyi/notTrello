@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using TaskManager.Models.DTOs;
 
-namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
+namespace TaskManager.TestUtilities.TestObjectMakers
 {
     public static class ProjectWithCardsContentMaker
     {

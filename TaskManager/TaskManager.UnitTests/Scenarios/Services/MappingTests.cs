@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
-using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
+using TaskManager.TestUtilities.TestObjectMakers;
 using TaskManager.Models.DTOs;
 using TaskManager.Services.Extensions;
 using Xunit;
