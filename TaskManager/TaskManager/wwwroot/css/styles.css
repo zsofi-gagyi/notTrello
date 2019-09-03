@@ -30,6 +30,10 @@ ul {
     margin: 0 auto;
 }
 
+.errorMessage {
+    color: #f26f68;
+}
+
 /* ------------- first page specific ------------- */
 
 #brandName {
@@ -209,7 +213,7 @@ nav {
         }
 
     .displayCard .notDone {
-        background-color: #f26f68
+        background-color: #f26f68;
     }
 
     .displayCard .done {

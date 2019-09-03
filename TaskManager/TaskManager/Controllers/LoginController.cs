@@ -29,7 +29,8 @@ namespace TaskManager.Controllers
         {
             if (!password.HasCorrectFormat())
             {
-                return Redirect("/");
+                TempData["errorMessage"] = "Password must contain minimum 8 characters, one number, one uppercase and one lowercase letter";
+                return Redirect("/signUp");
             }
 
             Assignee assignee = await _userManager.FindByNameAsync(name);
@@ -37,10 +38,14 @@ namespace TaskManager.Controllers
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInAsync(name, password);
-            }
+                return Redirect("/");
+            } 
 
-            return Redirect("/");
-            // TODO: give more explicit (but not dangerously informative) feedback to users in case signing up has failed.
+            TempData["errorMessage"] = "Username already taken"; // If an email adresses were required of ever user, 
+                                                                 // we could hide this information and just send a 
+                                                                 // verifying email instead.
+            return Redirect("/signUp");
+
         }
 
         [HttpPost("/login")]
@@ -54,8 +59,8 @@ namespace TaskManager.Controllers
                 return LocalRedirect(returnUrl);
             }
 
+            TempData["errorMessage"] = "Username or password is incorrect.";
             return Redirect("/login");
-            // TODO: give more explicit (but not dangerously informative) feedback to users in case the login has failed.
         }
 
         [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]

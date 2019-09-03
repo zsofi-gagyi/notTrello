@@ -8,7 +8,10 @@
         <form action="/login" method="POST">
             <div id="inputContainer">
                 <input type="text" name="Name" placeholder="Name" data-cy="name" required />
-                <input type="password" name="Password" placeholder="Password" required />
+                <input type="password" name="Password" placeholder="Password" 
+                       title="Minimum 8 characters, one number, one uppercase and one lowercase letter"
+                       pattern="^(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
+                       required />
                 <button class="largeButton" type="submit">with TaskManager</button>
                 <p class="title" id="or">or</p>
                 <a class="largeButton" id="googleLink" href="/google-login">
@@ -17,5 +20,9 @@
                 </a>
             </div>
         </form>
+        @if (TempData["errorMessage"] != null)
+        {
+            <p class="errorMessage">@TempData["errorMessage"]</p>
+        }
     </article>
 </div>
