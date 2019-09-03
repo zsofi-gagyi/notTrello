@@ -29,7 +29,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
         [InlineData("/api/users")]
         public async Task Post_CorrectDTO_CreatesNewUser(string url)
         {
-            var assigneeDTO = new AssigneeToCreateDTO { Name = "testName1", Password = "testPassword" };
+            var assigneeDTO = new AssigneeToCreateDTO { Name = "testName1", Password = "testPassword1234." };
             var assigneeJson = JsonConvert.SerializeObject(assigneeDTO);
             HttpContent request = new StringContent(assigneeJson, Encoding.UTF8, "application/json");
 
@@ -63,7 +63,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
         [InlineData("/api/users")]
         public async Task Post_AlreadyExistingUser_BadRequest(string url)
         {
-            var assigneeDTO = new { Name = "user1Name", Password = "testPassword" };
+            var assigneeDTO = new { Name = "user1Name", Password = "testPassword1234." };
             var assigneeJson = JsonConvert.SerializeObject(assigneeDTO);
             HttpContent request = new StringContent(assigneeJson, Encoding.UTF8, "application/json");
 

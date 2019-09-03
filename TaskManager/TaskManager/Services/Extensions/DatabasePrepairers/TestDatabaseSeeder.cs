@@ -16,8 +16,8 @@ namespace TaskManager.Services.Extensions.DatabaseSeeders
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var assignee1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1Name", Password = "user1Password" });
-            var assignee2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2Name", Password = "user2Password" });
+            var assignee1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1Name", Password = "User11234." });
+            var assignee2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2Name", Password = "User11234." });
 
             var projectToEdit = new Project { Title = "projectToEdit" };
             var sharedProject = new Project { Title = "sharedProject" };
@@ -35,8 +35,8 @@ namespace TaskManager.Services.Extensions.DatabaseSeeders
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var user1 = await context.CreateAndDetachGuestAssignee("user1", assigneeService);
-            var user2 = await context.CreateAndDetachGuestAssignee("user2", assigneeService);
+            var user1 = await context.CreateAndDetachGuestAssignee("User1", assigneeService);
+            var user2 = await context.CreateAndDetachGuestAssignee("User2", assigneeService);
 
             var project = new Project
             {

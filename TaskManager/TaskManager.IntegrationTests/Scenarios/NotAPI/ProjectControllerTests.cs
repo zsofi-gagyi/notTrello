@@ -45,8 +45,8 @@ namespace TaskManager.IntegrationTests.Scenarios.NotAPI
             Assert.Equal("done card description", cardDoneDescription);
 
             Assert.Equal(2, cardDoneResponsibles.Length);
-            Assert.Equal("user1", cardDoneResponsibles[0].TextContent);
-            Assert.Equal("user2", cardDoneResponsibles[1].TextContent);
+            Assert.Equal("User1", cardDoneResponsibles[0].TextContent);
+            Assert.Equal("User2", cardDoneResponsibles[1].TextContent);
         }
     }
 }

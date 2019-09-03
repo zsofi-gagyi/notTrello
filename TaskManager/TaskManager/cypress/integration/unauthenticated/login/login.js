@@ -10,7 +10,7 @@ it('login succeeds with correct password', () => {
     cy.set_up_login()
 
     cy.get('[name="Password"]')  
-        .type('guest')  
+        .type('Guest1234.')  
 
     cy.get('[type=submit]')      
         .click()                 

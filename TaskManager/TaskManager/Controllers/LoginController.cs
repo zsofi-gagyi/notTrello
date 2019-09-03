@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Google;
 using System;
 using System.Linq;
+using TaskManager.Services.Extensions;
 
 namespace TaskManager.Controllers
 {
@@ -26,6 +27,11 @@ namespace TaskManager.Controllers
         [HttpPost("/signUp")]
         public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
         {
+            if (!password.HasCorrectFormat())
+            {
+                return Redirect("/");
+            }
+
             Assignee assignee = await _userManager.FindByNameAsync(name);
 
             if (assignee == null)

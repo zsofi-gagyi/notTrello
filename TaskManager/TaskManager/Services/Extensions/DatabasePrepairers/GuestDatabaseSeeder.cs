@@ -72,7 +72,7 @@ namespace TaskManager.Services.Extensions.DatabaseSeeders
 
         public static async Task<Assignee> CreateAndDetachGuestAssignee(this MyContext context, string name, IAssigneeService assigneeService)
         {
-            var assignee = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = name, Password = name.ToLower() });
+            var assignee = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = name, Password = name + "1234." });
             context.Entry(assignee).State = EntityState.Detached;
 
             return assignee;
