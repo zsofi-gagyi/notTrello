@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests.Helpers;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures.Context;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.NotAPI
 {
 
     [Collection("AlwaysAuthenticatedCollection")]

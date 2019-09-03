@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Controllers
+namespace TaskManager.Controllers
 {
     public class ProjectController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace TodoWithDatabase.Models.DTOs
+namespace TaskManager.Models.DTOs
 {
     public class ProjectDTO
     {

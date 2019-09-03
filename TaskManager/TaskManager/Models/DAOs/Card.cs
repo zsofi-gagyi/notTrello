@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Models.DAOs.JoinTables;
 
-namespace TodoWithDatabase.Models.DAOs
+namespace TaskManager.Models.DAOs
 {
     public class Card 
     {

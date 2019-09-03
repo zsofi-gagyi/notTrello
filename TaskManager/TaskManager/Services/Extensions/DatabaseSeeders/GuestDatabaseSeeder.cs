@@ -3,14 +3,14 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Repository;
+using TaskManager.Models.DAOs;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DTOs;
+using TaskManager.Models.DAOs.JoinTables;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions.DatabaseSeeders
 {
     public static class GuestDatabaseSeeder
     {

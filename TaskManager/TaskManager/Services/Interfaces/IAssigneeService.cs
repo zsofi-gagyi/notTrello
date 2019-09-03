@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTO;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.Services.Interfaces
+namespace TaskManager.Services.Interfaces
 {
     public interface IAssigneeService
     {

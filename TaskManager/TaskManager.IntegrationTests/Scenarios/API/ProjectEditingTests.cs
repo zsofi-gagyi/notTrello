@@ -5,12 +5,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
-using TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.Services;
-using TodoWithDatabase.Services.Extensions;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.Services;
 using Xunit;
+using TaskManager.IntegrationTests.Fixtures.Context;
+using TaskManager.Services.Extensions.DatabaseSeeders;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
     [Collection("BaseCollection")]
     public class ProjectEditingTests

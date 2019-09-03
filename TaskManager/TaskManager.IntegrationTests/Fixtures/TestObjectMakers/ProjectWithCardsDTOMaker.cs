@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DTOs;
 
 namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
 {

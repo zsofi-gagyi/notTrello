@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTO;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers
+namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
 {
     public static class AssigneeWithProjectsDTOMaker
     {

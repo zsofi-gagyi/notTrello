@@ -1,5 +1,5 @@
 ﻿
-namespace TodoWithDatabase.Services.Interfaces
+namespace TaskManager.Services.Interfaces
 {
     public interface ITokenService
     {

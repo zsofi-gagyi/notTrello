@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
-using TodoWithDatabase.Models.DTOs;
 
-namespace TodoWithDatabase.Models.DTO
+namespace TaskManager.Models.DTOs
 {
     public class AssigneeWithProjectsDTO
     {

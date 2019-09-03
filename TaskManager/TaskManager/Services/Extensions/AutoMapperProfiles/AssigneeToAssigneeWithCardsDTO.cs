@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using AutoMapper;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTO;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.App.Services.Helpers.Extensions.AutoMapperProfiles
+namespace TaskManager.Services.Extensions.AutoMapperProfiles
 {
     public class AssigneeToAssigneeWithCardsDTO : Profile
     {

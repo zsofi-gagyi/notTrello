@@ -11,17 +11,18 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services;
-using TodoWithDatabase.Services.Extensions;
-using TodoWithDatabase.App.Services.Helpers.Extensions.Middleware;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DAOs;
+using TaskManager.Repository;
+using TaskManager.Services;
+using TaskManager.Services.Extensions;
+using TaskManager.Services.Extensions.Middleware;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DAOs;
 using System.Net;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using TaskManager.Services.Extensions.DatabaseSeeders;
 
 namespace TaskManager
 {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions
 {
     public static class RoleCreator
     {

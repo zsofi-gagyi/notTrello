@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using System;
 using Newtonsoft.Json;
-using TodoWithDatabase.Repository;
+using TaskManager.Repository;
 using System.Linq;
 
-namespace TodoWithDatabase.App.Services.Helpers.Extensions.Middleware
+namespace TaskManager.Services.Extensions.Middleware
 {
     public class UserIdExistenceVerifier
     {

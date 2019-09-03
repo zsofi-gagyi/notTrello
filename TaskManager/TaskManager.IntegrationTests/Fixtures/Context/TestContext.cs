@@ -1,15 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using TodoWithDatabase.Repository;
+using TaskManager.Repository;
 using Microsoft.AspNetCore.TestHost;
 using System.Net.Http;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 using AutoMapper;
-using TaskManager;
-using TodoWithDatabase.Services.Extensions;
+using TaskManager.Services.Extensions.DatabaseSeeders;
 
-namespace TodoWithDatabase.IntegrationTests
+namespace TaskManager.IntegrationTests.Fixtures.Context
 {
     public class TestContext : IDisposable
     {

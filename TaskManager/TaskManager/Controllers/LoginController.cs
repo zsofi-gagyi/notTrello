@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Models.DAOs;
+using TaskManager.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Google;
 using System;
 using System.Linq;
 
-namespace TodoWithDatabase.Controllers
+namespace TaskManager.Controllers
 {
     public class LoginController : Controller
     {
@@ -49,7 +49,7 @@ namespace TodoWithDatabase.Controllers
             }
 
             return Redirect("/login");
-            // TODO: give more explicit  (but not dangerously informative) feedback to users in case the login has failed.
+            // TODO: give more explicit (but not dangerously informative) feedback to users in case the login has failed.
         }
 
         [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]

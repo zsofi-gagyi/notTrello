@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoWithDatabase.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using Microsoft.AspNetCore.Identity;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
 
-namespace TodoWithDatabase.Repository
+namespace TaskManager.Repository
 {
     public class MyContext : IdentityDbContext<Assignee>
     {

@@ -4,10 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
-using TodoWithDatabase.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures;
 using Xunit;
+using TaskManager.IntegrationTests.Fixtures.Context;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
+namespace TaskManager.IntegrationTests.Scenarios.API.Shared
 {
     [Collection("UnauthorizedCollection")]
     public class AutenticationTests

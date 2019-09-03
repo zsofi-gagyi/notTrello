@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Controllers
+namespace TaskManager.Controllers
 {
     public class MainController : Controller
     {

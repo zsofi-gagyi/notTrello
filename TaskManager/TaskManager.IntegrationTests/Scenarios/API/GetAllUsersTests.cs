@@ -4,12 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TodoWithDatabase.App.TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Services;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures.Context;
+using TaskManager.Models.DTOs;
+using TaskManager.Services;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
 
     [Collection("ProjectsCollection")]

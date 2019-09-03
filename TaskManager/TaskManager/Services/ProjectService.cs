@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.DTOs;
+using TaskManager.Repository;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Services
+namespace TaskManager.Services
 {
     public class ProjectService : IProjectService
     {

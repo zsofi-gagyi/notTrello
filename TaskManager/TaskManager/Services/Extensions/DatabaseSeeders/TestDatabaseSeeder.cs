@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Repository;
+using TaskManager.Models.DAOs;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DTOs;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions.DatabaseSeeders
 {
     public static class TestDatabaseSeeder 
     {

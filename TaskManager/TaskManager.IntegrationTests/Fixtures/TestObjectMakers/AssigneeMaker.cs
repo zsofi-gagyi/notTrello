@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
 
-namespace TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers
+namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
 {
     public static class AssigneeMaker
     {

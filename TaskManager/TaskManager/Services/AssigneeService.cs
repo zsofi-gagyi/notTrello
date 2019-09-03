@@ -1,18 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Repository;
+using TaskManager.Models.DAOs;
+using TaskManager.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DTO;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DTOs;
 using System.Threading.Tasks;
 using System;
 
-namespace TodoWithDatabase.Services
+namespace TaskManager.Services
 {
     public class AssigneeService :  IAssigneeService
     {

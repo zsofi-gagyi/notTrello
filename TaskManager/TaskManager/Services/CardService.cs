@@ -1,8 +1,8 @@
-﻿using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services.Interfaces;
+﻿using TaskManager.Models.DAOs;
+using TaskManager.Repository;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Services
+namespace TaskManager.Services
 {
     public class CardService : ICardService
     {

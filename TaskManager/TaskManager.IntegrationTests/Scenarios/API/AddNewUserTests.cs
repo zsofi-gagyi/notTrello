@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Services;
+using TaskManager.Models.DTOs;
+using TaskManager.Services;
 using Xunit;
-using TaskManager;
+using TaskManager.IntegrationTests.Fixtures.Context;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
     [Collection("UserCollection")]
     public class AddNewUserTests 

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using System.Linq;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.App.Services.Helpers.Extensions.AutoMapperProfiles
-{
+namespace TaskManager.Services.Extensions.AutoMapperProfiles
+{ 
     public class ProjectToProjectWithCardsDTO : Profile
     {
         public ProjectToProjectWithCardsDTO()
