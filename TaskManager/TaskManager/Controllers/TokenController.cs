@@ -2,10 +2,10 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Models.DAOs;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Controllers
+namespace TaskManager.Controllers
 {
     public class 
         TokenController : Controller

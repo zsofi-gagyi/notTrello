@@ -4,13 +4,12 @@ using Moq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Xunit;
-using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
-using TodoWithDatabase.Controllers;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Services.Extensions;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.UnitTests.Fixtures.TestObjectMakers;
+using TaskManager.Services.Interfaces;
+using TaskManager.Services.Extensions;
+using TaskManager.Controllers;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
+using TaskManager.TestUtilities.TestObjectMakers;
 
 namespace TaskManager.UnitTests.Scenarios.Controllers
 {
@@ -36,34 +35,34 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         }
 
         [Fact]
-        public void CorrectInput_OneCollaborator_Saves_Once()
+        public async void CorrectInput_OneCollaborator_Saves_Once()
         {
-            _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
 
         [Fact]
-        public void CorrectInput_ZeroCollaborator_Saves_Once()
+        public async void CorrectInput_ZeroCollaborator_Saves_Once()
         {
-            _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { });
+            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
 
         [Fact]
-        public void CorrectInput_Updates_CompletedCard()
+        public async void CorrectInput_Updates_CompletedCard()
         {
-            _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Update(It.IsAny<Card>()), Times.Once());
             _mockCardService.Verify(m => m.Update(It.Is<Card>(c => CardsAreEqual(c, CardMaker.MakeCompleted()))), Times.Once());
         }
 
         [Fact]
-        public void IncorrectProjectId_DoesNotSave()
+        public async void IncorrectProjectId_DoesNotSave()
         {
-            _controller.DoAddCard("incorrectProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.DoAddCard("incorrectProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Never());
         }
 

@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.IntegrationTests.Helpers
+namespace TaskManager.IntegrationTests.Fixtures
 {
     public class HtmlParser
     {

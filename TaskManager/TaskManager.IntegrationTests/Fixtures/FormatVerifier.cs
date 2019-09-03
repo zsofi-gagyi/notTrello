@@ -2,11 +2,8 @@
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace TodoWithDatabase.App.TodoWithDatabase.IntegrationTests.Fixtures
+namespace TaskManager.IntegrationTests.Fixtures
 {
     public static class FormatVerifier
     {

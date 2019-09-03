@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using TodoWithDatabase.App.Services.Helpers.Extensions.AutoMapperProfiles;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Services.Extensions.AutoMapperProfiles;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions
 {
     public static class AutoMapperSetup
     {

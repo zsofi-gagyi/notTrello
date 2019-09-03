@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System.Threading.Tasks;
 using System;
 using Newtonsoft.Json;
-using TodoWithDatabase.Repository;
+using TaskManager.Repository;
 using System.Linq;
 
-namespace TodoWithDatabase.App.Services.Helpers.Extensions.Middleware
+namespace TaskManager.Services.Extensions.Middleware
 {
     public class UserIdExistenceVerifier
     {
@@ -30,7 +30,7 @@ namespace TodoWithDatabase.App.Services.Helpers.Extensions.Middleware
 
             var myContext = (MyContext)context.RequestServices.GetService(typeof (MyContext));
 
-            var idExists = myContext.Users.Where(u => u.Id.ToString().Equals(userId)).FirstOrDefault() != null;
+            var idExists = myContext.Users.FirstOrDefault(u => u.Id.ToString().Equals(userId)) != null;
 
             if (idExists)
             {

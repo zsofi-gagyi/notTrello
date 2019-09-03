@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 using System.Net;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.Controllers.API
+namespace TaskManager.Controllers.API
 {
     [ApiController]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

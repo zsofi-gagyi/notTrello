@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Services;
+using TaskManager.Models.DTOs;
+using TaskManager.Services;
 using Xunit;
-using TaskManager;
+using TaskManager.IntegrationTests.Fixtures.Context;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
     [Collection("UserCollection")]
     public class AddNewUserTests 
@@ -30,7 +29,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         [InlineData("/api/users")]
         public async Task Post_CorrectDTO_CreatesNewUser(string url)
         {
-            var assigneeDTO = new AssigneeToCreateDTO { Name = "testName1", Password = "testPassword" };
+            var assigneeDTO = new AssigneeToCreateDTO { Name = "testName1", Password = "testPassword1234." };
             var assigneeJson = JsonConvert.SerializeObject(assigneeDTO);
             HttpContent request = new StringContent(assigneeJson, Encoding.UTF8, "application/json");
 
@@ -38,7 +37,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             var expectedResponseString = JsonConvert.SerializeObject(expectedResponse);
 
             var response = await _testContext.Client.PostAsync(url, request);
-            var newUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName1")).First().Id;
+            var newUserId = _testContext.Context.Assignees.First(a => a.UserName.Equals("testName1")).Id;
 
             Assert.Equal(HttpStatusCode.Created.ToString(), response.StatusCode.ToString());
             Assert.Equal(expectedResponseString, response.Content.ReadAsStringAsync().Result);
@@ -64,7 +63,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         [InlineData("/api/users")]
         public async Task Post_AlreadyExistingUser_BadRequest(string url)
         {
-            var assigneeDTO = new { Name = "user1Name", Password = "testPassword" };
+            var assigneeDTO = new { Name = "user1Name", Password = "testPassword1234." };
             var assigneeJson = JsonConvert.SerializeObject(assigneeDTO);
             HttpContent request = new StringContent(assigneeJson, Encoding.UTF8, "application/json");
 

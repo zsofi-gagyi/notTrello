@@ -3,14 +3,14 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Repository;
+using TaskManager.Models.DAOs;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DTOs;
+using TaskManager.Models.DAOs.JoinTables;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions.DatabaseSeeders
 {
     public static class GuestDatabaseSeeder
     {
@@ -30,9 +30,9 @@ namespace TodoWithDatabase.Services.Extensions
 
         private static void DeleteGuestData(MyContext context, IProjectService projectService)
         {
-            var guestToDelete = context.Assignees.Where(a => a.UserName.Equals("Guest")).First();
-            var aliceToDelete = context.Assignees.Where(a => a.UserName.Equals("Alice")).First();
-            var bobToDelete = context.Assignees.Where(a => a.UserName.Equals("Bob")).First();
+            var guestToDelete = context.Assignees.First(a => a.UserName.Equals("Guest"));
+            var aliceToDelete = context.Assignees.First(a => a.UserName.Equals("Alice"));
+            var bobToDelete = context.Assignees.First(a => a.UserName.Equals("Bob"));
 
             var projectsToRemove = context.AssigneeProjects
                  .Where(ap => ap.Assignee
@@ -72,7 +72,7 @@ namespace TodoWithDatabase.Services.Extensions
 
         public static async Task<Assignee> CreateAndDetachGuestAssignee(this MyContext context, string name, IAssigneeService assigneeService)
         {
-            var assignee = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = name, Password = name.ToLower() });
+            var assignee = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = name, Password = name + "1234." });
             context.Entry(assignee).State = EntityState.Detached;
 
             return assignee;

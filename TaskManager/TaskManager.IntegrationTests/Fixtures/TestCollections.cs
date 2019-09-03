@@ -1,7 +1,7 @@
-﻿using TodoWithDatabase.IntegrationTests;
+﻿using TaskManager.IntegrationTests.Fixtures.Context;
 using Xunit;
 
-namespace ferrilata_devilline.IntegrationTests.Fixtures
+namespace TaskManager.IntegrationTests.Fixtures
 {
     [CollectionDefinition("BaseCollection")]
     public class Collection1 : ICollectionFixture<TestContext>
@@ -12,7 +12,7 @@ namespace ferrilata_devilline.IntegrationTests.Fixtures
     public class Collection2 : ICollectionFixture<TestContext>
     {
     }
-
+     
     [CollectionDefinition("DeleteUserCollection")]
     public class Collection3 : ICollectionFixture<TestContext>
     {

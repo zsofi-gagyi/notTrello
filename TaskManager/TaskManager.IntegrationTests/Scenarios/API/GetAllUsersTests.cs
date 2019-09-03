@@ -4,12 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TodoWithDatabase.App.TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.Models;
-using TodoWithDatabase.Services;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures.Context;
+using TaskManager.Models.DTOs;
+using TaskManager.Services;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
 
     [Collection("ProjectsCollection")]
@@ -29,7 +30,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         [InlineData("/api/users/all")]
         public async Task Get_ReturnsAllUsers(string url)
         {
-            var testUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id.ToString();
+            var testUserId = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id.ToString();
             var testUser = new AssigneeDTO { UserName = "user1Name", Id = testUserId };
             var expectedList = new List<AssigneeDTO> { testUser };
             var expectedJson = JsonConvert.SerializeObject(expectedList);

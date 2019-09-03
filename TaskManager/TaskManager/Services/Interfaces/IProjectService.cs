@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DTOs;
 
-namespace TodoWithDatabase.Services.Interfaces
+namespace TaskManager.Services.Interfaces
 {
     public interface IProjectService
     {

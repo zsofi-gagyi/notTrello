@@ -5,7 +5,7 @@ Cypress.Commands.add("login", () => {
         form: true,
         body: {
             name: 'Guest',
-            password: 'guest'
+            password: 'Guest1234.'
         }
     })
 })

@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
-using TodoWithDatabase.Models.DTOs;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.DTOs;
+using TaskManager.Repository;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Services
+namespace TaskManager.Services
 {
     public class ProjectService : IProjectService
     {
@@ -55,14 +55,17 @@ namespace TodoWithDatabase.Services
         public Project Get(string projectId)
         {
             return _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
-               .FirstOrDefault();
+               .FirstOrDefault(p => p.Id
+                                     .ToString()
+                                     .Equals(projectId));
         }
 
         public Project GetWithAssigneeProjects(string projectId)
         {
             return _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
+               .Where(p => p.Id
+                            .ToString()
+                            .Equals(projectId))
                .Include(p => p.AssigneeProjects)
                .FirstOrDefault();
         }
@@ -137,7 +140,7 @@ namespace TodoWithDatabase.Services
         {
             _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
             _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.ToString().Equals(projectId)));
-            _myContext.Projects.Remove(_myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).First());
+            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.ToString().Equals(projectId)));
             _myContext.SaveChanges();
         }
     }

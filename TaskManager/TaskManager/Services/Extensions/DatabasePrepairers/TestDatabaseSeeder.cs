@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System;
 using Microsoft.EntityFrameworkCore;
-using TodoWithDatabase.Repository;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Services.Interfaces;
-using TodoWithDatabase.Models.DTOs;
+using TaskManager.Repository;
+using TaskManager.Models.DAOs;
+using TaskManager.Services.Interfaces;
+using TaskManager.Models.DTOs;
 using System.Threading.Tasks;
 
-namespace TodoWithDatabase.Services.Extensions
+namespace TaskManager.Services.Extensions.DatabaseSeeders
 {
     public static class TestDatabaseSeeder 
     {
@@ -16,8 +16,8 @@ namespace TodoWithDatabase.Services.Extensions
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var assignee1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1Name", Password = "user1Password" });
-            var assignee2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2Name", Password = "user2Password" });
+            var assignee1 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user1Name", Password = "User11234." });
+            var assignee2 = await assigneeService.CreateAndReturnNewAsync(new AssigneeToCreateDTO { Name = "user2Name", Password = "User11234." });
 
             var projectToEdit = new Project { Title = "projectToEdit" };
             var sharedProject = new Project { Title = "sharedProject" };
@@ -35,8 +35,8 @@ namespace TodoWithDatabase.Services.Extensions
             context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
-            var user1 = await context.CreateAndDetachGuestAssignee("user1", assigneeService);
-            var user2 = await context.CreateAndDetachGuestAssignee("user2", assigneeService);
+            var user1 = await context.CreateAndDetachGuestAssignee("User1", assigneeService);
+            var user2 = await context.CreateAndDetachGuestAssignee("User2", assigneeService);
 
             var project = new Project
             {

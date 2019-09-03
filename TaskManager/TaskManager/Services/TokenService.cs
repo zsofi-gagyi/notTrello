@@ -3,9 +3,9 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 
-namespace TodoWithDatabase.Services
+namespace TaskManager.Services
 {
     public class TokenService : ITokenService
     {

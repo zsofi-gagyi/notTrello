@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using TodoWithDatabase.Models.DAOs;
-using TodoWithDatabase.Models.DAOs.JoinTables;
+using TaskManager.Models.DAOs;
+using TaskManager.Models.DAOs.JoinTables;
 
-namespace TaskManager.IntegrationTests.Fixtures.TestObjectMakers
+namespace TaskManager.TestUtilities.TestObjectMakers
 {
     public static class ProjectMaker
     {

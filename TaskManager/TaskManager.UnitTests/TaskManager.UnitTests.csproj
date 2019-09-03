@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskManager.IntegrationTests\TaskManager.IntegrationTests.csproj" />
+    <ProjectReference Include="..\TaskManager.TestUtilities\TaskManager.TestUtilities.csproj" />
     <ProjectReference Include="..\TaskManager\TaskManager.csproj" />
   </ItemGroup>
 

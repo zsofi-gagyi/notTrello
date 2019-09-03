@@ -1,6 +1,6 @@
-﻿using TodoWithDatabase.Models.DAOs;
+﻿using TaskManager.Models.DAOs;
 
-namespace TodoWithDatabase.Services.Interfaces
+namespace TaskManager.Services.Interfaces
 {
     public interface ICardService
     {

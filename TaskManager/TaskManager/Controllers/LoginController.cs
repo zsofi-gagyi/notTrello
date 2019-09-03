@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoWithDatabase.Models.DAOs;
+using TaskManager.Models.DAOs;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
-using TodoWithDatabase.Services.Interfaces;
+using TaskManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Google;
 using System;
 using System.Linq;
+using TaskManager.Services.Extensions;
 
-namespace TodoWithDatabase.Controllers
+namespace TaskManager.Controllers
 {
     public class LoginController : Controller
     {
@@ -26,15 +27,31 @@ namespace TodoWithDatabase.Controllers
         [HttpPost("/signUp")]
         public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
         {
+            if (password.IsIncorrectPassword())
+            {
+                TempData["errorMessage"] = "Passwords must be a single word, of at least 8 characters, containing one number, one uppercase and one lowercase letter";
+                return Redirect("/signUp");
+            }
+
+            if (name.IsIncorrectUserName())
+            {
+                TempData["errorMessage"] = "Names should be a single word";
+                return Redirect("/signUp");
+            }
+
             Assignee assignee = await _userManager.FindByNameAsync(name);
 
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInAsync(name, password);
-            }
+                return Redirect("/");
+            } 
 
-            return Redirect("/");
-            // TODO: give more explicit (but not dangerously informative) feedback to users in case signing up has failed.
+            TempData["errorMessage"] = "Username already taken"; // If an email adresses were required of ever user, 
+                                                                 // we could hide this information and just send a 
+                                                                 // verifying email instead.
+            return Redirect("/signUp");
+
         }
 
         [HttpPost("/login")]
@@ -48,8 +65,8 @@ namespace TodoWithDatabase.Controllers
                 return LocalRedirect(returnUrl);
             }
 
+            TempData["errorMessage"] = "Username or password is incorrect.";
             return Redirect("/login");
-            // TODO: give more explicit  (but not dangerously informative) feedback to users in case the login has failed.
         }
 
         [Authorize(AuthenticationSchemes = GoogleDefaults.AuthenticationScheme)]
@@ -58,8 +75,7 @@ namespace TodoWithDatabase.Controllers
         {
             var email = User
                 .Claims
-                .Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))
-                .First()
+                .First(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))
                 .Value;
 
             Assignee assignee = await _userManager.FindByEmailAsync(email);

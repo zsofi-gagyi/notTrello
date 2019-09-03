@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace TodoWithDatabase.Models.DTOs
+namespace TaskManager.Models.DTOs
 {
     public class AssigneeToCreateDTO
     {

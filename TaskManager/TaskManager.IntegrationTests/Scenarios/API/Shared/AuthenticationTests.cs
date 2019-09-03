@@ -3,11 +3,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using TaskManager.IntegrationTests.Fixtures.TestObjectMakers;
-using TodoWithDatabase.IntegrationTests.Fixtures;
+using TaskManager.TestUtilities.TestObjectMakers;
+using TaskManager.IntegrationTests.Fixtures;
 using Xunit;
+using TaskManager.IntegrationTests.Fixtures.Context;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
+namespace TaskManager.IntegrationTests.Scenarios.API.Shared
 {
     [Collection("UnauthorizedCollection")]
     public class AutenticationTests
@@ -20,8 +21,8 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
         public AutenticationTests(TestContext testContext)
         {
             _testContext = testContext;
-            _user1Id = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
-            _projectToEditId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
+            _user1Id = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id;
+            _projectToEditId = _testContext.Context.Projects.First(p => p.Title.Equals("projectToEdit")).Id.ToString();
             _request = ProjectWithCardsContentMaker.MakeStringContentWith(_projectToEditId);
         }
 

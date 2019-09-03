@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using TodoWithDatabase.IntegrationTests.Helpers;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures.Context;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.NotAPI
 {
 
     [Collection("AlwaysAuthenticatedCollection")]
@@ -15,7 +16,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         public ProjectControllerTests(AlwaysAuthenticatedTestContext testContext)
         {
             _testContext = testContext;
-            _projectId = _testContext.Context.Projects.FirstOrDefault().Id.ToString();
+            _projectId = _testContext.Context.Projects.First().Id.ToString();
         }
 
         [Theory]
@@ -44,8 +45,8 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
             Assert.Equal("done card description", cardDoneDescription);
 
             Assert.Equal(2, cardDoneResponsibles.Length);
-            Assert.Equal("user1", cardDoneResponsibles[0].TextContent);
-            Assert.Equal("user2", cardDoneResponsibles[1].TextContent);
+            Assert.Equal("User1", cardDoneResponsibles[0].TextContent);
+            Assert.Equal("User2", cardDoneResponsibles[1].TextContent);
         }
     }
 }

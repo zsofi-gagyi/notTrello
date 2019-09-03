@@ -3,12 +3,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TodoWithDatabase.App.TodoWithDatabase.IntegrationTests.Fixtures;
-using TodoWithDatabase.Models.DTO;
-using TodoWithDatabase.Services;
+using TaskManager.IntegrationTests.Fixtures;
+using TaskManager.IntegrationTests.Fixtures.Context;
+using TaskManager.Models.DTOs;
+using TaskManager.Services;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
+namespace TaskManager.IntegrationTests.Scenarios.API
 {
     [Collection("UserCollection")]
     public class GetUserTests
@@ -23,7 +24,7 @@ namespace TodoWithDatabase.IntegrationTests.Scenarios.API.Users
         {
             _testContext = testContext;
             var tokenService = new TokenService();
-            _user1Id = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
+            _user1Id = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id;
 
             _adminToken = tokenService.GenerateToken("testId", "testAdmin", "TodoAdmin");
             _user1Token = tokenService.GenerateToken(_user1Id, "testAdmin", "TodoUser");

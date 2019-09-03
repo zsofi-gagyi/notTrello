@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using TodoWithDatabase.Services;
+using TaskManager.IntegrationTests.Fixtures.Context;
+using TaskManager.Services;
 using Xunit;
 
-namespace TodoWithDatabase.IntegrationTests.Scenarios.Shared
+namespace TaskManager.IntegrationTests.Scenarios.API.Shared
 {
     [Collection("BaseCollection")]
     public class UserIdExistsTests
