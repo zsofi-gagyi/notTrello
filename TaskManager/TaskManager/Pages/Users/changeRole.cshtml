@@ -18,6 +18,7 @@
            {
                <h2 class="title">Admin Application</h2>
                <form action="/users/becomeAdmin" method="POST">
+                   @Html.AntiForgeryToken()
                    <div id="inputContainer">
                        <label for="motivation" class="description">Why do you want to become an admin of our site?</label>
                        <textarea id="motivation" class="description" name="motivation"></textarea>

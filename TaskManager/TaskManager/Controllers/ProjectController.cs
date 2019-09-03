@@ -41,6 +41,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("/users/addProject")]
+        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> AddProject([FromForm] Project project, List<string> collaboratorIds)
         {

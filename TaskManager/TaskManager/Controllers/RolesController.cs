@@ -22,6 +22,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("/users/becomeAdmin")]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "TodoUser")]
         public async Task<IActionResult> BecomeAdmin([FromForm]string motivation)
         {

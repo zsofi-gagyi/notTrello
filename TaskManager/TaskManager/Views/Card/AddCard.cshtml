@@ -1,6 +1,4 @@
-﻿@using TaskManager.Models.DAOs;
-@using TaskManager.Models.DAOs.JoinTables;
-@model TaskManager.Models.ViewModels.ProjectViewModel;
+﻿@model TaskManager.Models.ViewModels.ProjectViewModel;
 @{
     Layout = "_userLayout";
 }
@@ -9,6 +7,7 @@
     <article class="displayCard">
         <h2 class="title">Add new card to the project "@Model.project.Title"</h2>
         <form action="/users/projects/@Model.project.Id/cards/addCard" method="POST">
+            @Html.AntiForgeryToken()
             <div id="inputContainer">
                 <input type="text" name="Title" placeholder="Title" required />
                 <textarea class="description" name="Description" placeholder="Description" required></textarea>
@@ -22,9 +21,9 @@
                             <select id="multipleSelector" multiple name="collaboratorIds">
                                 <option value="" disabled hidden>Select collaborator(s)</option>
                                 @foreach (var assigneeProject in possibleCollaborators)
-                                 {
+                                {
                                     <option value="@assigneeProject.Assignee.Id">@assigneeProject.Assignee.UserName</option>
-                                 }
+                                }
                             </select>
                             @await Html.PartialAsync("~/Views/Shared/_ScriptForMultipleSelectPartial.cshtml")
                         </div>
