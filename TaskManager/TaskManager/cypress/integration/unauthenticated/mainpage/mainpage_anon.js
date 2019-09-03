@@ -1,12 +1,12 @@
 ﻿it('mainpage for anon redirects to correct url', () => {
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.location('pathname')
         .should('eq', '/main')
 });
 
 it('mainpage for anon displays correctly', () => {
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.get('[data-test=brandName]')
         .contains("TaskManager")

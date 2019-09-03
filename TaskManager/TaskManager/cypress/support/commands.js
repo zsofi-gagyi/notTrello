@@ -1,7 +1,7 @@
 Cypress.Commands.add("login", () => {
     cy.request({
         method: 'POST',
-        url: 'https://localhost:44374/login',
+        url: '/login',
         form: true,
         body: {
             name: 'Guest',
@@ -11,11 +11,11 @@ Cypress.Commands.add("login", () => {
 })
 
 Cypress.Commands.add("logout", () => {
-    cy.visit('https://localhost:44374/logout')
+    cy.visit('/logout')
 })
 
 Cypress.Commands.add("get_user_token", () => {
-    cy.visit('https://localhost:44374/users/token')
+    cy.visit('/users/token')
 
     cy.get('[data-test=token]')
         .then(($userToken) => {
@@ -25,7 +25,7 @@ Cypress.Commands.add("get_user_token", () => {
 
 Cypress.Commands.add("create_project", () => {
     cy.login()
-    cy.visit('https://localhost:44374/users/addProject')
+    cy.visit('/users/addProject')
 
     cy.get('[name="Title"]')
         .type('test title')
@@ -43,7 +43,7 @@ Cypress.Commands.add("delete_project", (projectUrl) => {
 
         cy.request({
             method: 'DELETE',
-                url: 'https://localhost:44374/api/users/me/projects/' + projectId,
+                url: '/api/users/me/projects/' + projectId,
             headers: {
                 'Authorization': 'Bearer ' + $token
             },

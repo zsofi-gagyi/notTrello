@@ -1,6 +1,6 @@
 ﻿it('create solo project', () => {
     cy.login()
-    cy.visit('https://localhost:44374/users/addProject')
+    cy.visit('/users/addProject')
 
     cy.get('[name="Title"]')
         .type('test title')

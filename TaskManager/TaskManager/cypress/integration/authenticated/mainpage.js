@@ -1,6 +1,6 @@
 ﻿it('mainpage for authenticated redirects to correct url', () => {
     cy.login()
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.location('pathname')
         .should('eq', '/users')
@@ -8,7 +8,7 @@
 
 it('mainpage for user displays correctly', () => {
     cy.login()
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.get('[data-test=addProject]')
         .contains("Add new")
