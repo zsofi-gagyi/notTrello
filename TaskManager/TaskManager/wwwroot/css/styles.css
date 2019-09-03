@@ -1,10 +1,11 @@
-﻿:root {
+﻿/* ------------- universal ------------- */
+
+:root {
     --brand-color: #00c9b5;
     --pale-red: #f26f68;
     --dark-grey: #707070;
     --light-grey: #ebebeb;
 }
-
 
 html, body {
     height: 100%;
