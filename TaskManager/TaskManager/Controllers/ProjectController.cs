@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.ViewModels;
 using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
@@ -25,18 +26,18 @@ namespace TaskManager.Controllers
         [Authorize]
         public IActionResult ProjectWithCards([FromRoute(Name = "Id")]string projectId)
         {
-            var project = _projectService.GetWithCards(projectId);
-            ViewData.Add("project", project);
-            return View();
+            var viewModel = new ProjectViewModel();
+            viewModel.project = _projectService.GetWithCards(projectId);
+            return View(viewModel);
         }
 
         [HttpGet("/users/addProject")]
         [Authorize]
         public IActionResult AddProject()
         {
-            var otherAssignees = _userManager.Users.Where(u => u.UserName != User.Identity.Name).ToList();
-            ViewData.Add("otherAssignees", otherAssignees);
-            return View();
+            var viewModel = new AssigneesViewModel();
+            viewModel.assignees =  _userManager.Users.Where(u => u.UserName != User.Identity.Name).ToList();
+            return View(viewModel);
         }
 
         [HttpPost("/users/addProject")]
@@ -45,8 +46,7 @@ namespace TaskManager.Controllers
         {
             _projectService.Save(project); 
 
-            var responsibles = new List<Assignee>();
-            responsibles.Add(await _userManager.GetUserAsync(User));
+            var responsibles = new List<Assignee>() { await _userManager.GetUserAsync(User) };
             foreach (string id in collaboratorIds)
             {
                 var collaborator = await _userManager.FindByIdAsync(id);

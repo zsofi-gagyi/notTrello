@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.ViewModels;
 using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
@@ -27,9 +28,9 @@ namespace TaskManager.Controllers
         [Authorize]
         public IActionResult AddCard([FromRoute(Name = "Id")]string projectId)
         {
-            var project = _projectService.GetWithCards(projectId);
-            ViewData.Add("project", project);
-            return View();
+            var viewModel = new ProjectViewModel();
+            viewModel.project = _projectService.GetWithCards(projectId);
+            return View(viewModel);
         }
 
         [HttpPost("/users/projects/{Id}/cards/addCard")]

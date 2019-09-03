@@ -1,47 +1,45 @@
 ﻿@using TaskManager.Models.DAOs;
 @using System.Linq;
-
+@model TaskManager.Models.ViewModels.ProjectViewModel;
 @{
     Layout = "_userLayout";
 }
 
 <div class="displayCardsContainer primaryContainer firstContainer">
-    @{var project = (Project)ViewData["project"];
-        <article class="displayCard primaryCard">
-            <a class="backArrow" href="/users">
-                <img src="~/back.png" alt="back to the projects page" />
-            </a>
-            <h2 class="mainTitle" data-test="projectTitle">@project.Title</h2>
-            <p class="description" data-test="projectDescription">@project.Description</p>
-            <ul class="responsibles">
-                @foreach (var assigneeProject in project.AssigneeProjects.OrderBy(ap => ap.Assignee.UserName).ToList())
-                 {
-                    <li class="responsibleName">@assigneeProject.Assignee.UserName</li>
-                 }
-            </ul>
-            <div class="cardsInColumns">
-                <div class="displayCardsContainer secondaryContainer">
-                    <h3 class="columnTitle">To do</h3>
-                    <section class="displayCard linkCard">
-                        <a id="createNewLink" href="@project.Id/cards/addCard">Add new card</a>
-                    </section>
-                    @{
-                        ViewData["cards"] = project.Cards.Where(c => !c.Done).ToList();
-                        ViewData["cardType"] = "toDoCard";
-                        ViewData["toggleName"] = "Mark as done";
-                    }
-                    @await Html.PartialAsync("_CardsPartial.cshtml")
-                </div>
-                <div class="displayCardsContainer secondaryContainer">
-                    <h3 class="columnTitle">Done</h3>
-                    @{
-                        ViewData["cards"] = project.Cards.Where(c => c.Done).ToList();
-                        ViewData["cardType"] = "doneCard";
-                        ViewData["toggleName"] = "Mark as not done";
-                    }
-                    @await Html.PartialAsync("_CardsPartial.cshtml")
+    <article class="displayCard primaryCard">
+        <a class="backArrow" href="/users">
+            <img src="~/back.png" alt="back to the projects page" />
+        </a>
+        <h2 class="mainTitle" data-test="projectTitle">@Model.project.Title</h2>
+        <p class="description" data-test="projectDescription">@Model.project.Description</p>
+        <ul class="responsibles">
+            @foreach (var assigneeProject in Model.project.AssigneeProjects.OrderBy(ap => ap.Assignee.UserName).ToList())
+             {
+                <li class="responsibleName">@assigneeProject.Assignee.UserName</li>
+             }
+        </ul>
+        <div class="cardsInColumns">
+            <div class="displayCardsContainer secondaryContainer">
+                <h3 class="columnTitle">To do</h3>
+                <section class="displayCard linkCard">
+                    <a id="createNewLink" href="@Model.project.Id/cards/addCard">Add new card</a>
+                </section>
+                @{
+                    ViewData["cards"] = Model.project.Cards.Where(c => !c.Done).ToList();
+                    ViewData["cardType"] = "toDoCard";
+                    ViewData["toggleName"] = "Mark as done";
+                }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
+            </div>
+            <div class="displayCardsContainer secondaryContainer">
+                <h3 class="columnTitle">Done</h3>
+                @{
+                    ViewData["cards"] = Model.project.Cards.Where(c => c.Done).ToList();
+                    ViewData["cardType"] = "doneCard";
+                    ViewData["toggleName"] = "Mark as not done";
+                }
+                @await Html.PartialAsync("_CardsPartial.cshtml")
                 </div>
             </div>
         </article>
-    }
 </div>

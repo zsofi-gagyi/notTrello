@@ -1,5 +1,5 @@
 ﻿@using TaskManager.Models.DAOs;
-
+@model TaskManager.Models.ViewModels.AssigneesViewModel;
 @{
     Layout = "_userLayout";
 }
@@ -15,11 +15,11 @@
                     <label for="multipleSelector">Collaborating with:</label>
                     <select id="multipleSelector" multiple name="collaboratorIds">
                         <option value="" disabled hidden>Select collaborator(s)</option>
-                        @{ foreach (Assignee assignee in (List<Assignee>)ViewData["otherAssignees"])
-                           {
-                               <option value="@assignee.Id">@assignee.UserName</option>
-                           }
-                         }
+                        @{ foreach (var assignee in Model.assignees)
+                            {
+                                <option value="@assignee.Id">@assignee.UserName</option>
+                            }
+                        }
                     </select>
                     @await Html.PartialAsync("~/Views/Shared/_ScriptForMultipleSelectPartial.cshtml")
                 </div>
