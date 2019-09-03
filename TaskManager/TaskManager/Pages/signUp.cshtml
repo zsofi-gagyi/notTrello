@@ -7,7 +7,10 @@
         <h2 class="title">Sign up</h2>
         <form class="validatedForm" action="/signUp" method="POST">
             <div id="inputContainer">
-                <input type="text" name="Name" placeholder="Name" required />
+                <input type="text" name="Name" placeholder="Name" 
+                       title="Names should be a single word of minimum 3 characters"
+                       pattern="[^\s].{2,}"
+                       required />
                 <input id="password" type="password" name="password" placeholder="Password"
                        title="Minimum 8 characters, one number, one uppercase and one lowercase letter"
                        pattern="^(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$" 

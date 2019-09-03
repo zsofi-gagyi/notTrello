@@ -40,7 +40,7 @@ namespace TaskManager
 
             services.AddDbContext<MyContext>
                 (options => options.UseMySql
-                    ($"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
+                    (   $"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
                         $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
                         $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +
                         $"password= {Environment.GetEnvironmentVariable("TaskManagerPASSWORD")};",

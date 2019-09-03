@@ -27,9 +27,15 @@ namespace TaskManager.Controllers
         [HttpPost("/signUp")]
         public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
         {
-            if (!password.HasCorrectFormat())
+            if (password.IsIncorrectPassword())
             {
-                TempData["errorMessage"] = "Password must contain minimum 8 characters, one number, one uppercase and one lowercase letter";
+                TempData["errorMessage"] = "Passwords must be a single word, of at least 8 characters, containing one number, one uppercase and one lowercase letter";
+                return Redirect("/signUp");
+            }
+
+            if (name.IsIncorrectUserName())
+            {
+                TempData["errorMessage"] = "Names should be a single word";
                 return Redirect("/signUp");
             }
 
