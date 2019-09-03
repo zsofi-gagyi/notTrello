@@ -30,7 +30,7 @@ namespace TaskManager.Services.Extensions.Middleware
 
             var myContext = (MyContext)context.RequestServices.GetService(typeof (MyContext));
 
-            var idExists = myContext.Users.Where(u => u.Id.ToString().Equals(userId)).FirstOrDefault() != null;
+            var idExists = myContext.Users.FirstOrDefault(u => u.Id.ToString().Equals(userId)) != null;
 
             if (idExists)
             {

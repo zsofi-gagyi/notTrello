@@ -30,7 +30,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
         [InlineData("/api/users/all")]
         public async Task Get_ReturnsAllUsers(string url)
         {
-            var testUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id.ToString();
+            var testUserId = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id.ToString();
             var testUser = new AssigneeDTO { UserName = "user1Name", Id = testUserId };
             var expectedList = new List<AssigneeDTO> { testUser };
             var expectedJson = JsonConvert.SerializeObject(expectedList);

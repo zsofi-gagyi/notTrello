@@ -30,9 +30,9 @@ namespace TaskManager.Services.Extensions.DatabaseSeeders
 
         private static void DeleteGuestData(MyContext context, IProjectService projectService)
         {
-            var guestToDelete = context.Assignees.Where(a => a.UserName.Equals("Guest")).First();
-            var aliceToDelete = context.Assignees.Where(a => a.UserName.Equals("Alice")).First();
-            var bobToDelete = context.Assignees.Where(a => a.UserName.Equals("Bob")).First();
+            var guestToDelete = context.Assignees.First(a => a.UserName.Equals("Guest"));
+            var aliceToDelete = context.Assignees.First(a => a.UserName.Equals("Alice"));
+            var bobToDelete = context.Assignees.First(a => a.UserName.Equals("Bob"));
 
             var projectsToRemove = context.AssigneeProjects
                  .Where(ap => ap.Assignee

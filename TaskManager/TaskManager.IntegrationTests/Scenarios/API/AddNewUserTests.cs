@@ -37,7 +37,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
             var expectedResponseString = JsonConvert.SerializeObject(expectedResponse);
 
             var response = await _testContext.Client.PostAsync(url, request);
-            var newUserId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("testName1")).First().Id;
+            var newUserId = _testContext.Context.Assignees.First(a => a.UserName.Equals("testName1")).Id;
 
             Assert.Equal(HttpStatusCode.Created.ToString(), response.StatusCode.ToString());
             Assert.Equal(expectedResponseString, response.Content.ReadAsStringAsync().Result);

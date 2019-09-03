@@ -58,8 +58,7 @@ namespace TaskManager.Controllers
         {
             var email = User
                 .Claims
-                .Where(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))
-                .First()
+                .First(cl => cl.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))
                 .Value;
 
             Assignee assignee = await _userManager.FindByEmailAsync(email);

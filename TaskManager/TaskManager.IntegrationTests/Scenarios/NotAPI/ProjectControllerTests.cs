@@ -16,7 +16,7 @@ namespace TaskManager.IntegrationTests.Scenarios.NotAPI
         public ProjectControllerTests(AlwaysAuthenticatedTestContext testContext)
         {
             _testContext = testContext;
-            _projectId = _testContext.Context.Projects.FirstOrDefault().Id.ToString();
+            _projectId = _testContext.Context.Projects.First().Id.ToString();
         }
 
         [Theory]

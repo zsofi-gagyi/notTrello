@@ -24,8 +24,8 @@ namespace TodoWithDatabase.UnitTests.Services
             var expectedDTO = AssigneeWithProjectsDTOMaker.MakeFrom(assignee);
             var expectedString = JsonConvert.SerializeObject(expectedDTO);
 
-            var assigneeDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);
-            var resultString = JsonConvert.SerializeObject(assigneeDTO);
+            var resultingDTO = _mapper.Map<AssigneeWithProjectsDTO>(assignee);
+            var resultString = JsonConvert.SerializeObject(resultingDTO);
 
             Assert.Equal(expectedString, resultString);
         }

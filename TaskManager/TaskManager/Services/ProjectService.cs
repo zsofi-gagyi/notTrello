@@ -55,14 +55,17 @@ namespace TaskManager.Services
         public Project Get(string projectId)
         {
             return _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
-               .FirstOrDefault();
+               .FirstOrDefault(p => p.Id
+                                     .ToString()
+                                     .Equals(projectId));
         }
 
         public Project GetWithAssigneeProjects(string projectId)
         {
             return _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
+               .Where(p => p.Id
+                            .ToString()
+                            .Equals(projectId))
                .Include(p => p.AssigneeProjects)
                .FirstOrDefault();
         }
@@ -137,7 +140,7 @@ namespace TaskManager.Services
         {
             _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
             _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.ToString().Equals(projectId)));
-            _myContext.Projects.Remove(_myContext.Projects.Where(p => p.Id.ToString().Equals(projectId)).First());
+            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.ToString().Equals(projectId)));
             _myContext.SaveChanges();
         }
     }

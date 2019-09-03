@@ -23,7 +23,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API.Shared
         public AuthorizationTests(TestContext testContext)
         {
             _testContext = testContext;
-            _userId = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
+            _userId = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id;
 
             var tokenService = new TokenService();
             _correctTokenForUser = tokenService.GenerateToken(_userId, "testUser", "TodoUser"); 

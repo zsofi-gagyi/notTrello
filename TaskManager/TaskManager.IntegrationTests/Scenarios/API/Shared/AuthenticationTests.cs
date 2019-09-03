@@ -21,8 +21,8 @@ namespace TaskManager.IntegrationTests.Scenarios.API.Shared
         public AutenticationTests(TestContext testContext)
         {
             _testContext = testContext;
-            _user1Id = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault().Id;
-            _projectToEditId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
+            _user1Id = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name")).Id;
+            _projectToEditId = _testContext.Context.Projects.First(p => p.Title.Equals("projectToEdit")).Id.ToString();
             _request = ProjectWithCardsContentMaker.MakeStringContentWith(_projectToEditId);
         }
 

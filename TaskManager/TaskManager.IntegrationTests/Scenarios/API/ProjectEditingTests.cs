@@ -31,12 +31,12 @@ namespace TaskManager.IntegrationTests.Scenarios.API
             var projectNeedsRegenerating = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).Count() == 0;
             if (projectNeedsRegenerating)                                         
             {
-                var assignee1 = _testContext.Context.Assignees.Where(a => a.UserName.Equals("user1Name")).FirstOrDefault();
+                var assignee1 = _testContext.Context.Assignees.First(a => a.UserName.Equals("user1Name"));
                 _testContext.Context.CreateTestProjectToEditFor(assignee1);
             }
 
-            _user1SoloProjectId = _testContext.Context.Projects.Where(p => p.Title.Equals("projectToEdit")).First().Id.ToString();
-            _sharedProjectId = _testContext.Context.Projects.Where(p => p.Title.Equals("sharedProject")).First().Id.ToString();
+            _user1SoloProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("projectToEdit")).Id.ToString();
+            _sharedProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("sharedProject")).Id.ToString();
 
             _requestToChangeUser1Solo = ProjectWithCardsContentMaker.MakeStringContentWith(_user1SoloProjectId);
             _requestToChangeShared = ProjectWithCardsContentMaker.MakeStringContentWith(_sharedProjectId);
@@ -56,7 +56,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
             }
             else
             {
-                var changedProject = _testContext.Context.Projects.Where(p => p.Id.ToString().Equals(_user1SoloProjectId)).First();
+                var changedProject = _testContext.Context.Projects.First(p => p.Id.ToString().Equals(_user1SoloProjectId));
                 Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
                 Assert.Equal("changed", changedProject.Title);
             }
@@ -88,7 +88,7 @@ namespace TaskManager.IntegrationTests.Scenarios.API
 
         private void AuthorizeClientAsUser(string userName)
         {
-            var user = _testContext.Context.Assignees.Where(a => a.UserName.Equals(userName)).FirstOrDefault();
+            var user = _testContext.Context.Assignees.First(a => a.UserName.Equals(userName));
             var userToken = _tokenService.GenerateToken(user.Id, userName, "TodoUser");
             _testContext.Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", userToken);
         }
