@@ -51,6 +51,8 @@ namespace TaskManager
                     )
                 , ServiceLifetime.Scoped);
 
+            services.EnsureDatabaseIsCreated();
+
             AddEnvironmentNeutralConfigurations(services);
             services.AddMvc().AddRazorPagesOptions(options =>
             {
