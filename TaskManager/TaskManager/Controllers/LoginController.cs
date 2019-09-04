@@ -24,7 +24,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("/signUp")]
-        public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
+        public async Task<IActionResult> SignUp([FromForm] string name, [FromForm]string password)
         {
             if (password.IsIncorrectPassword())
             {

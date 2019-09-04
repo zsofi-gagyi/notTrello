@@ -11,8 +11,8 @@
             </div>
             <div>
                 @{var role = ViewData["role"] == null ?
-                                (User.IsInRole("TodoAdmin") ? "Admin" : "User") :
-                                ViewData["role"];
+                                          (User.IsInRole("TodoAdmin") ? "Admin" : "User") :
+                                          ViewData["role"];
                     <p>@User.Identity.Name as @role</p>
                 }
                 <a href="/users/changeRole">Change role</a>

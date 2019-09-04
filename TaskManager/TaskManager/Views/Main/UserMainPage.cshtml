@@ -5,21 +5,23 @@
 }
 <div class="displayCardsContainer primaryContainer firstContainer">
     <article class="displayCard linkCard">
-        <a id="createNewLink" href="users/addProject" data-test="addProject">Add new project</a>
+        <a id="createNewLink" asp-controller="Project" asp-action="addProject" data-test="addProject">
+            Add new project
+        </a>
     </article>
     @foreach (var project in Model.projects)
-     {
+    {
         <article class="displayCard" data-test="project">
             <p class=@((project.Cards.Where(c => c.Done == false).Any()) ? "notDone" : "done")></p>
             <h2 class="titleToBeSlidUp" data-test="title">@project.Title</h2>
             <p class="description" data-test="description">@project.Description</p>
             @if (project.AssigneeProjects.Count() > 1)
-             {
+            {
                 <div class="responsibles" data-test="collaborators">
                     <label>Collaborating with:</label>
                     <ul>
                         @{var otherCollaborators = project.AssigneeProjects.AsQueryable()
-                                                .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
+                                                    .Where(a => !a.Assignee.UserName.Equals(User.Identity.Name)).ToList();
 
                             var otherCollaboratorsInOrder = otherCollaborators.OrderBy(ap => ap.Assignee.UserName).ToList();
                             foreach (AssigneeProject assigneeProject in otherCollaboratorsInOrder)
@@ -29,10 +31,12 @@
                         }
                     </ul>
                 </div>
-             }
+            }
             <div class="details">
-                <a href="users/projects/@project.Id" data-test="detailsLink">Details</a>
+                <a asp-controller="Project" asp-action="ProjectWithCards"asp-route-Id="@project.Id" data-test="detailsLink">
+                    Details
+                </a>
             </div>
         </article>
-     }
+    }
 </div>

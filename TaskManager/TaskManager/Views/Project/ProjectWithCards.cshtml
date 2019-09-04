@@ -6,7 +6,7 @@
 
 <div class="displayCardsContainer primaryContainer firstContainer">
     <article class="displayCard primaryCard">
-        <a class="backArrow" href="/users">
+        <a class="backArrow" asp-controller="Main" asp-action="UserMainPage">
             <img src="~/back.png" alt="back to the projects page" />
         </a>
         <h2 class="mainTitle" data-test="projectTitle">@Model.project.Title</h2>
@@ -21,7 +21,9 @@
             <div class="displayCardsContainer secondaryContainer">
                 <h3 class="columnTitle">To do</h3>
                 <section class="displayCard linkCard">
-                    <a id="createNewLink" href="@Model.project.Id/cards/addCard">Add new card</a>
+                    <a id="createNewLink" asp-controller="Card" asp-action="AddCard" asp-route-Id="@Model.project.Id">
+                        Add new card
+                    </a>
                 </section>
                 @{
                     ViewData["cards"] = Model.project.Cards.Where(c => !c.Done).ToList();
