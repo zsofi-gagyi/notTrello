@@ -8,6 +8,7 @@ using TaskManager.Models.DTOs;
 namespace TaskManager.Controllers.API
 {
     [ApiController]
+    [Route("/api/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserWithCardsController : ControllerBase
     {
@@ -18,14 +19,14 @@ namespace TaskManager.Controllers.API
             _assigneeService = assigneeService;
         }
 
-        [HttpGet("/api/users/{userId}/userWithCards")]
+        [HttpGet("{userId}/userWithCards")]
         [Authorize(Roles = "TodoAdmin")]
         public Task<AssigneeWithCardsDTO> GetAssigneeCardFor(string userId)
         {
             return  GetAssigneeWithCardsDTOForAsync(userId);
         }
 
-        [HttpGet("/api/users/me/userWithCards")]
+        [HttpGet("me/userWithCards")]
         [Authorize]
         public Task<AssigneeWithCardsDTO> GetAssigneeCardForSelf()
         {

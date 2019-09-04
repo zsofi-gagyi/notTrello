@@ -8,6 +8,7 @@ using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
 {
+    [Route("/users")]
     public class RolesController : Controller
     {
         private readonly IAssigneeService _assigneeService;
@@ -21,7 +22,7 @@ namespace TaskManager.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost("/users/becomeAdmin")]
+        [HttpPost("becomeAdmin")]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "TodoUser")]
         public async Task<IActionResult> BecomeAdmin([FromForm]string motivation)
@@ -45,7 +46,7 @@ namespace TaskManager.Controllers
             return View("Views/Roles/result.cshtml");
         }
 
-        [HttpGet("/users/stopBeingAdmin")]
+        [HttpGet("stopBeingAdmin")]
         [Authorize(Roles = "TodoAdmin")]
         public async Task<IActionResult> StopBeingAdmin()
         {

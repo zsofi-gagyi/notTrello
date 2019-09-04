@@ -11,6 +11,7 @@ using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
 {
+    [Route("/users/projects/{Id}/cards")]
     public class CardController : Controller
     {
         private readonly IProjectService _projectService;
@@ -24,7 +25,7 @@ namespace TaskManager.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("/users/projects/{Id}/cards/addCard")]
+        [HttpGet("addCard")]
         [Authorize]
         public IActionResult AddCard([FromRoute(Name = "Id")]string projectId)
         {
@@ -33,7 +34,7 @@ namespace TaskManager.Controllers
             return View(viewModel);
         }
 
-        [HttpPost("/users/projects/{Id}/cards/addCard")]
+        [HttpPost("addCard")]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> AddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
@@ -69,9 +70,9 @@ namespace TaskManager.Controllers
             return Redirect("/users/projects/" + projectId);
         }
 
-        [HttpGet("/users/projects/{Project.Id}/cards/{Card.Id}/toggleDone")]
+        [HttpGet("{Card.Id ?}/toggleDone")]
         [Authorize]
-        public IActionResult ToggleDone([FromRoute(Name = "Project.Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
+        public IActionResult ToggleDone([FromRoute(Name = "Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
         {
             var project = _projectService.GetWithCards(projectId);
             var card = project.Cards.Where(c => c.Id.ToString().Equals(cardId)).FirstOrDefault();

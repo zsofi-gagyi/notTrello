@@ -11,6 +11,7 @@ using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
 {
+    [Route("/users")]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -22,7 +23,7 @@ namespace TaskManager.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("/users/projects/{Id}")]
+        [HttpGet("projects/{Id}")]
         [Authorize]
         public IActionResult ProjectWithCards([FromRoute(Name = "Id")]string projectId)
         {
@@ -31,7 +32,7 @@ namespace TaskManager.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("/users/addProject")]
+        [HttpGet("addProject")]
         [Authorize]
         public IActionResult AddProject()
         {
@@ -40,7 +41,7 @@ namespace TaskManager.Controllers
             return View(viewModel);
         }
 
-        [HttpPost("/users/addProject")]
+        [HttpPost("addProject")]
         [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> AddProject([FromForm] Project project, List<string> collaboratorIds)
