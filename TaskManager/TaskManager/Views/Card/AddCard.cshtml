@@ -6,8 +6,7 @@
 <div class="displayCardsContainer middleWidthContainer firstContainer">
     <article class="displayCard">
         <h2 class="title">Add new card to the project "@Model.project.Title"</h2>
-        <form action="/users/projects/@Model.project.Id/cards/addCard" method="POST">
-            @Html.AntiForgeryToken()
+        <form asp-controller="Card" asp-action="AddCard" asp-route-Id="@Model.project.Id" method="POST">
             <div id="inputContainer">
                 <input type="text" name="Title" placeholder="Title" required />
                 <textarea class="description" name="Description" placeholder="Description" required></textarea>

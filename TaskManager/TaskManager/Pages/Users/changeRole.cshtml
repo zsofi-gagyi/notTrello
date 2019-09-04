@@ -17,8 +17,7 @@
            else
            {
                <h2 class="title">Admin Application</h2>
-               <form action="/users/becomeAdmin" method="POST">
-                   @Html.AntiForgeryToken()
+               <form asp-controller="Roles" asp-action="BecomeAdmin" method="POST">
                    <div id="inputContainer">
                        <label for="motivation" class="description">Why do you want to become an admin of our site?</label>
                        <textarea id="motivation" class="description" name="motivation"></textarea>

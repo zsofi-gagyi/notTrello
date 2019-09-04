@@ -13,7 +13,7 @@ it('mainpage for user displays correctly', () => {
     cy.get('[data-test=addProject]')
         .contains("Add new")
             .should('have.attr', 'href')
-            .and('eq', 'users/addProject')
+            .and('eq', '/users/addProject')
 
     cy.get('[data-test=project]')
         .then(projects => {
@@ -24,7 +24,7 @@ it('mainpage for user displays correctly', () => {
         .each(($project) => {
             cy.wrap($project)
                 .find('div > [data-test=detailsLink]')
-                .should('have.text', "Details")
+                .should('contain.text', "Details")
                 .invoke('attr', 'href')
                 .then(href => {
                     href === "/users/projects/"

@@ -36,7 +36,7 @@ namespace TaskManager.Controllers
         [HttpPost("/users/projects/{Id}/cards/addCard")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DoAddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
+        public async Task<IActionResult> AddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
         {
             var project = _projectService.Get(projectId);
             if (project == null)
