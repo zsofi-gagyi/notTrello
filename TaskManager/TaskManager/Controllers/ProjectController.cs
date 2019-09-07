@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.ViewModels;
 using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
 {
+    [Route("/users")]
     public class ProjectController : Controller
     {
         private readonly IProjectService _projectService;
@@ -21,32 +23,32 @@ namespace TaskManager.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("/users/projects/{Id}")]
+        [HttpGet("projects/{Id}")]
         [Authorize]
         public IActionResult ProjectWithCards([FromRoute(Name = "Id")]string projectId)
         {
-            var project = _projectService.GetWithCards(projectId);
-            ViewData.Add("project", project);
-            return View();
+            var viewModel = new ProjectViewModel();
+            viewModel.project = _projectService.GetWithCards(projectId);
+            return View(viewModel);
         }
 
-        [HttpGet("/users/addProject")]
+        [HttpGet("addProject")]
         [Authorize]
         public IActionResult AddProject()
         {
-            var otherAssignees = _userManager.Users.Where(u => u.UserName != User.Identity.Name).ToList();
-            ViewData.Add("otherAssignees", otherAssignees);
-            return View();
+            var viewModel = new AssigneesViewModel();
+            viewModel.assignees =  _userManager.Users.Where(u => u.UserName != User.Identity.Name).ToList();
+            return View(viewModel);
         }
 
-        [HttpPost("/users/addProject")]
+        [HttpPost("addProject")]
+        [ValidateAntiForgeryToken]
         [Authorize]
         public async Task<IActionResult> AddProject([FromForm] Project project, List<string> collaboratorIds)
         {
             _projectService.Save(project); 
 
-            var responsibles = new List<Assignee>();
-            responsibles.Add(await _userManager.GetUserAsync(User));
+            var responsibles = new List<Assignee>() { await _userManager.GetUserAsync(User) };
             foreach (string id in collaboratorIds)
             {
                 var collaborator = await _userManager.FindByIdAsync(id);

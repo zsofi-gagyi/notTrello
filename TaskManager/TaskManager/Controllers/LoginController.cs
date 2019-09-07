@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using TaskManager.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Google;
-using System;
 using System.Linq;
 using TaskManager.Services.Extensions;
 
@@ -25,7 +24,7 @@ namespace TaskManager.Controllers
         }
 
         [HttpPost("/signUp")]
-        public async Task<IActionResult> DoSignUp([FromForm] string name, [FromForm]string password)
+        public async Task<IActionResult> SignUp([FromForm] string name, [FromForm]string password)
         {
             if (password.IsIncorrectPassword())
             {
@@ -40,16 +39,14 @@ namespace TaskManager.Controllers
             }
 
             Assignee assignee = await _userManager.FindByNameAsync(name);
-
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInAsync(name, password);
                 return Redirect("/");
             } 
 
-            TempData["errorMessage"] = "Username already taken"; // If an email adresses were required of ever user, 
-                                                                 // we could hide this information and just send a 
-                                                                 // verifying email instead.
+            TempData["errorMessage"] = "Username already taken"; // If an email adresses were required of ever user, we could hide this 
+                                                                 // information and just send a verifying email instead.
             return Redirect("/signUp");
 
         }
@@ -79,11 +76,10 @@ namespace TaskManager.Controllers
                 .Value;
 
             Assignee assignee = await _userManager.FindByEmailAsync(email);
-
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInWithEmailAsync(User.Identity.Name, email);
-                // This is not the best solution (two users with the same name could cause problems). 
+                // This is not the best solution (two users with the same legal name could cause problems). 
                 // To solve this properly, the entire sign up process should be changed (requiring an 
                 // email address and verifying it), and then this email could be used as a key value
                 // instead of the name, the way it is currently. 

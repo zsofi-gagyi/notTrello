@@ -1,16 +1,16 @@
 ﻿const urls_for_anon = [
-    'https://localhost:44374/',
-    'https://localhost:44374/main',
-    'https://localhost:44374/login',
-    'https://localhost:44374/signUp',
-    'https://localhost:44374/APIguide',
+    '/',
+    '/main',
+    '/login',
+    '/signUp',
+    '/APIguide',
 ]
 
 const urls_for_user = [
-    'https://localhost:44374/APIguide',
-    'https://localhost:44374/users',
-    'https://localhost:44374/users/addProject',
-    'https://localhost:44374/users/changeRole'
+    '/APIguide',
+    '/users',
+    '/users/addProject',
+    '/users/changeRole'
 ]
 
 Cypress.Commands.add("test_footer", (projectUrl) => {

@@ -1,5 +1,5 @@
 Cypress.Commands.add("set_up_login", () => {
-    cy.visit('https://localhost:44374/login')
+    cy.visit('/login')
 
     cy.get('[name="Name"]')
         .type('Guest')   

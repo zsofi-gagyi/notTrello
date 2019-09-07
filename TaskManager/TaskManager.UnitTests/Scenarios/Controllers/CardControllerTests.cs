@@ -37,7 +37,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_OneCollaborator_Saves_Once()
         {
-            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
@@ -45,7 +45,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_ZeroCollaborator_Saves_Once()
         {
-            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { });
+            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
@@ -53,7 +53,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_Updates_CompletedCard()
         {
-            await _controller.DoAddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Update(It.IsAny<Card>()), Times.Once());
             _mockCardService.Verify(m => m.Update(It.Is<Card>(c => CardsAreEqual(c, CardMaker.MakeCompleted()))), Times.Once());
@@ -62,7 +62,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void IncorrectProjectId_DoesNotSave()
         {
-            await _controller.DoAddCard("incorrectProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.AddCard("incorrectProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Never());
         }
 

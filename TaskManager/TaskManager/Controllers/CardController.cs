@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DAOs.JoinTables;
+using TaskManager.Models.ViewModels;
 using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
 {
+    [Route("/users/projects/{Id}/cards")]
     public class CardController : Controller
     {
         private readonly IProjectService _projectService;
@@ -23,18 +25,19 @@ namespace TaskManager.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("/users/projects/{Id}/cards/addCard")]
+        [HttpGet("addCard")]
         [Authorize]
         public IActionResult AddCard([FromRoute(Name = "Id")]string projectId)
         {
-            var project = _projectService.GetWithCards(projectId);
-            ViewData.Add("project", project);
-            return View();
+            var viewModel = new ProjectViewModel();
+            viewModel.project = _projectService.GetWithCards(projectId);
+            return View(viewModel);
         }
 
-        [HttpPost("/users/projects/{Id}/cards/addCard")]
+        [HttpPost("addCard")]
+        [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> DoAddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
+        public async Task<IActionResult> AddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
         {
             var project = _projectService.Get(projectId);
             if (project == null)
@@ -67,9 +70,9 @@ namespace TaskManager.Controllers
             return Redirect("/users/projects/" + projectId);
         }
 
-        [HttpGet("/users/projects/{Project.Id}/cards/{Card.Id}/toggleDone")]
+        [HttpGet("{Card.Id ?}/toggleDone")]
         [Authorize]
-        public IActionResult ToggleDone([FromRoute(Name = "Project.Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
+        public IActionResult ToggleDone([FromRoute(Name = "Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
         {
             var project = _projectService.GetWithCards(projectId);
             var card = project.Cards.Where(c => c.Id.ToString().Equals(cardId)).FirstOrDefault();

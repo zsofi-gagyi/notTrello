@@ -8,6 +8,7 @@ using TaskManager.Models.DTOs;
 namespace TaskManager.Controllers.API
 {
     [ApiController]
+    [Route("/api/users/me/projects/{projectId}")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ProjectAPIController : ControllerBase
     {
@@ -18,7 +19,7 @@ namespace TaskManager.Controllers.API
             _projectService = projectService;
         }
 
-        [HttpDelete("/api/users/me/projects/{projectId}")]
+        [HttpDelete]
         public ActionResult DeleteProject(string projectId)
         {
             var possibleResponse = CreateResponseIfRequestIsNotOK(projectId, "delete");
@@ -31,7 +32,7 @@ namespace TaskManager.Controllers.API
             return NoContent();
         }
 
-        [HttpPut("/api/users/me/projects/{projectId}")]
+        [HttpPut]
         public ActionResult ChangeProject([FromBody] ProjectWithCardsDTO changedProjectDTO, string projectId)
         {
             if (!changedProjectDTO.Id.Equals(projectId))

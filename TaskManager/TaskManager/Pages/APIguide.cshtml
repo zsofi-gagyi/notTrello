@@ -68,7 +68,7 @@
         @if (User.Identity.IsAuthenticated)
         {
         <div class="largeButton">
-            <a class="largeButton" href="/users/token" data-test="tokenLink">Get your token</a>
+            <a class="largeButton"  asp-controller="Token" asp-action="Token" data-test="tokenLink">Get your token</a>
         </div>
         }
         else

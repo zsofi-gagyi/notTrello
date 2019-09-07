@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace TaskManager.Controllers.API
 {
     [ApiController]
+    [Route("/api/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace TaskManager.Controllers.API
             _assigneeService = assigneeService;
         }
 
-        [HttpPost("/api/users")]
+        [HttpPost]
         [Authorize(Roles = "TodoAdmin")]
         public async Task<IActionResult> AddAssignee([FromBody]AssigneeToCreateDTO userDTO)
         {
@@ -39,7 +40,7 @@ namespace TaskManager.Controllers.API
             return BadRequest(new { message = "This name is already in use." });
         }
 
-        [HttpGet("/api/users/all")]
+        [HttpGet("all")]
         [Authorize(Roles = "TodoAdmin")]
         public IActionResult GetAllAssignees()
         {

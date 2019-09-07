@@ -22,20 +22,20 @@ namespace TaskManager.IntegrationTests.Scenarios.NotAPI.Shared
         }
 
         [Theory, MemberData(nameof(HtmlEndpoints))]
-        public async Task Get_Returns_Html_OK(params string[] url)
+        public async Task Get_Returns_Html_OK(params string[] urlParts)
         {
-            url = InsertProjectIdIfNecessary(url);
-            var response = await _testContext.Client.GetAsync(url[0]);
+            string url = AssembleUrl(urlParts);
+            var response = await _testContext.Client.GetAsync(url);
 
             Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
             Assert.Equal("text/html; charset=utf-8", response.Content.Headers.ContentType.ToString());
         }
 
         [Theory, MemberData(nameof(HtmlEndpoints))]
-        public async Task Get_Returns_CorrectLayout(params string[] url)
+        public async Task Get_Returns_CorrectLayout(params string[] urlParts)
         {
-            url = InsertProjectIdIfNecessary(url);
-            var response = await _testContext.Client.GetAsync(url[0]);
+            string url = AssembleUrl(urlParts);
+            var response = await _testContext.Client.GetAsync(url);
 
             var content = await HtmlParser.Parse(response);
             var logo = content.QuerySelector("[data-test=logo]");
@@ -55,24 +55,24 @@ namespace TaskManager.IntegrationTests.Scenarios.NotAPI.Shared
                     new string[] { "/users" },
                     new string[] { "/users/addProject" },
                     new string[] { "/users/projects/", "projectId"},
-                    new string[] { "/users/projects/", "/cards/addCard", "projectId"},
+                    new string[] { "/users/projects/", "projectId", "/cards/addCard" },
                     new string[] { "/users/projects/", "projectId"},
                     new string[] { "/users/changeRole" },
                 };
             }
         }
 
-        private string[] InsertProjectIdIfNecessary(string[] urlAndId)
+        private string AssembleUrl(string[] urlAndId)
         {
             if (urlAndId.Count() == 2)
             {
-                urlAndId = new string[] { urlAndId[0] + _projectId };
+                return urlAndId[0] + _projectId;
             }
             else if (urlAndId.Count() == 3)
             {
-                urlAndId = new string[] { urlAndId[0] + _projectId + urlAndId[1] };
-            };
-            return urlAndId;
+                return urlAndId[0] + _projectId + urlAndId[2];
+            }
+            return urlAndId[0];
         }
     }
 }

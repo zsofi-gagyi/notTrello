@@ -1,9 +1,9 @@
 ﻿const unauthenticated_urls = [
-    'https://localhost:44374/',
-    'https://localhost:44374/main',
-    'https://localhost:44374/login',
-    'https://localhost:44374/signUp',
-    'https://localhost:44374/APIguide'
+    '/',
+    '/main',
+    '/login',
+    '/signUp',
+    '/APIguide'
 ]
 
 describe('navbar for anon displays correctly', () => {

@@ -1,6 +1,6 @@
 ﻿it('mainpage for authenticated redirects to correct url', () => {
     cy.login()
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.location('pathname')
         .should('eq', '/users')
@@ -8,12 +8,12 @@
 
 it('mainpage for user displays correctly', () => {
     cy.login()
-    cy.visit('https://localhost:44374/')
+    cy.visit('/')
 
     cy.get('[data-test=addProject]')
         .contains("Add new")
             .should('have.attr', 'href')
-            .and('eq', 'users/addProject')
+            .and('eq', '/users/addProject')
 
     cy.get('[data-test=project]')
         .then(projects => {
@@ -24,7 +24,7 @@ it('mainpage for user displays correctly', () => {
         .each(($project) => {
             cy.wrap($project)
                 .find('div > [data-test=detailsLink]')
-                .should('have.text', "Details")
+                .should('contain.text', "Details")
                 .invoke('attr', 'href')
                 .then(href => {
                     href === "/users/projects/"

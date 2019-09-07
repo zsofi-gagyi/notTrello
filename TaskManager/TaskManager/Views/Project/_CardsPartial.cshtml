@@ -1,26 +1,30 @@
 ﻿@using TaskManager.Models.DAOs;
-@using TaskManager.Models.DAOs.JoinTables;
+@model TaskManager.Models.ViewModels.ProjectViewModel;
 
-@{ foreach (Card card in (List<Card>)ViewData["cards"])
+@{ foreach (var card in (List<Card>)ViewData["cards"])
    {
-       <section class="displayCard" data-test="@ViewData["cardType"]">
-           <div class="stats">
-               <p class="@((card.Deadline < DateTime.Now && @ViewData["cardType"].Equals("toDoCard")) ? "pastDeadline" : "deadline")">
-                   deadline: @card.Deadline
-               </p>
-               <a class="toggleDone" href="@card.Project.Id/cards/@card.Id/toggleDone">@ViewData["toggleName"]</a>
-           </div>
-           <h4 class="title titleToBeCentered" data-test="title">@card.Title</h4>
-           <p class="description" data-test="description">@card.Description</p>
-           @if (((Project)ViewData["project"]).AssigneeProjects.Count() > 1)
-            {
+        <section class="displayCard" data-test="@ViewData["cardType"]">
+            <div class="stats">
+                <p class="@((card.Deadline < DateTime.Now && 
+                             @ViewData["cardType"].Equals("toDoCard")) ? "pastDeadline" : "deadline")">
+                    deadline: @card.Deadline
+                </p>
+                <a class="toggleDone" asp-controller="Card" asp-action="ToggleDone" 
+                   asp-route-Project.Id="@Model.project.Id" asp-route-Card.Id="@card.Id">
+                    @ViewData["toggleName"]
+                </a>
+            </div>
+            <h4 class="title titleToBeCentered" data-test="title">@card.Title</h4>
+            <p class="description" data-test="description">@card.Description</p>
+            @if (Model.project.AssigneeProjects.Count() > 1)
+             {
                 <ul class="responsibles">
-                @foreach (AssigneeCard assigneeCard in card.AssigneeCards.OrderBy(ac => ac.Assignee.UserName).ToList())
-                 {
-                       <li class="responsibleName" data-test="responsibleName">@assigneeCard.Assignee.UserName</li>
-                 }
+                    @foreach (var assigneeCard in card.AssigneeCards.OrderBy(ac => ac.Assignee.UserName).ToList())
+                     {
+                        <li class="responsibleName" data-test="responsibleName">@assigneeCard.Assignee.UserName</li>
+                     }
                 </ul>
-            }
-       </section>
+             }
+        </section>
    }
 }

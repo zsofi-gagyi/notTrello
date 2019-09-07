@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TaskManager.Models.ViewModels;
 using TaskManager.Services.Interfaces;
 
 namespace TaskManager.Controllers
@@ -17,8 +18,9 @@ namespace TaskManager.Controllers
         [Authorize]
         public IActionResult UserMainPage()
         {
-            ViewData["projects"] = _projectService.GetAllFor(User.Identity.Name);
-            return View();
+            var viewModel = new ProjectsViewModel();
+            viewModel.projects =  _projectService.GetAllFor(User.Identity.Name);
+            return View(viewModel);
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace TaskManager.Controllers.API
 {
     [ApiController]
+    [Route("/api/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UserWithProjectsController : ControllerBase
     {
@@ -18,14 +19,14 @@ namespace TaskManager.Controllers.API
             _assigneeService = assigneeService;
         }
 
-        [HttpGet("/api/users/{userId}/userWithProjects")]
+        [HttpGet("{userId}/userWithProjects")]
         [Authorize(Roles = "TodoAdmin")]
         public Task<AssigneeWithProjectsDTO> GetAssigneeProjectFor(string userId)
         {
             return GetAssigneeWithProjectsDTOForAsync(userId);
         }
 
-        [HttpGet("/api/users/me/userWithProjects")]
+        [HttpGet("me/userWithProjects")]
         [Authorize]
         public Task<AssigneeWithProjectsDTO> GetAssigneeProjectForSelf()
         {
