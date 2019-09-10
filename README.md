@@ -6,7 +6,7 @@
 
 <ul>
 <li>
-user authentication (optionally with Google) and role-based authorization with ASP.NET Core Identity
+user authentication (optionally with Google) and role-based authorization with ASP.NET Core Identity, using a cookie
 </li>
 <li>
 MySQL database used with EntityFramework and Automapper
