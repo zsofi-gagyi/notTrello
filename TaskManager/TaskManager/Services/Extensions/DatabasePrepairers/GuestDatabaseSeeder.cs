@@ -43,7 +43,7 @@ namespace TaskManager.Services.Extensions.DatabaseSeeders
 
             foreach (var project in projectsToRemove)
             {
-                projectService.Delete(project.Id.ToString());
+                projectService.Delete(project.Id);
             }
 
             context.Assignees.RemoveRange(guestToDelete, aliceToDelete, bobToDelete);

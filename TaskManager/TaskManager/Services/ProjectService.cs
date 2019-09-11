@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Models.DAOs;
@@ -37,10 +38,10 @@ namespace TaskManager.Services
                 .ToList();
         }
 
-        public Project GetWithCards(string projectId)
+        public Project GetWithCards(Guid projectId)
         {
             return _myContext.Projects
-                .Where(p => p.Id.ToString().Equals(projectId))
+                .Where(p => p.Id.Equals(projectId))
 
                 .Include(p => p.Cards)
                     .ThenInclude(c => c.AssigneeCards)
@@ -52,28 +53,26 @@ namespace TaskManager.Services
                .FirstOrDefault();
         }
 
-        public Project Get(string projectId)
+        public Project Get(Guid projectId)
         {
             return _myContext.Projects
                .FirstOrDefault(p => p.Id
-                                     .ToString()
                                      .Equals(projectId));
         }
 
-        public Project GetWithAssigneeProjects(string projectId)
+        public Project GetWithAssigneeProjects(Guid projectId)
         {
             return _myContext.Projects
                .Where(p => p.Id
-                            .ToString()
                             .Equals(projectId))
                .Include(p => p.AssigneeProjects)
                .FirstOrDefault();
         }
 
-        public bool UserIsCollaboratingOnProject(string assigneeName, string projectId)
+        public bool UserIsCollaboratingOnProject(string assigneeName, Guid projectId)
         {
             var project = _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
+               .Where(p => p.Id.Equals(projectId))
 
                 .Include(p => p.AssigneeProjects)
                     .ThenInclude(ap => ap.Assignee)
@@ -136,11 +135,12 @@ namespace TaskManager.Services
             return project;
         }
 
-        public void Delete(string projectId)
+        public void Delete(Guid projectId)
         {
-            _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
-            _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.ToString().Equals(projectId)));
-            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.ToString().Equals(projectId)));
+            _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.Equals(projectId)));
+            Nullable<Guid> projectIdNullable = projectId;
+            _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.Equals(projectIdNullable)));
+            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.Equals(projectId)));
             _myContext.SaveChanges();
         }
     }

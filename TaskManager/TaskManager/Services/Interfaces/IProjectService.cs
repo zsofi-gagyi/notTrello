@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DTOs;
 
@@ -8,13 +9,13 @@ namespace TaskManager.Services.Interfaces
     {
        List<Project> GetAllFor(string userName);
 
-       Project GetWithCards(string projectId);
+       Project GetWithCards(Guid projectId);
 
-        Project Get(string projectId);
+        Project Get(Guid projectId);
 
-        Project GetWithAssigneeProjects(string projectId);
+        Project GetWithAssigneeProjects(Guid projectId);
 
-        bool UserIsCollaboratingOnProject(string assigneeName, string projectId);
+        bool UserIsCollaboratingOnProject(string assigneeName, Guid projectId);
 
         void Save(Project project);
 
@@ -22,6 +23,6 @@ namespace TaskManager.Services.Interfaces
 
         Project TranslateToProject(ProjectWithCardsDTO projectDTO);
 
-        void Delete(string projectId);
+        void Delete(Guid projectId);
     }
 }

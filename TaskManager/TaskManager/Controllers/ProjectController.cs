@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace TaskManager.Controllers
 
         [HttpGet("projects/{Id}")]
         [Authorize]
-        public IActionResult ProjectWithCards([FromRoute(Name = "Id")]string projectId)
+        public IActionResult ProjectWithCards([FromRoute(Name = "Id")]Guid projectId)
         {
             var viewModel = new ProjectViewModel();
             viewModel.project = _projectService.GetWithCards(projectId);

@@ -32,9 +32,17 @@ namespace TaskManager.Controllers.API
 
             if (assignee == null)
             {
-                var newAssignee = await _assigneeService.CreateAndReturnNewAsync(userDTO);
-                var responseMessage = new { message = "User with the name " + userDTO.Name + " has been succesfully created!" };
-                return Created("api/users/" + newAssignee.Id + "/userWithProjects", responseMessage );
+                try
+                {
+                    var newAssignee = await _assigneeService.CreateAndReturnNewAsync(userDTO);
+                    var responseMessage = new { message = "User with the name " + userDTO.Name + " has been succesfully created!" };
+                    return Created("api/users/" + newAssignee.Id + "/userWithProjects", responseMessage);
+                }
+                catch
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                    //TODO if this project will get a logger, this exception will need to be logged
+                }
             }
 
             return BadRequest(new { message = "This name is already in use." });
@@ -52,7 +60,7 @@ namespace TaskManager.Controllers.API
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
-                //TODO if this project will get a logger, this error will need to be logged
+                //TODO if this project will get a logger, this exception will need to be logged
             }
         }
     }

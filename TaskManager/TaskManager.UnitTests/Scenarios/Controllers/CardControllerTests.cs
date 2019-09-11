@@ -10,6 +10,7 @@ using TaskManager.Controllers;
 using TaskManager.Models.DAOs;
 using TaskManager.Models.DTOs;
 using TaskManager.TestUtilities.TestObjectMakers;
+using System;
 
 namespace TaskManager.UnitTests.Scenarios.Controllers
 {
@@ -19,13 +20,15 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         private readonly Mock<IProjectService> _mockProjectService;
         private readonly Mock<ICardService> _mockCardService;
         private readonly CardController _controller;
+        private readonly Guid _correctProjectId;
 
         public CardControllerTests()
         {
+            _correctProjectId = Guid.Parse("00000000-0000-0000-0000-000000000042");
             _mapper = AutoMapperSetup.CreateMapper();
             _mockProjectService = new Mock<IProjectService>();
             _mockProjectService
-                .Setup(p => p.Get("correctProjectId"))
+                .Setup(p => p.Get( _correctProjectId ))
                 .Returns(ProjectMaker.Make());
 
             _mockCardService = new Mock<ICardService>();
@@ -37,7 +40,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_OneCollaborator_Saves_Once()
         {
-            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.AddCard(_correctProjectId, CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
@@ -45,7 +48,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_ZeroCollaborator_Saves_Once()
         {
-            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { });
+            await _controller.AddCard(_correctProjectId, CardMaker.MakeOriginal(), new List<string> { });
 
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Once());
         }
@@ -53,7 +56,7 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void CorrectInput_Updates_CompletedCard()
         {
-            await _controller.AddCard("correctProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            await _controller.AddCard(_correctProjectId, CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
 
             _mockCardService.Verify(m => m.Update(It.IsAny<Card>()), Times.Once());
             _mockCardService.Verify(m => m.Update(It.Is<Card>(c => CardsAreEqual(c, CardMaker.MakeCompleted()))), Times.Once());
@@ -62,7 +65,8 @@ namespace TaskManager.UnitTests.Scenarios.Controllers
         [Fact]
         public async void IncorrectProjectId_DoesNotSave()
         {
-            await _controller.AddCard("incorrectProjectId", CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
+            var incorrectId = Guid.Parse("00000000-0000-0000-0000-000000000000");
+            await _controller.AddCard(incorrectId, CardMaker.MakeOriginal(), new List<string> { "collaboratorId" });
             _mockCardService.Verify(m => m.Save(It.IsAny<Card>()), Times.Never());
         }
 

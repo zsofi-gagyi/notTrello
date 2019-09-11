@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using TaskManager.Services.Interfaces;
 using System.Net;
 using TaskManager.Models.DTOs;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace TaskManager.Controllers.API
 {
@@ -20,22 +22,33 @@ namespace TaskManager.Controllers.API
         }
 
         [HttpDelete]
-        public ActionResult DeleteProject(string projectId)
+        public ActionResult DeleteProject(Guid projectId)
         {
+            var allProjects = _projectService.GetAllFor(User.Identity.Name);
+
             var possibleResponse = CreateResponseIfRequestIsNotOK(projectId, "delete");
             if (possibleResponse != null)
             {
                 return possibleResponse;
             }
-            
-            _projectService.Delete(projectId);
-            return NoContent();
+
+            try
+            {
+                _projectService.Delete(projectId);
+                return NoContent();
+            } 
+            catch(Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+                //TODO if this project will get a logger, this exception will need to be logged
+            }
         }
 
         [HttpPut]
-        public ActionResult ChangeProject([FromBody] ProjectWithCardsDTO changedProjectDTO, string projectId)
+        public ActionResult ChangeProject([FromBody] ProjectWithCardsDTO changedProjectDTO, Guid projectId)
         {
-            if (!changedProjectDTO.Id.Equals(projectId))
+            var changedProjectId = Guid.Parse(changedProjectDTO.Id);
+            if (!changedProjectId.Equals(projectId)) 
             {
                 return BadRequest(new { message = "The Id of the project is unclear from the request" });
             }
@@ -46,12 +59,20 @@ namespace TaskManager.Controllers.API
                 return possibleResponse;
             }
 
-            var changedProject = _projectService.TranslateToProject(changedProjectDTO);
-            _projectService.Update(changedProject);
-            return Ok();
+            try
+            {
+                var changedProject = _projectService.TranslateToProject(changedProjectDTO);
+                _projectService.Update(changedProject);
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+                //TODO if this project will get a logger, this exception will need to be logged
+            }
         }
 
-        private ActionResult CreateResponseIfRequestIsNotOK(string projectId, string requestedAction)
+        private ActionResult CreateResponseIfRequestIsNotOK(Guid projectId, string requestedAction)
         {
             var project = _projectService.GetWithAssigneeProjects(projectId);
             var userIsEntitledToDelete = _projectService.UserIsCollaboratingOnProject(User.Identity.Name, projectId);
