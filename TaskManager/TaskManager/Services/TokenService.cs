@@ -12,7 +12,6 @@ namespace TaskManager.Services
         public string GenerateToken(string Id, string userName, string role)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-
             var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"));
 
             var tokenDescriptor = new SecurityTokenDescriptor

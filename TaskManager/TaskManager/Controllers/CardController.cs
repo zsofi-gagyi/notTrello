@@ -54,14 +54,14 @@ namespace TaskManager.Controllers
             var user = await _userManager.GetUserAsync(User);
             responsibles.Add(user);
             foreach (string id in collaboratorIds)
-            {
+            {                                                //TODO solve this with a single trip to the database
                 var collaborator = await _userManager.FindByIdAsync(id);
                 responsibles.Add(collaborator);
             }
 
             var newCards = new List<AssigneeCard>();
             foreach (Assignee responsible in responsibles)
-            {
+            {                                               //TODO solve this with a single trip to the database
                 newCards.Add(new AssigneeCard(responsible, card));
             }
 
