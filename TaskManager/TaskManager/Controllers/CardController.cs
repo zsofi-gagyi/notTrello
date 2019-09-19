@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,7 @@ namespace TaskManager.Controllers
 
         [HttpGet("addCard")]
         [Authorize]
-        public IActionResult AddCard([FromRoute(Name = "Id")]string projectId)
+        public IActionResult AddCard([FromRoute(Name = "Id")]Guid projectId)
         {
             var viewModel = new ProjectViewModel();
             viewModel.project = _projectService.GetWithCards(projectId);
@@ -37,7 +38,7 @@ namespace TaskManager.Controllers
         [HttpPost("addCard")]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> AddCard([FromRoute(Name = "Id")]string projectId, [FromForm] Card card, List<string> collaboratorIds)
+        public async Task<IActionResult> AddCard([FromRoute(Name = "Id")]Guid projectId, [FromForm] Card card, List<string> collaboratorIds)
         {
             var project = _projectService.Get(projectId);
             if (project == null)
@@ -53,14 +54,14 @@ namespace TaskManager.Controllers
             var user = await _userManager.GetUserAsync(User);
             responsibles.Add(user);
             foreach (string id in collaboratorIds)
-            {
+            {                                                //TODO solve this with a single trip to the database
                 var collaborator = await _userManager.FindByIdAsync(id);
                 responsibles.Add(collaborator);
             }
 
             var newCards = new List<AssigneeCard>();
             foreach (Assignee responsible in responsibles)
-            {
+            {                                               //TODO solve this with a single trip to the database
                 newCards.Add(new AssigneeCard(responsible, card));
             }
 
@@ -70,9 +71,9 @@ namespace TaskManager.Controllers
             return Redirect("/users/projects/" + projectId);
         }
 
-        [HttpGet("{Card.Id ?}/toggleDone")]
+        [HttpGet("{Card.Id}/toggleDone")]
         [Authorize]
-        public IActionResult ToggleDone([FromRoute(Name = "Id")] string projectId, [FromRoute(Name = "Card.Id")] string cardId)
+        public IActionResult ToggleDone([FromRoute(Name = "Id")] Guid projectId, [FromRoute(Name = "Card.Id")] string cardId)
         {
             var project = _projectService.GetWithCards(projectId);
             var card = project.Cards.Where(c => c.Id.ToString().Equals(cardId)).FirstOrDefault();

@@ -10,6 +10,7 @@ using TaskManager.Services;
 using Xunit;
 using TaskManager.IntegrationTests.Fixtures.Context;
 using TaskManager.Services.Extensions.DatabaseSeeders;
+using System;
 
 namespace TaskManager.IntegrationTests.Scenarios.API
 {
@@ -18,8 +19,8 @@ namespace TaskManager.IntegrationTests.Scenarios.API
     {
         private readonly TestContext _testContext;
         private readonly TokenService _tokenService;
-        private readonly string _user1SoloProjectId;
-        private readonly string _sharedProjectId;
+        private readonly Guid _user1SoloProjectId;
+        private readonly Guid _sharedProjectId;
         private readonly HttpContent _requestToChangeShared;
         private readonly HttpContent _requestToChangeUser1Solo;
 
@@ -35,11 +36,11 @@ namespace TaskManager.IntegrationTests.Scenarios.API
                 _testContext.Context.CreateTestProjectToEditFor(assignee1);
             }
 
-            _user1SoloProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("projectToEdit")).Id.ToString();
-            _sharedProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("sharedProject")).Id.ToString();
+            _user1SoloProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("projectToEdit")).Id;
+            _sharedProjectId = _testContext.Context.Projects.First(p => p.Title.Equals("sharedProject")).Id;
 
-            _requestToChangeUser1Solo = ProjectWithCardsContentMaker.MakeStringContentWith(_user1SoloProjectId);
-            _requestToChangeShared = ProjectWithCardsContentMaker.MakeStringContentWith(_sharedProjectId);
+            _requestToChangeUser1Solo = ProjectWithCardsContentMaker.MakeStringContentWith(_user1SoloProjectId.ToString());
+            _requestToChangeShared = ProjectWithCardsContentMaker.MakeStringContentWith(_sharedProjectId.ToString());
         }
 
         [Theory, MemberData(nameof(ProjectEditingEndpoints))]
@@ -52,11 +53,11 @@ namespace TaskManager.IntegrationTests.Scenarios.API
             if (urlAndAction[1].Equals("DELETE"))
             {
                 Assert.Equal(HttpStatusCode.NoContent.ToString(), response.StatusCode.ToString());
-                Assert.True(_testContext.Context.Projects.Where(p => p.Id.ToString().Equals(_user1SoloProjectId)).Count() == 0);
+                Assert.True(_testContext.Context.Projects.Where(p => p.Id.Equals(_user1SoloProjectId)).Count() == 0);
             }
             else
             {
-                var changedProject = _testContext.Context.Projects.First(p => p.Id.ToString().Equals(_user1SoloProjectId));
+                var changedProject = _testContext.Context.Projects.First(p => p.Id.Equals(_user1SoloProjectId));
                 Assert.Equal(HttpStatusCode.OK.ToString(), response.StatusCode.ToString());
                 Assert.Equal("changed", changedProject.Title);
             }

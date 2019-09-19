@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaskManager.Models.DAOs;
@@ -37,10 +38,10 @@ namespace TaskManager.Services
                 .ToList();
         }
 
-        public Project GetWithCards(string projectId)
+        public Project GetWithCards(Guid projectId)
         {
             return _myContext.Projects
-                .Where(p => p.Id.ToString().Equals(projectId))
+                .Where(p => p.Id.Equals(projectId))
 
                 .Include(p => p.Cards)
                     .ThenInclude(c => c.AssigneeCards)
@@ -52,28 +53,26 @@ namespace TaskManager.Services
                .FirstOrDefault();
         }
 
-        public Project Get(string projectId)
+        public Project Get(Guid projectId)
         {
             return _myContext.Projects
                .FirstOrDefault(p => p.Id
-                                     .ToString()
                                      .Equals(projectId));
         }
 
-        public Project GetWithAssigneeProjects(string projectId)
+        public Project GetWithAssigneeProjects(Guid projectId)
         {
             return _myContext.Projects
                .Where(p => p.Id
-                            .ToString()
                             .Equals(projectId))
                .Include(p => p.AssigneeProjects)
                .FirstOrDefault();
         }
 
-        public bool UserIsCollaboratingOnProject(string assigneeName, string projectId)
+        public bool UserIsCollaboratingOnProject(string assigneeName, Guid projectId)
         {
             var project = _myContext.Projects
-               .Where(p => p.Id.ToString().Equals(projectId))
+               .Where(p => p.Id.Equals(projectId))
 
                 .Include(p => p.AssigneeProjects)
                     .ThenInclude(ap => ap.Assignee)
@@ -106,41 +105,56 @@ namespace TaskManager.Services
         {
             var project = _mapper.Map<Project>(projectDTO);
 
+            project.Cards = extractCardsFrom(projectDTO);
+            project.AssigneeProjects = extractAssigneeProjectsFrom(projectDTO, project);
+
+            return project;
+        }
+
+        private List<Card> extractCardsFrom(ProjectWithCardsDTO projectDTO)
+        {
             var cards = new List<Card>();
             foreach (var cardDTO in projectDTO.CardWithAssigneesDTOs)
             {
-                var assigneeCards = new List<AssigneeCard>();
                 var newCard = _mapper.Map<Card>(cardDTO);
-                newCard.AssigneeCards = new List<AssigneeCard>();
 
-                foreach (var assigneeDTO in cardDTO.AssigneeDTOs)
-                {
-                    var assignee = _mapper.Map<Assignee>(assigneeDTO);
-                    var newAssigneeCard = new AssigneeCard(assignee, newCard);
-
-                    newCard.AssigneeCards.Add(newAssigneeCard);
-                }
-
+                newCard.AssigneeCards = extractAssigneeCardsFrom(cardDTO.AssigneeDTOs, newCard);
                 cards.Add(newCard);
             }
-            project.Cards = cards;
+            return cards;
+        }
 
+        private List<AssigneeCard> extractAssigneeCardsFrom(List<AssigneeDTO> assigneeDTOs, Card card)
+        {
+            var assigneeCards = new List<AssigneeCard>();
+            foreach (var assigneeDTO in assigneeDTOs)
+            {
+                var assignee = _mapper.Map<Assignee>(assigneeDTO);
+
+                var newAssigneeCard = new AssigneeCard(assignee, card);
+                assigneeCards.Add(newAssigneeCard);
+            }
+
+            return assigneeCards;
+        }
+
+        private List<AssigneeProject> extractAssigneeProjectsFrom(ProjectWithCardsDTO projectDTO, Project project)
+        {
             var assigneeProjects = new List<AssigneeProject>();
             foreach (var assigneeDTO in projectDTO.AssigneeDTOs)
             {
                 var newAssigneeProject = new AssigneeProject(_mapper.Map<Assignee>(assigneeDTO), project);
                 assigneeProjects.Add(newAssigneeProject);
             }
-            project.AssigneeProjects = assigneeProjects;
-
-            return project;
+            return assigneeProjects;
         }
 
-        public void Delete(string projectId)
+        public void Delete(Guid projectId)
         {
-            _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.ToString().Equals(projectId)));
-            _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.ToString().Equals(projectId)));
-            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.ToString().Equals(projectId)));
+            _myContext.AssigneeProjects.RemoveRange(_myContext.AssigneeProjects.Where(ap => ap.ProjectId.Equals(projectId)));
+            Guid? projectIdNullable = projectId;
+            _myContext.Cards.RemoveRange(_myContext.Cards.Where(c => c.Project.Id.Equals(projectIdNullable)));
+            _myContext.Projects.Remove(_myContext.Projects.First(p => p.Id.Equals(projectId)));
             _myContext.SaveChanges();
         }
     }
