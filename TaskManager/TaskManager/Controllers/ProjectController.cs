@@ -52,12 +52,14 @@ namespace TaskManager.Controllers
             var responsibles = new List<Assignee>() { await _userManager.GetUserAsync(User) };
             foreach (string id in collaboratorIds)
             {
+                                                                 //TODO solve this with a single trip to the database
                 var collaborator = await _userManager.FindByIdAsync(id);
                 responsibles.Add(collaborator);
             }
 
             foreach (Assignee responsible in responsibles)
             {
+                                                                 //TODO solve this with a single trip to the database
                 project.AssigneeProjects.Add(new AssigneeProject(responsible, project));
             }
 
