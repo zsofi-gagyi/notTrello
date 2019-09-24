@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -39,17 +38,7 @@ namespace TaskManager
         {
 
             services.AddDbContext<MyContext>
-                (options => options.UseMySql
-                    (   $"server=   {Environment.GetEnvironmentVariable("TaskManagerHOST")};" +
-                        $"database= {Environment.GetEnvironmentVariable("TaskManagerDATABASE")};" +
-                        $"user=     {Environment.GetEnvironmentVariable("TaskManagerUSERNAME")};" +
-                        $"password= {Environment.GetEnvironmentVariable("TaskManagerPASSWORD")};",
-                        mySqlOptions =>
-                        {
-                            mySqlOptions.ServerVersion(new Version(5, 7, 17), ServerType.MySql);
-                        }
-                    )
-                , ServiceLifetime.Scoped);
+                (options => options.UseSqlServer("name=DefaultConnection"), ServiceLifetime.Scoped);
 
             services.EnsureDatabaseIsCreated();
 
@@ -64,7 +53,8 @@ namespace TaskManager
 
         public void ConfigureTestingServices(IServiceCollection services)
         {
-            services.AddDbContext<MyContext>(builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
+            services.AddDbContext<MyContext>
+                (builder => builder.UseInMemoryDatabase("InMemory"), ServiceLifetime.Singleton);
 
             AddEnvironmentNeutralConfigurations(services);
         }
