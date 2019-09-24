@@ -23,6 +23,10 @@
                     @await Html.PartialAsync("~/Views/Shared/_ScriptForMultipleSelectPartial.cshtml")
                 </div>
                 <button class="largeButton" type="submit">Submit</button>
+                @if (User.Identity.Name.Equals("Guest"))
+                {
+                    <p class="errorMessage">Because this is just a trial account used for demonstrations, projects can be saved only for the short term.</p>
+                }
             </div>
         </form>
     </article>
