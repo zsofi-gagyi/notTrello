@@ -1,7 +1,7 @@
  <img src="https://github.com/zsofi-gagyi/notTrello/blob/master/screenshots/screenshot.png" width="870px"></img> 
 
 <h2>TaskManager</h2>
-<h3>Deployed <a href="https://taskmanagerstudyapp.azurewebsites.net">here</a>
+<h3>Deployed <a href="https://taskmanagerstudyapp.azurewebsites.net">here</a></h3>
 
 This is a simple Trello clone featuring
 
