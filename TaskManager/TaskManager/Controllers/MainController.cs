@@ -22,5 +22,6 @@ namespace TaskManager.Controllers
             viewModel.projects =  _projectService.GetAllFor(User.Identity.Name);
             return View(viewModel);
         }
-    }
+    } 
+
 }
