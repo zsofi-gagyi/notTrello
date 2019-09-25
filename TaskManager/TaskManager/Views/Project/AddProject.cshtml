@@ -24,9 +24,9 @@
                 </div>
                 <button class="largeButton" type="submit">Submit</button>
                 @if (User.Identity.Name.Equals("Guest"))
-                {
-                    <p class="errorMessage">Because this is just a trial account used for demonstrations, projects can be saved only for the short term.</p>
-                }
+                 {
+                    <p class="errorMessage">Because "Guest" is an account used only for demonstrations, projects can be saved here only for the short term.</p>
+                 }
             </div>
         </form>
     </article>

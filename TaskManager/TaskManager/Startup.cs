@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -6,22 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using TaskManager.Services.Extensions.DatabaseSeeders;
 using TaskManager.Repository;
 using TaskManager.Services;
 using TaskManager.Services.Extensions;
 using TaskManager.Services.Extensions.Middleware;
 using TaskManager.Services.Interfaces;
 using TaskManager.Models.DAOs;
-using System.Net;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using TaskManager.Services.Extensions.DatabaseSeeders;
 
 namespace TaskManager
 {
@@ -76,9 +76,8 @@ namespace TaskManager
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    IConfigurationSection googleAuthNSection = Configuration.GetSection("Authentication:Google");
-                    options.ClientId = googleAuthNSection["ClientIdTaskManager"] ?? "testingId";
-                    options.ClientSecret = googleAuthNSection["ClientSecretTaskManager"] ?? "testingSecret"; ;
+                    options.ClientId = Environment.GetEnvironmentVariable("ClientIdTaskManager"); // stored in the Key Vault, accessed via Application Settings 
+                    options.ClientSecret = Environment.GetEnvironmentVariable("ClientSecretTaskManager"); // stored in the Key Vault, accessed via Application Settings 
                 })
                 .AddJwtBearer(config =>
                 {
@@ -88,7 +87,7 @@ namespace TaskManager
                     {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TODOTOKENSECRET"))),
+                                Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("TokenSecretTaskManager"))), // stored in the Key Vault, accessed via Application Settings 
                         ValidateIssuer = false,
                         ValidateAudience = false,
                         ClockSkew = TimeSpan.Zero

@@ -59,7 +59,7 @@ namespace TaskManager.Services
             var correctedName = name.Replace(" ", "_");
             var newAssignee = new Assignee { UserName = correctedName, Email = email };
 
-            await _userManager.CreateAsync(newAssignee, new Guid().ToString());
+            await _userManager.CreateAsync(newAssignee, new Guid().ToString() + "Aa1.");
                     // TODO there could be an option for these users (created following 
                     // Google Authentication) to change their passwords, 
                     // so they can access their accounts without using Google
