@@ -20,9 +20,3 @@ and store them as the following user-secrets:
 
 For running the end-to-end tests, it's necessary to have installed:
 -Cypress (see https://docs.cypress.io/guides/getting-started/installing-cypress.html)
-
-
-
-
-
-
