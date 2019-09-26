@@ -4,8 +4,9 @@
 <h3>Deployed <a href="https://taskmanagerstudyapp.azurewebsites.net">here</a></h3>
 <br/>
 <br/>
-<p>This is a simple Trello clone that can be run locally. The deployed version can be found in the "deployed" branch.</p> 
-<p>This version uses</p>
+<p>This is a simple Trello clone.</p> 
+<p>It's hosted on Azure.</p>
+<p>This is a version which can be run locally. The deployed version can be found on the "deployed" branch. This version uses</p>
 
 - user authentication (optionally with Google) and role-based authorization with ASP.NET Core Identity, using a cookie
 - MySQL database used with EntityFramework and Automapper
