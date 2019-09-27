@@ -60,7 +60,8 @@ namespace TaskManager.Services
                     // This serves for keeping the names recognizable but anonimized, since anybody 
                     // can get all names by becoming an admin.
                     // Of course, duplicated initials could cause problems, but to solve that, I would 
-                    // need to remake the entire way user identities are stored.
+                    // need to remake the entire way user identities are stored - email adresses should 
+                    // be the primary keys, and then names could be changed freely.
                     
             var newAssignee = new Assignee { UserName = correctedName, Email = email };
 
