@@ -56,7 +56,12 @@ namespace TaskManager.Services
 
         public async Task CreateAndSignInWithEmailAsync(string name, string email)
         {
-            var correctedName = name.Replace(" ", "_");
+            var correctedName = GetInitials(name);
+                    // This serves for keeping the names recognizable but anonimized, since anybody 
+                    // can get all names by becoming an admin.
+                    // Of course, duplicated initials could cause problems, but to solve that, I would 
+                    // need to remake the entire way user identities are stored.
+                    
             var newAssignee = new Assignee { UserName = correctedName, Email = email };
 
             await _userManager.CreateAsync(newAssignee, new Guid().ToString() + "Aa1.");
@@ -66,6 +71,17 @@ namespace TaskManager.Services
 
             await _userManager.AddToRoleAsync(newAssignee, "TodoUser");
             await _signInManager.SignInAsync(newAssignee, false);
+        }
+
+        private static string GetInitials(string name)
+        {
+            string[] names = name.Split(" ");
+            string result = "Google_user";
+            foreach (string namePart in names)
+            {
+                result = result + "_" + namePart.Substring(0, 1).ToUpper();
+            }
+            return result;
         }
 
         public List<AssigneeDTO> GetAndTranslateAll()

@@ -79,7 +79,7 @@ namespace TaskManager.Controllers
             if (assignee == null)
             {
                 await _assigneeService.CreateAndSignInWithEmailAsync(User.Identity.Name, email);
-                // This is not the best solution (two users with the same legal name could cause problems). 
+                // This is not the best solution (two users with the same initials could cause problems). 
                 // To solve this properly, the entire sign up process should be changed (requiring an 
                 // email address and verifying it), and then this email could be used as a key value
                 // instead of the name, the way it is currently. 
