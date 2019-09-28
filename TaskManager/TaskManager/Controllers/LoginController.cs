@@ -55,7 +55,7 @@ namespace TaskManager.Controllers
         public async Task<IActionResult> LogIn([FromForm] string name, [FromForm]string password, [FromRoute]string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("/");
-            var result = await _signInManager.PasswordSignInAsync(name, password, false, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(name, password, false, lockoutOnFailure: true);
 
             if (result.Succeeded)
             {
