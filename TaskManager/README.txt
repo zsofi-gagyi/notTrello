@@ -1,5 +1,5 @@
 To run this locally, one needs to have installed the following tools:
--.NET, to be run from Visual Studio or the command line
+-.NET Framework or Core, to be run from Visual Studio or the command line
 -MySQL (for example MySQL Workbench https://www.mysql.com/products/workbench/)
 
 It's also necessary to set the following environmental variables for the database:
@@ -20,9 +20,3 @@ and store them as the following user-secrets:
 
 For running the end-to-end tests, it's necessary to have installed:
 -Cypress (see https://docs.cypress.io/guides/getting-started/installing-cypress.html)
-
-
-
-
-
-
