@@ -73,6 +73,12 @@ namespace TaskManager
             services.AddIdentity<Assignee, IdentityRole>().AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<MyContext>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+            });
+
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
