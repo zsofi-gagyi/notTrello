@@ -11,7 +11,7 @@
 - MySQL database used with EntityFramework and Automapper
 - REST* API using JWT tokens and Newtonsoft.Json.Schema
 - RazorView (and to a lesser extent, RazorPages) for HTML templating
-- css and minor bits of ready-made Javascript found on the net
+- CSS and minor bits of ready-made Javascript found on the net
 - unit tests with Moq, integration tests with XUnit and AngleSharp, and end-to-end tests with Cypress
 
 *except HATEOAS
