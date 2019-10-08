@@ -5,9 +5,10 @@
 <br/>
 <br/>
 <p>This is a simple Trello clone, hosted on Azure.</p> 
-<p>This version can be run locally. The deployed version can be found on the "deployed" branch. This version uses</p>
+<p>This version can be run locally. The deployed version can be found on the "deployed" branch. This version uses/features</p>
 
-- user authentication (optionally with Google) and role-based authorization with ASP.NET Core Identity, using a cookie
+- C# with .NET Core
+- user authentication (optionally with Google) and role-based authorization with Identity, using a cookie
 - MySQL database used with EntityFramework and Automapper
 - REST* API using JWT tokens and Newtonsoft.Json.Schema
 - RazorView (and to a lesser extent, RazorPages) for HTML templating
