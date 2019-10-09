@@ -127,6 +127,8 @@ namespace TaskManager
             services.ConfigureApplicationCookie(options =>
             {
                 options.AccessDeniedPath = "/";
+                options.CookieHttpOnly = true;
+                options.CookieSecure = CookieSecurePolicy.Always;
                 options.Cookie.Name = "TodoCookie";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = "returnTo";
