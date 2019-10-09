@@ -129,6 +129,7 @@ namespace TaskManager
                 options.AccessDeniedPath = "/";
                 options.CookieHttpOnly = true;
                 options.CookieSecure = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
                 options.Cookie.Name = "TodoCookie";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = "returnTo";
