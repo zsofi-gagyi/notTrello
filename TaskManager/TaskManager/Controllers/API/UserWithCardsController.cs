@@ -23,19 +23,14 @@ namespace TaskManager.Controllers.API
         [Authorize(Roles = "TodoAdmin")]
         public Task<AssigneeWithCardsDTO> GetAssigneeCardFor(string userId)
         {
-            return  GetAssigneeWithCardsDTOForAsync(userId);
+            return _assigneeService.GetAndTranslateToAssigneWithCardsDTOAsync(userId);
         }
 
         [HttpGet("me/userWithCards")]
         [Authorize]
         public Task<AssigneeWithCardsDTO> GetAssigneeCardForSelf()
         {
-            var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
-            return  GetAssigneeWithCardsDTOForAsync(userId); 
-        }
-
-        private Task<AssigneeWithCardsDTO> GetAssigneeWithCardsDTOForAsync(string userId)
-        {
+            var userId = User.FindFirst(claim => claim.Type.Equals("Id")).Value;
             return _assigneeService.GetAndTranslateToAssigneWithCardsDTOAsync(userId);
         }
     }

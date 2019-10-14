@@ -23,7 +23,8 @@ namespace TaskManager.Controllers.API
         [Authorize(Roles = "TodoAdmin")]
         public Task<AssigneeWithProjectsDTO> GetAssigneeProjectFor(string userId)
         {
-            return GetAssigneeWithProjectsDTOForAsync(userId);
+            return _assigneeService.GetAndTranslateToAssigneWithProjectsDTOAsync(userId); // TODO for separating the data access and 
+            //representation layers, and to stop this method from having an "and" in its name (code smell), split this step in two
         }
 
         [HttpGet("me/userWithProjects")]
@@ -31,11 +32,6 @@ namespace TaskManager.Controllers.API
         public Task<AssigneeWithProjectsDTO> GetAssigneeProjectForSelf()
         {
             var userId = User.FindFirst(c => c.Type.Equals("Id")).Value;
-            return GetAssigneeWithProjectsDTOForAsync(userId);
-        }
-
-        private Task<AssigneeWithProjectsDTO> GetAssigneeWithProjectsDTOForAsync(string userId)
-        {
             return _assigneeService.GetAndTranslateToAssigneWithProjectsDTOAsync(userId);
         }
     }

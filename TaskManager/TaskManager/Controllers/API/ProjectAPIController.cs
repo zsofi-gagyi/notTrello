@@ -24,7 +24,6 @@ namespace TaskManager.Controllers.API
         [HttpDelete]
         public ActionResult DeleteProject(Guid projectId)
         {
-            var allProjects = _projectService.GetAllFor(User.Identity.Name);
 
             var possibleResponse = CreateResponseIfRequestIsNotOK(projectId, "delete");
             if (possibleResponse != null)
@@ -39,7 +38,8 @@ namespace TaskManager.Controllers.API
             } 
             catch(Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError); //TODO research how to get rid of this 
+                                                                             //(because this is redundant, but the method demands something to be returned)
                 //TODO if this project will get a logger, this exception will need to be logged
             }
         }
@@ -67,8 +67,9 @@ namespace TaskManager.Controllers.API
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-                //TODO if this project will get a logger, this exception will need to be logged
+                return StatusCode(StatusCodes.Status500InternalServerError); //TODO research how to get rid of this 
+                                                                             //(because this is redundant, but the method demands something to be returned)
+                  //TODO if this project will get a logger, this exception will need to be logged
             }
         }
 
